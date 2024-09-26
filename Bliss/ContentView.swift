@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-
+    @AppStorage("isFirstTime") private var isfirsttime : Bool = true
     var body: some View {
         //Base view
         NavigationView{
@@ -27,6 +27,10 @@ struct ContentView: View {
                 .padding()
             }
             .navigationTitle("Home")
+            .sheet(isPresented: $isfirsttime, content: {
+                IntroScreen()
+                    .interactiveDismissDisabled()
+            })
         }
         .overlay( SplashScreen())
     }

@@ -14,6 +14,8 @@
 		19C714722CA26940004ED216 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714712CA26940004ED216 /* Persistence.swift */; };
 		19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19C714732CA26940004ED216 /* Bliss.xcdatamodeld */; };
 		19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7147C2CA27359004ED216 /* SplashScreen.swift */; };
+		19C714802CA511B8004ED216 /* IntroScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7147F2CA511B8004ED216 /* IntroScreen.swift */; };
+		19C714832CA51226004ED216 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714822CA51226004ED216 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		19C714742CA26940004ED216 /* Bliss.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bliss.xcdatamodel; sourceTree = "<group>"; };
 		19C7147C2CA27359004ED216 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		19C7147E2CA50748004ED216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		19C7147F2CA511B8004ED216 /* IntroScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroScreen.swift; sourceTree = "<group>"; };
+		19C714822CA51226004ED216 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,7 @@
 		19C714672CA2693E004ED216 /* Bliss */ = {
 			isa = PBXGroup;
 			children = (
+				19C714812CA5120C004ED216 /* Helpers */,
 				19C7147E2CA50748004ED216 /* Info.plist */,
 				19C7147B2CA2731B004ED216 /* View */,
 				19C714682CA2693E004ED216 /* BlissApp.swift */,
@@ -82,8 +87,17 @@
 			isa = PBXGroup;
 			children = (
 				19C7147C2CA27359004ED216 /* SplashScreen.swift */,
+				19C7147F2CA511B8004ED216 /* IntroScreen.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		19C714812CA5120C004ED216 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				19C714822CA51226004ED216 /* Constants.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,8 +171,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				19C714722CA26940004ED216 /* Persistence.swift in Sources */,
+				19C714802CA511B8004ED216 /* IntroScreen.swift in Sources */,
 				19C7146B2CA2693E004ED216 /* ContentView.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
+				19C714832CA51226004ED216 /* Constants.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,
 				19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */,
 			);
