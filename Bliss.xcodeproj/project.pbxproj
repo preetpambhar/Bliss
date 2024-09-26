@@ -13,6 +13,7 @@
 		19C714702CA26940004ED216 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19C7146F2CA26940004ED216 /* Preview Assets.xcassets */; };
 		19C714722CA26940004ED216 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714712CA26940004ED216 /* Persistence.swift */; };
 		19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 19C714732CA26940004ED216 /* Bliss.xcdatamodeld */; };
+		19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7147C2CA27359004ED216 /* SplashScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,8 @@
 		19C7146F2CA26940004ED216 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		19C714712CA26940004ED216 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		19C714742CA26940004ED216 /* Bliss.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bliss.xcdatamodel; sourceTree = "<group>"; };
+		19C7147C2CA27359004ED216 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		19C7147E2CA50748004ED216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +58,8 @@
 		19C714672CA2693E004ED216 /* Bliss */ = {
 			isa = PBXGroup;
 			children = (
+				19C7147E2CA50748004ED216 /* Info.plist */,
+				19C7147B2CA2731B004ED216 /* View */,
 				19C714682CA2693E004ED216 /* BlissApp.swift */,
 				19C7146A2CA2693E004ED216 /* ContentView.swift */,
 				19C7146C2CA26940004ED216 /* Assets.xcassets */,
@@ -71,6 +76,14 @@
 				19C7146F2CA26940004ED216 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		19C7147B2CA2731B004ED216 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				19C7147C2CA27359004ED216 /* SplashScreen.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,6 +160,7 @@
 				19C7146B2CA2693E004ED216 /* ContentView.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,
+				19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,9 +297,9 @@
 				DEVELOPMENT_TEAM = PSWHLPCFB2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bliss/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -312,9 +326,9 @@
 				DEVELOPMENT_TEAM = PSWHLPCFB2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bliss/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
