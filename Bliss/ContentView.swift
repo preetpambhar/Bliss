@@ -10,28 +10,26 @@ import CoreData
 
 struct ContentView: View {
     @AppStorage("isFirstTime") private var isfirsttime : Bool = true
+    @State private var activeTab: Tab = .home
     var body: some View {
-        //Base view
-        NavigationView{
-            ScrollView(.vertical, showsIndicators: false){
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Good Morning")
-                        .font(.title)
-                    
-                    Image("flowers")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 480)
-                    .cornerRadius(15)
-                }
-                .padding()
-            }
-            .navigationTitle("Home")
-            .sheet(isPresented: $isfirsttime, content: {
-                IntroScreen()
-                    .interactiveDismissDisabled()
-            })
+        TabView(selection: $activeTab){
+            home()
+                .tag(Tab.home)
+                .tabItem { Tab.home.tabContent }
+            
+            home()
+                .tag(Tab.search)
+                .tabItem { Tab.search.tabContent }
+            
+            home()
+                .tag(Tab.charts)
+                .tabItem { Tab.charts.tabContent }
+            
+            Profile()
+                .tag(Tab.settings)
+                .tabItem { Tab.settings.tabContent }
         }
+        .tint(appTint)
         .overlay( SplashScreen())
     }
 }
