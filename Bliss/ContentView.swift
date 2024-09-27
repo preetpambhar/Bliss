@@ -13,21 +13,21 @@ struct ContentView: View {
     @State private var activeTab: Tab = .home
     var body: some View {
         TabView(selection: $activeTab){
-            home()
+            Home()
                 .tag(Tab.home)
                 .tabItem { Tab.home.tabContent }
             
-            home()
-                .tag(Tab.search)
-                .tabItem { Tab.search.tabContent }
+            Flowers()
+                .tag(Tab.flowers)
+                .tabItem { Tab.flowers.tabContent }
             
-            home()
-                .tag(Tab.charts)
-                .tabItem { Tab.charts.tabContent }
+            Cart()
+                .tag(Tab.cart)
+                .tabItem { Tab.cart.tabContent }
             
             Profile()
-                .tag(Tab.settings)
-                .tabItem { Tab.settings.tabContent }
+                .tag(Tab.profile)
+                .tabItem { Tab.profile.tabContent }
         }
         .tint(appTint)
         .overlay( SplashScreen())
