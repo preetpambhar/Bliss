@@ -21,6 +21,7 @@
 		19C7148B2CA679A5004ED216 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7148A2CA679A5004ED216 /* Profile.swift */; };
 		19C7148D2CA67CE3004ED216 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7148C2CA67CE3004ED216 /* Cart.swift */; };
 		19C7148F2CA67CFF004ED216 /* Flowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7148E2CA67CFF004ED216 /* Flowers.swift */; };
+		19C714912CABA36B004ED216 /* CustomCrousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714902CABA36B004ED216 /* CustomCrousel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		19C7148A2CA679A5004ED216 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		19C7148C2CA67CE3004ED216 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		19C7148E2CA67CFF004ED216 /* Flowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flowers.swift; sourceTree = "<group>"; };
+		19C714902CABA36B004ED216 /* CustomCrousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCrousel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				19C714822CA51226004ED216 /* Constants.swift */,
+				19C714902CABA36B004ED216 /* CustomCrousel.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -204,6 +207,7 @@
 				19C714722CA26940004ED216 /* Persistence.swift in Sources */,
 				19C7148B2CA679A5004ED216 /* Profile.swift in Sources */,
 				19C7148F2CA67CFF004ED216 /* Flowers.swift in Sources */,
+				19C714912CABA36B004ED216 /* CustomCrousel.swift in Sources */,
 				19C714802CA511B8004ED216 /* IntroScreen.swift in Sources */,
 				19C7146B2CA2693E004ED216 /* ContentView.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
