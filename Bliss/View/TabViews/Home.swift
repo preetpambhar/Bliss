@@ -16,10 +16,28 @@ struct Home: View {
                     Text("Good Morning")
                         .font(.title)
 
+                    HStack {
+                        CustomCrousel(content: [
+                                                Image("flowers")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .cornerRadius(15) ,
+                                                Image("bliss")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .cornerRadius(15),
+                                                Image("flowers")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .cornerRadius(15)
+                                            ])
+                        .frame(height: 200)
+                    } 
+                    
                     Image("flowers")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(height: 480)
+                        .frame(height: 380)
                     .cornerRadius(15)
                 }
                 .padding()
