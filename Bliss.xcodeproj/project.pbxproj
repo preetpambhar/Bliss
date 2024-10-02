@@ -22,6 +22,8 @@
 		19C7148D2CA67CE3004ED216 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7148C2CA67CE3004ED216 /* Cart.swift */; };
 		19C7148F2CA67CFF004ED216 /* Flowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C7148E2CA67CFF004ED216 /* Flowers.swift */; };
 		19C714912CABA36B004ED216 /* CustomCrousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714902CABA36B004ED216 /* CustomCrousel.swift */; };
+		19C714A12CADE4BC004ED216 /* LocationSearchActivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */; };
+		19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A22CADFEAB004ED216 /* LocationSearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		19C7148C2CA67CE3004ED216 /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		19C7148E2CA67CFF004ED216 /* Flowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flowers.swift; sourceTree = "<group>"; };
 		19C714902CABA36B004ED216 /* CustomCrousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCrousel.swift; sourceTree = "<group>"; };
+		19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivation.swift; sourceTree = "<group>"; };
+		19C714A22CADFEAB004ED216 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 		19C7147B2CA2731B004ED216 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				19C7149D2CADE476004ED216 /* LocationSearch */,
 				19C714842CA6789F004ED216 /* TabViews */,
 				19C7147C2CA27359004ED216 /* SplashScreen.swift */,
 				19C7147F2CA511B8004ED216 /* IntroScreen.swift */,
@@ -132,6 +137,31 @@
 				19C714882CA67927004ED216 /* Tab.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		19C7149D2CADE476004ED216 /* LocationSearch */ = {
+			isa = PBXGroup;
+			children = (
+				19C7149F2CADE49A004ED216 /* ViewModels */,
+				19C7149E2CADE48F004ED216 /* Views */,
+			);
+			path = LocationSearch;
+			sourceTree = "<group>";
+		};
+		19C7149E2CADE48F004ED216 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */,
+				19C714A22CADFEAB004ED216 /* LocationSearchView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		19C7149F2CADE49A004ED216 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,9 +240,11 @@
 				19C714912CABA36B004ED216 /* CustomCrousel.swift in Sources */,
 				19C714802CA511B8004ED216 /* IntroScreen.swift in Sources */,
 				19C7146B2CA2693E004ED216 /* ContentView.swift in Sources */,
+				19C714A12CADE4BC004ED216 /* LocationSearchActivation.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
 				19C714832CA51226004ED216 /* Constants.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,
+				19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */,
 				19C714892CA67927004ED216 /* Tab.swift in Sources */,
 				19C714862CA678CD004ED216 /* Home.swift in Sources */,
 				19C7148D2CA67CE3004ED216 /* Cart.swift in Sources */,
