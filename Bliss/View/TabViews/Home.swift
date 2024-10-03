@@ -23,7 +23,9 @@ struct Home: View {
                                 } else {
                                     LocationSearchActivation()
                                         .onTapGesture {
-                                            showLocationSearchView.toggle()
+                                            withAnimation(.spring()){
+                                                showLocationSearchView.toggle()
+                                            }
                                         }
                                 }
                         

@@ -21,9 +21,11 @@ struct LocationSearchView: View {
                     .frame(height: 35)
 
                 // Cancel button
-                Button(action: {
-                    showLoactionSearchView.toggle()
-                }) {
+                Button{
+                    withAnimation(.spring()){
+                        showLoactionSearchView.toggle()
+                    }
+                } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.gray)
                         .font(.system(size: 20))
