@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct LocationSearchView: View {
-    @State private var locationText = ""
+    //@State private var locationText = ""
+    @Binding var locationSearchView: Bool
     @Binding var showLoactionSearchView: Bool
+    @StateObject var viewModel = LocationSearchViewModel()
     var body: some View {
         VStack{
             //header view
             HStack {
-                TextField("Current Location", text: $locationText)
+                TextField("Current Location", text: $viewModel.queryFragment)
                     .padding(10)
                     .background(Color(.systemGray4))
                     .cornerRadius(8)
@@ -39,17 +41,21 @@ struct LocationSearchView: View {
             //list view
             ScrollView{
                 VStack(alignment: .leading){
-                    ForEach(0 ..< 15, id: \.self) { _ in
-                        LocationSearchResultCell()
+                    ForEach(viewModel.results, id: \.self) { result in
+                        LocationSearchResultCell(title: result.title, subtitle: result.subtitle)
+                            .onTapGesture {
+                                viewModel.selectedLocation(result.title)
+                                showLoactionSearchView.toggle()
+                            }
                     }
                 }
             }
         }
-        .padding(.top, 64)
+        .padding(.top, 40)
         .background(.white)
     }
 }
 
 #Preview {
-    LocationSearchView(showLoactionSearchView: .constant(true))
+    LocationSearchView(locationSearchView: .constant(false), showLoactionSearchView: .constant(true))
 }
