@@ -18,6 +18,8 @@ struct LocationSearchActivation: View {
                 .foregroundColor(Color(.darkGray))
             
             Spacer()
+            
+
         }
         .frame(width: UIScreen.main.bounds.width - 20, height: 50)
         .background(

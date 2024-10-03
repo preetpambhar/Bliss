@@ -24,6 +24,7 @@
 		19C714912CABA36B004ED216 /* CustomCrousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714902CABA36B004ED216 /* CustomCrousel.swift */; };
 		19C714A12CADE4BC004ED216 /* LocationSearchActivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */; };
 		19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A22CADFEAB004ED216 /* LocationSearchView.swift */; };
+		19C714A72CAE0406004ED216 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A62CAE0406004ED216 /* LocationSearchResultCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		19C714902CABA36B004ED216 /* CustomCrousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCrousel.swift; sourceTree = "<group>"; };
 		19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivation.swift; sourceTree = "<group>"; };
 		19C714A22CADFEAB004ED216 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
+		19C714A62CAE0406004ED216 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 			children = (
 				19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */,
 				19C714A22CADFEAB004ED216 /* LocationSearchView.swift */,
+				19C714A62CAE0406004ED216 /* LocationSearchResultCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				19C714802CA511B8004ED216 /* IntroScreen.swift in Sources */,
 				19C7146B2CA2693E004ED216 /* ContentView.swift in Sources */,
 				19C714A12CADE4BC004ED216 /* LocationSearchActivation.swift in Sources */,
+				19C714A72CAE0406004ED216 /* LocationSearchResultCell.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
 				19C714832CA51226004ED216 /* Constants.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,

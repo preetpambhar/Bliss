@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Home: View {
-    @State private var searchText: String = ""
+    @State private var showLocationSearchView = false
     var body: some View {
         
      //   Base view
@@ -18,7 +18,14 @@ struct Home: View {
                         Text("Good Morning")
                             .font(.title)
                         
-                        LocationSearchActivation()
+                        if showLocationSearchView {
+                            LocationSearchView(showLoactionSearchView: $showLocationSearchView)
+                                } else {
+                                    LocationSearchActivation()
+                                        .onTapGesture {
+                                            showLocationSearchView.toggle()
+                                        }
+                                }
                         
                         HStack {
                             CustomCrousel(content: [
