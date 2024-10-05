@@ -11,6 +11,7 @@ struct LocationSearchView: View {
     //@State private var locationText = ""
     @Binding var locationSearchView: Bool
     @Binding var showLoactionSearchView: Bool
+    @State private var mapState = MapViewState.noInput
     @EnvironmentObject var viewModel : LocationSearchViewModel
     var body: some View {
         VStack{

@@ -29,6 +29,10 @@
 		19C714AC2CAE6DCA004ED216 /* MapsViewRepresntable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714AB2CAE6DCA004ED216 /* MapsViewRepresntable.swift */; };
 		19C714AF2CAE70B9004ED216 /* AddLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714AE2CAE70B9004ED216 /* AddLocation.swift */; };
 		19C714B22CAE7330004ED216 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B12CAE7330004ED216 /* LocationManager.swift */; };
+		19C714B42CB0F163004ED216 /* MapViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B32CB0F163004ED216 /* MapViewState.swift */; };
+		19C714B62CB0FACE004ED216 /* AddAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B52CB0FACE004ED216 /* AddAddress.swift */; };
+		19C714B82CB106BA004ED216 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B72CB106BA004ED216 /* SearchView.swift */; };
+		19C714BA2CB1E14C004ED216 /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B92CB1E14B004ED216 /* AddressViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +60,10 @@
 		19C714AB2CAE6DCA004ED216 /* MapsViewRepresntable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsViewRepresntable.swift; sourceTree = "<group>"; };
 		19C714AE2CAE70B9004ED216 /* AddLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocation.swift; sourceTree = "<group>"; };
 		19C714B12CAE7330004ED216 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		19C714B32CB0F163004ED216 /* MapViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewState.swift; sourceTree = "<group>"; };
+		19C714B52CB0FACE004ED216 /* AddAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAddress.swift; sourceTree = "<group>"; };
+		19C714B72CB106BA004ED216 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		19C714B92CB1E14B004ED216 /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				19C714882CA67927004ED216 /* Tab.swift */,
+				19C714B32CB0F163004ED216 /* MapViewState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -167,6 +176,8 @@
 				19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */,
 				19C714A22CADFEAB004ED216 /* LocationSearchView.swift */,
 				19C714A62CAE0406004ED216 /* LocationSearchResultCell.swift */,
+				19C714B52CB0FACE004ED216 /* AddAddress.swift */,
+				19C714B72CB106BA004ED216 /* SearchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -175,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				19C714A82CAE510F004ED216 /* LocationSearchViewModel.swift */,
+				19C714B92CB1E14B004ED216 /* AddressViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -284,12 +296,16 @@
 				19C714AC2CAE6DCA004ED216 /* MapsViewRepresntable.swift in Sources */,
 				19C714A72CAE0406004ED216 /* LocationSearchResultCell.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
+				19C714BA2CB1E14C004ED216 /* AddressViewModel.swift in Sources */,
 				19C714832CA51226004ED216 /* Constants.swift in Sources */,
 				19C714B22CAE7330004ED216 /* LocationManager.swift in Sources */,
+				19C714B82CB106BA004ED216 /* SearchView.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,
 				19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */,
+				19C714B42CB0F163004ED216 /* MapViewState.swift in Sources */,
 				19C714892CA67927004ED216 /* Tab.swift in Sources */,
 				19C714862CA678CD004ED216 /* Home.swift in Sources */,
+				19C714B62CB0FACE004ED216 /* AddAddress.swift in Sources */,
 				19C7148D2CA67CE3004ED216 /* Cart.swift in Sources */,
 				19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */,
 				19C714A92CAE5110004ED216 /* LocationSearchViewModel.swift in Sources */,

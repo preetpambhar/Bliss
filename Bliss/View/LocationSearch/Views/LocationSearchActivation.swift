@@ -10,8 +10,9 @@ import SwiftUI
 struct LocationSearchActivation: View {
     var body: some View {
         HStack{
-            Rectangle()
-                .fill(Color.black)
+//            Rectangle()
+//                .fill(Color.black)
+            Image(systemName: "magnifyingglass")
                 .frame(width: 8, height: 8)
                 .padding(.horizontal)
             Text("Search delivery address")
@@ -24,8 +25,7 @@ struct LocationSearchActivation: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.white)
                 .shadow(color: .black, radius: 6)
-                
-            
+
         )
     }
 }

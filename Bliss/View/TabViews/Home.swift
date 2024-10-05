@@ -18,17 +18,33 @@ struct Home: View {
 //                        Text("Good Morning")
 //                            .font(.title)
                         
-                        if showLocationSearchView {
-                            LocationSearchView(locationSearchView: $showLocationSearchView, showLoactionSearchView: $showLocationSearchView)
-                                } else {
-                                    LocationSearchActivation()
-                                        .onTapGesture {
-                                            withAnimation(.spring()){
-                                                showLocationSearchView.toggle()
-                                            }
-                                        }
-                                }
-                        
+//                        if showLocationSearchView {
+//                            LocationSearchView(locationSearchView: $showLocationSearchView, showLoactionSearchView: $showLocationSearchView)
+//                                } else {
+//                                    LocationSearchActivation()
+//                                        .onTapGesture {
+//                                            withAnimation(.spring()){
+//                                                showLocationSearchView.toggle()
+//                                            }
+//                                        }
+//                                }
+                        NavigationLink(destination: AddAddress(showBackButton: true)) {
+//                                               LocationSearchActivation()
+                            HStack{
+                                Image(systemName: "plus")
+                                    //.fill(Color.black)
+                                    .frame(width: 8, height: 8)
+                                    .foregroundColor(Color(.darkGray))
+                                    .padding(.horizontal)
+                                Text("Add Location")
+                                    .foregroundColor(Color(.darkGray))
+                                
+                                Spacer()
+                            }
+                            .frame(width: UIScreen.main.bounds.width - 20, height: 50)
+                                           }
+                                          // .buttonStyle(PlainButtonStyle())
+                    
                         HStack {
                             CustomCrousel(content: [
                                                     Image("flowers")
