@@ -11,7 +11,7 @@ struct LocationSearchView: View {
     //@State private var locationText = ""
     @Binding var locationSearchView: Bool
     @Binding var showLoactionSearchView: Bool
-    @StateObject var viewModel = LocationSearchViewModel()
+    @EnvironmentObject var viewModel : LocationSearchViewModel
     var body: some View {
         VStack{
             //header view
@@ -44,7 +44,7 @@ struct LocationSearchView: View {
                     ForEach(viewModel.results, id: \.self) { result in
                         LocationSearchResultCell(title: result.title, subtitle: result.subtitle)
                             .onTapGesture {
-                                viewModel.selectedLocation(result.title)
+                                viewModel.selectedLocation(result)
                                 showLoactionSearchView.toggle()
                             }
                     }

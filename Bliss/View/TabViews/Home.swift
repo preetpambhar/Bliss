@@ -15,11 +15,11 @@ struct Home: View {
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
                     VStack(alignment: .leading, spacing: 20) {
-                        Text("Good Morning")
-                            .font(.title)
+//                        Text("Good Morning")
+//                            .font(.title)
                         
                         if showLocationSearchView {
-                            LocationSearchView(showLoactionSearchView: $showLocationSearchView)
+                            LocationSearchView(locationSearchView: $showLocationSearchView, showLoactionSearchView: $showLocationSearchView)
                                 } else {
                                     LocationSearchActivation()
                                         .onTapGesture {
@@ -55,7 +55,7 @@ struct Home: View {
                     }
                     .padding()
             }
-            .navigationTitle("Home")
+          //  .navigationTitle("Home")
         }
     }
 }

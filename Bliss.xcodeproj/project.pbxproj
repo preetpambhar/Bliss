@@ -25,6 +25,10 @@
 		19C714A12CADE4BC004ED216 /* LocationSearchActivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */; };
 		19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A22CADFEAB004ED216 /* LocationSearchView.swift */; };
 		19C714A72CAE0406004ED216 /* LocationSearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A62CAE0406004ED216 /* LocationSearchResultCell.swift */; };
+		19C714A92CAE5110004ED216 /* LocationSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714A82CAE510F004ED216 /* LocationSearchViewModel.swift */; };
+		19C714AC2CAE6DCA004ED216 /* MapsViewRepresntable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714AB2CAE6DCA004ED216 /* MapsViewRepresntable.swift */; };
+		19C714AF2CAE70B9004ED216 /* AddLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714AE2CAE70B9004ED216 /* AddLocation.swift */; };
+		19C714B22CAE7330004ED216 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B12CAE7330004ED216 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +52,10 @@
 		19C714A02CADE4BC004ED216 /* LocationSearchActivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchActivation.swift; sourceTree = "<group>"; };
 		19C714A22CADFEAB004ED216 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		19C714A62CAE0406004ED216 /* LocationSearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchResultCell.swift; sourceTree = "<group>"; };
+		19C714A82CAE510F004ED216 /* LocationSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewModel.swift; sourceTree = "<group>"; };
+		19C714AB2CAE6DCA004ED216 /* MapsViewRepresntable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsViewRepresntable.swift; sourceTree = "<group>"; };
+		19C714AE2CAE70B9004ED216 /* AddLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocation.swift; sourceTree = "<group>"; };
+		19C714B12CAE7330004ED216 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,15 +88,16 @@
 		19C714672CA2693E004ED216 /* Bliss */ = {
 			isa = PBXGroup;
 			children = (
+				19C714AA2CAE6C62004ED216 /* App */,
 				19C714872CA67919004ED216 /* Model */,
 				19C714812CA5120C004ED216 /* Helpers */,
-				19C7147E2CA50748004ED216 /* Info.plist */,
 				19C7147B2CA2731B004ED216 /* View */,
-				19C714682CA2693E004ED216 /* BlissApp.swift */,
 				19C7146A2CA2693E004ED216 /* ContentView.swift */,
 				19C7146C2CA26940004ED216 /* Assets.xcassets */,
 				19C714712CA26940004ED216 /* Persistence.swift */,
 				19C714732CA26940004ED216 /* Bliss.xcdatamodeld */,
+				19C7147E2CA50748004ED216 /* Info.plist */,
+				19C714B02CAE72FE004ED216 /* Managers */,
 				19C7146E2CA26940004ED216 /* Preview Content */,
 			);
 			path = Bliss;
@@ -105,10 +114,12 @@
 		19C7147B2CA2731B004ED216 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				19C714AD2CAE709A004ED216 /* AddLocation */,
 				19C7149D2CADE476004ED216 /* LocationSearch */,
 				19C714842CA6789F004ED216 /* TabViews */,
 				19C7147C2CA27359004ED216 /* SplashScreen.swift */,
 				19C7147F2CA511B8004ED216 /* IntroScreen.swift */,
+				19C714AB2CAE6DCA004ED216 /* MapsViewRepresntable.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -163,8 +174,33 @@
 		19C7149F2CADE49A004ED216 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				19C714A82CAE510F004ED216 /* LocationSearchViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		19C714AA2CAE6C62004ED216 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				19C714682CA2693E004ED216 /* BlissApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		19C714AD2CAE709A004ED216 /* AddLocation */ = {
+			isa = PBXGroup;
+			children = (
+				19C714AE2CAE70B9004ED216 /* AddLocation.swift */,
+			);
+			path = AddLocation;
+			sourceTree = "<group>";
+		};
+		19C714B02CAE72FE004ED216 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				19C714B12CAE7330004ED216 /* LocationManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,19 +276,23 @@
 				19C714722CA26940004ED216 /* Persistence.swift in Sources */,
 				19C7148B2CA679A5004ED216 /* Profile.swift in Sources */,
 				19C7148F2CA67CFF004ED216 /* Flowers.swift in Sources */,
+				19C714AF2CAE70B9004ED216 /* AddLocation.swift in Sources */,
 				19C714912CABA36B004ED216 /* CustomCrousel.swift in Sources */,
 				19C714802CA511B8004ED216 /* IntroScreen.swift in Sources */,
 				19C7146B2CA2693E004ED216 /* ContentView.swift in Sources */,
 				19C714A12CADE4BC004ED216 /* LocationSearchActivation.swift in Sources */,
+				19C714AC2CAE6DCA004ED216 /* MapsViewRepresntable.swift in Sources */,
 				19C714A72CAE0406004ED216 /* LocationSearchResultCell.swift in Sources */,
 				19C714692CA2693E004ED216 /* BlissApp.swift in Sources */,
 				19C714832CA51226004ED216 /* Constants.swift in Sources */,
+				19C714B22CAE7330004ED216 /* LocationManager.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,
 				19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */,
 				19C714892CA67927004ED216 /* Tab.swift in Sources */,
 				19C714862CA678CD004ED216 /* Home.swift in Sources */,
 				19C7148D2CA67CE3004ED216 /* Cart.swift in Sources */,
 				19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */,
+				19C714A92CAE5110004ED216 /* LocationSearchViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +430,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bliss/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please aloow us to access your location to find your current address";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -419,6 +460,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bliss/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please aloow us to access your location to find your current address";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
