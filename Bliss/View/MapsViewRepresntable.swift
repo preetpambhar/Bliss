@@ -11,7 +11,7 @@ import MapKit
 struct MapViewRepresentable: UIViewRepresentable {
     
     let mapView = MKMapView()
-    let locationManager = LocationManager()
+    let locationManager = LocationManager.shared
     @EnvironmentObject var locationViewModel : LocationSearchViewModel
     
     func makeUIView(context: Context) -> some UIView {
@@ -24,7 +24,7 @@ struct MapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        if let coordinate = locationViewModel.selectedLocationCoordinate{
+        if let coordinate = locationViewModel.selectedUserLocation?.coordinate{
             print(" DEBUG: Selected location in map view is \(coordinate)")
             context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
         }

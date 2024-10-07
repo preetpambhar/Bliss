@@ -33,6 +33,7 @@
 		19C714B62CB0FACE004ED216 /* AddAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B52CB0FACE004ED216 /* AddAddress.swift */; };
 		19C714B82CB106BA004ED216 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B72CB106BA004ED216 /* SearchView.swift */; };
 		19C714BA2CB1E14C004ED216 /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B92CB1E14B004ED216 /* AddressViewModel.swift */; };
+		19C714BC2CB265E4004ED216 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714BB2CB265E4004ED216 /* UserLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		19C714B52CB0FACE004ED216 /* AddAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAddress.swift; sourceTree = "<group>"; };
 		19C714B72CB106BA004ED216 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		19C714B92CB1E14B004ED216 /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
+		19C714BB2CB265E4004ED216 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			children = (
 				19C714882CA67927004ED216 /* Tab.swift */,
 				19C714B32CB0F163004ED216 /* MapViewState.swift */,
+				19C714BB2CB265E4004ED216 /* UserLocation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				19C714BA2CB1E14C004ED216 /* AddressViewModel.swift in Sources */,
 				19C714832CA51226004ED216 /* Constants.swift in Sources */,
 				19C714B22CAE7330004ED216 /* LocationManager.swift in Sources */,
+				19C714BC2CB265E4004ED216 /* UserLocation.swift in Sources */,
 				19C714B82CB106BA004ED216 /* SearchView.swift in Sources */,
 				19C714752CA26940004ED216 /* Bliss.xcdatamodeld in Sources */,
 				19C714A32CADFEAB004ED216 /* LocationSearchView.swift in Sources */,

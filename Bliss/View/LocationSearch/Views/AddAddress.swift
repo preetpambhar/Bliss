@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct AddAddress: View {
-    @EnvironmentObject var addressViewModel: AddressViewModel
+    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @State private var showLocationSearchView = false
     var showBackButton: Bool
     @EnvironmentObject var viewModel : LocationSearchViewModel
@@ -21,6 +21,9 @@ struct AddAddress: View {
         @State private var floor: String = ""
         @State private var message: String = ""
 
+    @State private var selectedLocationTitle: String = ""
+    @State private var selectedLocationSubTitle: String = ""
+    
     var body: some View {
         ScrollView {
             VStack{
@@ -38,12 +41,7 @@ struct AddAddress: View {
                 .padding(.top, 10)
                 .frame(alignment: .top)
                 VStack(spacing: 20){
-                    TextField("hint", text: $province)
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 8)
-                        .background(.background, in: .rect(cornerRadius: 10))
-                    
-                    HStack{
+                  HStack{
                         TextField("Province*", text: $province)
                             .padding(.horizontal, 15)
                             .padding(.vertical, 8)
@@ -54,13 +52,13 @@ struct AddAddress: View {
                             .background(.background, in: .rect(cornerRadius: 10))
                     }
                     
-                    TextField("Address*", text: $address)
+                    TextField("Address*", text: $selectedLocationTitle)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 8)
                         .background(.background, in: .rect(cornerRadius: 10))
                     
                     HStack{
-                        TextField("App. No*", text: $appNo)
+                        TextField("App. No*", text: $selectedLocationSubTitle)
                             .padding(.horizontal, 15)
                             .padding(.vertical, 8)
                             .background(.background, in: .rect(cornerRadius: 10))
@@ -92,6 +90,18 @@ struct AddAddress: View {
                 .padding(5)
                 .navigationBarBackButtonHidden(!showBackButton)
                 .navigationTitle("Add Address")
+            }
+            .onAppear {
+                if let location = locationViewModel.selectedUserLocation {
+                selectedLocationTitle = location.title
+                    selectedLocationTitle = location.subtitle
+                }
+            }
+            .onReceive(LocationManager.shared.$userLocation) {
+                location in
+                if let location = location {
+                    viewModel.userLocation = location
+                }
             }
         }
     }

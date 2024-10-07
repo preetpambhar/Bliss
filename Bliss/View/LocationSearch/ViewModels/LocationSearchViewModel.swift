@@ -12,7 +12,7 @@ class LocationSearchViewModel: NSObject, ObservableObject{
     //MARK: - Properties
     
     @Published var results = [MKLocalSearchCompletion]()
-    @Published var selectedLocationCoordinate: CLLocationCoordinate2D?
+    @Published var selectedUserLocation: UserLocation?
     private let searchCompleter = MKLocalSearchCompleter()
     var queryFragment: String = "" {
         didSet{
@@ -21,6 +21,9 @@ class LocationSearchViewModel: NSObject, ObservableObject{
         }
     }
     
+    var userLocation: CLLocationCoordinate2D? 
+    
+    //MARK: - lifeCycle
     override init() {
         super.init()
         searchCompleter.delegate = self
@@ -38,7 +41,7 @@ class LocationSearchViewModel: NSObject, ObservableObject{
             }
             guard let item  = response?.mapItems.first else { return }
             let coordinate = item.placemark.coordinate
-            self.selectedLocationCoordinate = coordinate
+            self.selectedUserLocation = UserLocation.init(title: localSearch.title, subtitle: localSearch.subtitle, coordinate: coordinate)
             print("DEBUG: location coordinate :\(coordinate)")
         }
         
