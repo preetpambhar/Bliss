@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Flowers: View {
     var body: some View {
-        AddLocation()
+      Text("Hello")
     }
 }
 

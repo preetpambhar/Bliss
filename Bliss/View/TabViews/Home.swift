@@ -43,36 +43,67 @@ struct Home: View {
                             }
                             .frame(width: UIScreen.main.bounds.width - 20, height: 50)
                                            }
-                                          // .buttonStyle(PlainButtonStyle())
                     
                         HStack {
                             CustomCrousel(content: [
-                                                    Image("flowers")
+                                                    Image("flower6")
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fill)
                                                         .cornerRadius(15) ,
-                                                    Image("bliss")
+                                                    Image("flower1")
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fill)
                                                         .cornerRadius(15),
-                                                    Image("flowers")
+                                                    Image("flower3")
                                                         .resizable()
                                                         .aspectRatio(contentMode: .fill)
                                                         .cornerRadius(15)
                                                 ])
                             .frame(height: 200)
                         }
+                        VStack(spacing: 10) {
+                            CategoryView(image: "bouquet1", action: "Button tapped!", text: "Seasonal Bouquets")
+                            CategoryView(image: "bouquet2", action: "Button tapped!", text: "Birthday Bouquets")
+                            CategoryView(image: "weddingflower1", action: "Button tapped!", text: "Romantic Bouquets")
+                            CategoryView(image: "weddingflower4", action: "Button tapped!", text: "Sympathy and Funeral Bouquets")
+                        }
                         
-                        Image("flowers")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 380)
-                        .cornerRadius(15)
                     }
                     .padding()
             }
           //  .navigationTitle("Home")
         }
+    }
+    
+    @ViewBuilder
+    func CategoryView(image: String, action: String, text: String) -> some View {
+        VStack {
+            Image(image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 300)
+                .cornerRadius(15)
+            Text(text)
+                .background(Color(.systemBackground))
+            
+            Button(action: {
+                print(action)
+            }) {
+                Text(text)
+                    .fontWeight(.bold)
+                //.frame(maxWidth: UIScreen.main.bounds.width - 15)
+                    .frame(width: UIScreen.main.bounds.width - 85)
+                    .padding()
+                    .background(Color(.systemBackground))
+                    .foregroundColor(themeColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 2)
+                    )
+                    .cornerRadius(10)
+            }
+        }
+        .padding(6)
     }
 }
 
