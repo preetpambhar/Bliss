@@ -30,48 +30,39 @@ struct AddAddress: View {
                 NavigationLink(destination: SearchView()) {
                         LocationSearchActivation()
                 }
+                .padding()
                 //.isDetailLink(false)
               
                 VStack (){
                     MapViewRepresentable()
                         //.ignoresSafeArea()
                         .frame(width: UIScreen.main.bounds.width - 15 , height: 300)
-                    //Spacer()
                 }
-                .padding(.top, 10)
                 .frame(alignment: .top)
+                
                 VStack(spacing: 20){
                   HStack{
-                        TextField("Province*", text: $province)
+                        TextField("Street address OR building name*", text: $selectedLocationTitle)
                             .padding(.horizontal, 15)
                             .padding(.vertical, 8)
-                            .background(.background, in: .rect(cornerRadius: 10))
-                        TextField("City*", text: $city)
-                            .padding(.horizontal, 15)
-                            .padding(.vertical, 8)
-                            .background(.background, in: .rect(cornerRadius: 10))
+                            .frame(height: 50)
+                            .background(.background, in:.rect(cornerRadius: 10))
+                            .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: 2)
                     }
                     
-                    TextField("Address*", text: $selectedLocationTitle)
+                    TextField("City, state/province & country*", text: $selectedLocationSubTitle)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 8)
+                        .frame(height: 50)
                         .background(.background, in: .rect(cornerRadius: 10))
+                        .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: 2)
                     
-                    HStack{
-                        TextField("App. No*", text: $selectedLocationSubTitle)
-                            .padding(.horizontal, 15)
-                            .padding(.vertical, 8)
-                            .background(.background, in: .rect(cornerRadius: 10))
-                        TextField("Floor*", text: $floor)
-                            .padding(.horizontal, 15)
-                            .padding(.vertical, 8)
-                            .background(.background, in: .rect(cornerRadius: 10))
-                    }
-                            TextField("Message: Any relevant details", text: $message)
-                                .frame(minHeight: 70, alignment: .topLeading)
-                                .padding(.horizontal, 15)
-                                .padding(.vertical, 8)
-                                .background(.background, in: .rect(cornerRadius: 10))
+                    TextField("Message: Any relevant details", text: $message)
+                           .frame(minHeight: 70, alignment: .topLeading)
+                           .padding(.horizontal, 15)
+                           .padding(.vertical, 8)
+                           .background(.background, in: .rect(cornerRadius: 10))
+                           .shadow(color: .gray.opacity(0.2), radius: 2, x: 0, y: 2)
                     
                         Button(action: {
                             saveAddress()
@@ -87,14 +78,14 @@ struct AddAddress: View {
                     
                 }
                 .shadow(color: Color(.darkGray), radius: 1)
-                .padding(5)
+                .padding(15)
                 .navigationBarBackButtonHidden(!showBackButton)
                 .navigationTitle("Add Address")
             }
             .onAppear {
                 if let location = locationViewModel.selectedUserLocation {
                 selectedLocationTitle = location.title
-                    selectedLocationTitle = location.subtitle
+                    selectedLocationSubTitle = location.subtitle
                 }
             }
             .onReceive(LocationManager.shared.$userLocation) {
@@ -108,7 +99,7 @@ struct AddAddress: View {
     func saveAddress() {
             // Perform save logic here
             print("Saving address data...")
-            print("Province: \(province), City: \(city), Address: \(address), App No: \(appNo), Floor: \(floor), Message: \(message)")
+            print("Province: \(selectedLocationTitle), Address: \(selectedLocationSubTitle), Message: \(message)")
         }
 }
 

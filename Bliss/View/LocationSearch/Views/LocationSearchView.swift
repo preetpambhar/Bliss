@@ -17,7 +17,7 @@ struct LocationSearchView: View {
         VStack{
             //header view
             HStack {
-                TextField("Current Location", text: $viewModel.queryFragment)
+                TextField("Enter Location", text: $viewModel.queryFragment)
                     .padding(10)
                     .background(Color(.systemGray4))
                     .cornerRadius(8)
@@ -40,19 +40,21 @@ struct LocationSearchView: View {
                 .padding(.vertical)
             
             //list view
-            ScrollView{
-                VStack(alignment: .leading){
-                    ForEach(viewModel.results, id: \.self) { result in
-                        LocationSearchResultCell(title: result.title, subtitle: result.subtitle)
-                            .onTapGesture {
-                                viewModel.selectedLocation(result)
-                                showLoactionSearchView.toggle()
-                            }
+            if !viewModel.results.isEmpty {
+                ScrollView{
+                    VStack(alignment: .leading){
+                        ForEach(viewModel.results, id: \.self) { result in
+                            LocationSearchResultCell(title: result.title, subtitle: result.subtitle)
+                                .onTapGesture {
+                                    viewModel.selectedLocation(result)
+                                    showLoactionSearchView.toggle()
+                                }
+                        }
                     }
                 }
             }
         }
-        .padding(.top, 40)
+        .padding(.top, 5)
         .background(.white)
     }
 }
