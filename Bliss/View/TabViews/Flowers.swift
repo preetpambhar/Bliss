@@ -36,6 +36,7 @@ struct Flowers: View {
                             .frame(width: 142, height: 110)
                             .cornerRadius(15)
                         .clipped()
+                        //.animation(.snappy)
                }
                VStack(alignment: .leading) {
                    Text("Flowers Flowers ")
@@ -56,6 +57,8 @@ struct Flowers: View {
                    HStack {
                        Image(systemName: "info")
                            .foregroundColor(.black)
+                           .background(.blue)
+                           
                        
                        Text("40 - 45 Min")
                            .font(.callout)
