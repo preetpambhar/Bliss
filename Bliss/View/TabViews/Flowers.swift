@@ -22,7 +22,7 @@ struct Flowers: View {
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
                     }else {
-                        NavigationLink(destination: AddAddress(showBackButton: true), isActive: $showAddAddress) {
+                        NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "product"), isActive: $showAddAddress) {
                                                    Text("Please Select Your Address")
                                                        .font(.title)
                                                        .fontWeight(.bold)

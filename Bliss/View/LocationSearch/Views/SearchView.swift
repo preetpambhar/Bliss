@@ -11,6 +11,7 @@ struct SearchView: View {
   //  @Environment(\.presentationMode) var presentationMode
     @State private var showLocationSearchView = false
     @State private var navigateToAddAddress = false
+    @State var previousView: String
     var body: some View {
         VStack{
             if showLocationSearchView {
@@ -44,7 +45,7 @@ struct SearchView: View {
             .frame(width: UIScreen.main.bounds.width)
             .navigationTitle("Get Direction")
             
-            NavigationLink(destination: AddAddress(showBackButton: false), isActive: $navigateToAddAddress) {
+            NavigationLink(destination: AddAddress(showBackButton: false, requestedpage: previousView), isActive: $navigateToAddAddress) {
                 EmptyView()
             }
         }
@@ -52,5 +53,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView()
+    SearchView(previousView: "")
 }

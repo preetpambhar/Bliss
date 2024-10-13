@@ -28,7 +28,7 @@ struct Home: View {
 //                                            }
 //                                        }
 //                                }
-                        NavigationLink(destination: AddAddress(showBackButton: true)) {
+                        NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home")) {
 //                                               LocationSearchActivation()
                             HStack{
                                 Image(systemName: "plus")

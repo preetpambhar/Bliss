@@ -23,11 +23,14 @@ struct AddAddress: View {
 
     @State private var selectedLocationTitle: String = ""
     @State private var selectedLocationSubTitle: String = ""
+    @State private var navigateToHome = false
+    @State private var navigateToProduct = false
+    @State var requestedpage: String
     
     var body: some View {
         ScrollView {
             VStack{
-                NavigationLink(destination: SearchView()) {
+                NavigationLink(destination: SearchView(previousView: requestedpage)) {
                         LocationSearchActivation()
                 }
                 .padding()
@@ -66,6 +69,12 @@ struct AddAddress: View {
                     
                         Button(action: {
                             saveAddress()
+                            if requestedpage == "product"{
+                                navigateToProduct = true
+                            } else {
+                                navigateToHome = true
+                                print("home success")
+                            }
                         }) {
                             Text("Save")
                                 .fontWeight(.bold)
@@ -82,10 +91,19 @@ struct AddAddress: View {
                 .navigationBarBackButtonHidden(!showBackButton)
                 .navigationTitle("Add Address")
             }
+            
+            NavigationLink(destination: Home() .navigationBarBackButtonHidden(true), isActive: $navigateToHome) {
+                EmptyView()
+            }
+            NavigationLink(destination: Flowers( selectedLocationTitle: "") .navigationBarBackButtonHidden(true), isActive: $navigateToProduct) {
+                EmptyView()
+            }
+            
             .onAppear {
                 if let location = locationViewModel.selectedUserLocation {
                 selectedLocationTitle = location.title
                     selectedLocationSubTitle = location.subtitle
+                   
                 }
             }
             .onReceive(LocationManager.shared.$userLocation) {
@@ -104,6 +122,6 @@ struct AddAddress: View {
 }
 
 #Preview {
-    AddAddress(showBackButton: true)
+    AddAddress(showBackButton: true, requestedpage: "Home")
         .environmentObject(AddressViewModel())
 }
