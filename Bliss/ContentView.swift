@@ -11,13 +11,15 @@ import CoreData
 struct ContentView: View {
     @AppStorage("isFirstTime") private var isfirsttime : Bool = true
     @State private var activeTab: Tab = .home
+    @State private var isAddAddressActive = false
+    
     var body: some View {
         TabView(selection: $activeTab){
             Home()
                 .tag(Tab.home)
                 .tabItem { Tab.home.tabContent }
             
-            Flowers()
+            Flowers(selectedLocationTitle: "")
                 .tag(Tab.flowers)
                 .tabItem { Tab.flowers.tabContent }
             

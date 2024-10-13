@@ -8,14 +8,39 @@
 import SwiftUI
 
 struct Flowers: View {
+    @EnvironmentObject var locationViewModel: LocationSearchViewModel
+    @EnvironmentObject var viewModel : LocationSearchViewModel
+    @State var selectedLocationTitle: String
+    @State private var showAddAddress = false 
     var body: some View {
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
-                VStack(alignment: .center, spacing: 20) {
-                    Text("Your Picked Address")
+                VStack(alignment: .leading, spacing: 20) {
+                    if !selectedLocationTitle.isEmpty{
+                        Text("Delivery Address: " + selectedLocationTitle)
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.blue)
+                    }else {
+                        NavigationLink(destination: AddAddress(showBackButton: true), isActive: $showAddAddress) {
+                                                   Text("Please Select Your Address")
+                                                       .font(.title)
+                                                       .fontWeight(.bold)
+                                                       .foregroundColor(.gray)
+                                                       .onTapGesture {
+                                                           showAddAddress = true // Set state to true to navigate
+                                                       }
+                                               }
+                    }
+                    //Text("Your Picked Address")
                     
                     ForEach(0..<4){_ in
                         products()
+                    }
+                }
+                .onAppear {
+                    if let location = locationViewModel.selectedUserLocation {
+                        selectedLocationTitle = location.title
                     }
                 }
                 .padding()
@@ -72,5 +97,6 @@ struct Flowers: View {
 }
 
 #Preview {
-    Flowers()
+    Flowers(selectedLocationTitle: "")
+       // .environmentObject(LocationSearchViewModel())
 }

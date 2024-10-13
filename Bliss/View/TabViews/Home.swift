@@ -71,7 +71,8 @@ struct Home: View {
                     }
                     .padding()
             }
-          //  .navigationTitle("Home")
+          .navigationTitle("Home")
+          //.navigationBarBackButtonHidden(true)
         }
     }
     
