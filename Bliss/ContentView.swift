@@ -9,28 +9,42 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    @State var isAuthenticated = false
+    
     @AppStorage("isFirstTime") private var isfirsttime : Bool = true
     @State private var activeTab: Tab = .home
     var body: some View {
-        TabView(selection: $activeTab){
-            Home()
-                .tag(Tab.home)
-                .tabItem { Tab.home.tabContent }
-            
-            Flowers()
-                .tag(Tab.flowers)
-                .tabItem { Tab.flowers.tabContent }
-            
-            Cart()
-                .tag(Tab.cart)
-                .tabItem { Tab.cart.tabContent }
-            
-            Profile()
-                .tag(Tab.profile)
-                .tabItem { Tab.profile.tabContent }
+        Group {
+          if isAuthenticated {
+              TabView(selection: $activeTab){
+                  Home()
+                      .tag(Tab.home)
+                      .tabItem { Tab.home.tabContent }
+                  
+                  Flowers()
+                      .tag(Tab.flowers)
+                      .tabItem { Tab.flowers.tabContent }
+                  
+                  Cart()
+                      .tag(Tab.cart)
+                      .tabItem { Tab.cart.tabContent }
+                  
+                  Profile()
+                      .tag(Tab.profile)
+                      .tabItem { Tab.profile.tabContent }
+              }
+              .tint(appTint)
+              .overlay( SplashScreen())
+          } else {
+            AuthView()
+          }
+        }.task {
+            for await state in supabaseClient.auth.authStateChanges {
+              if [.initialSession, .signedIn, .signedOut].contains(state.event) {
+                isAuthenticated = state.session != nil
+              }
+            }
         }
-        .tint(appTint)
-        .overlay( SplashScreen())
     }
 }
 

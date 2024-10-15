@@ -8,8 +8,26 @@
 import SwiftUI
 
 struct Profile: View {
+    @State var isLoading = false
+    
     var body: some View {
-        Text("User Profile !")
+        NavigationStack {
+            Form {
+                Section {
+                    Text(supabaseClient.auth.currentSession?.user.email ?? "No email")
+                }
+            }
+            .navigationTitle("Profile")
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarLeading){
+                    Button("Sign out", role: .destructive) {
+                        Task {
+                            try? await supabaseClient.auth.signOut()
+                        }
+                    }
+                }
+            })
+        }
     }
 }
 
