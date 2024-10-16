@@ -107,14 +107,16 @@ struct Profile: View {
                         }
                     }
                     
-                    Button(action: {
-                        navigateToOnlineSupport = true
-                    }) {
-                        HStack {
-                            Image(systemName: "person.crop.circle")
-                                .font(.system(size: 20))
-                                .foregroundColor(.orange)
-                            Text("Online Support")
+                    NavigationLink(destination: ContactUs(), isActive: $navigateToOnlineSupport) {
+                        Button(action: {
+                            navigateToOnlineSupport = true
+                        }) {
+                            HStack {
+                                Image(systemName: "person.crop.circle")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.orange)
+                                Text("Online Support")
+                            }
                         }
                     }
                     
