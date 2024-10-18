@@ -16,15 +16,9 @@ struct ContactUs: View {
       let contactEmail = "support@blissflowers.com"
       
       var body: some View {
-          NavigationView {
+          ScrollView {
               VStack(alignment: .leading, spacing: 20) {
-                  
-                  Text("Contact Us")
-                      .font(.largeTitle)
-                      .fontWeight(.bold)
-                      .padding(.bottom, 20)
-                  
-                  // Name Input Field
+            
                   TextField("Your Name", text: $name)
                       .padding()
                       .background(Color(.systemGray6))
@@ -50,7 +44,7 @@ struct ContactUs: View {
                   
                   // Submit Button
                   Button(action: {
-                      // Handle send message action here
+                      // Handle send message
                       print("Message sent: \(name), \(email), \(message)")
                   }) {
                       Text("Send Message")
@@ -101,8 +95,11 @@ struct ContactUs: View {
                           
                           HStack(spacing: 20) {
                               Image(systemName: "phone.fill")
+                                  .foregroundColor(.green)
                               Image(systemName: "envelope.fill")
+                                  .foregroundColor(.orange)
                               Image(systemName: "globe")
+                                  .foregroundColor(.gray)
                           }
                           .font(.largeTitle)
                           .foregroundColor(.blue)
@@ -112,8 +109,8 @@ struct ContactUs: View {
                   .padding(.top, 10)
                   
               }
-              .padding(.top, 40)
-              .navigationBarTitle("Contact Us", displayMode: .inline)
+             // .padding()
+              .navigationBarTitle("Contact Us")
           }
       }
 }
