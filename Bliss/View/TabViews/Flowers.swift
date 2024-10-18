@@ -18,7 +18,7 @@ struct Flowers: View {
                 VStack(alignment: .leading, spacing: 20) {
                     if !selectedLocationTitle.isEmpty{
                         Text("Delivery Address: " + selectedLocationTitle)
-                            .font(.title)
+                            .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
                     }else {

@@ -9,41 +9,38 @@ import SwiftUI
 
 struct Home: View {
     @State private var showLocationSearchView = false
+    @State var selectedLocationTitle: String
+    @State private var showAddAddress = false
+    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     var body: some View {
-        
-     //   Base view
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
                     VStack(alignment: .leading, spacing: 20) {
-//                        Text("Good Morning")
-//                            .font(.title)
-                        
-//                        if showLocationSearchView {
-//                            LocationSearchView(locationSearchView: $showLocationSearchView, showLoactionSearchView: $showLocationSearchView)
-//                                } else {
-//                                    LocationSearchActivation()
-//                                        .onTapGesture {
-//                                            withAnimation(.spring()){
-//                                                showLocationSearchView.toggle()
-//                                            }
-//                                        }
-//                                }
-                        NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home")) {
-//                                               LocationSearchActivation()
+                        if !selectedLocationTitle.isEmpty{
+                            Text("Delivery Address: " + selectedLocationTitle)
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundColor(.blue)
+                                .lineLimit(1)
+                        }else { NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home"), isActive: $showAddAddress) {
+                            //                                               LocationSearchActivation()
                             HStack{
                                 Image(systemName: "plus")
-                                    //.fill(Color.black)
+                                //.fill(Color.black)
                                     .frame(width: 8, height: 8)
                                     .foregroundColor(Color(.darkGray))
                                     .padding(.horizontal)
                                 Text("Add Location")
                                     .foregroundColor(Color(.darkGray))
-                                
+                                    .onTapGesture {
+                                        showAddAddress = true
+                                    }
                                 Spacer()
+                                
                             }
                             .frame(width: UIScreen.main.bounds.width - 20, height: 50)
-                                           }
-                    
+                           }
+                        }
                         HStack {
                             CustomCrousel(content: [
                                                     Image("flower6")
@@ -70,6 +67,11 @@ struct Home: View {
                         
                     }
                     .padding()
+                    .onAppear {
+                        if let location = locationViewModel.selectedUserLocation {
+                            selectedLocationTitle = location.title
+                        }
+                    }
             }
           .navigationTitle("Home")
           //.navigationBarBackButtonHidden(true)
@@ -109,5 +111,5 @@ struct Home: View {
 }
 
 #Preview {
-    Home()
+    Home(selectedLocationTitle: "")
 }

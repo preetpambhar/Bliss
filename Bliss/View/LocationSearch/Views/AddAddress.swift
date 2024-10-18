@@ -92,7 +92,7 @@ struct AddAddress: View {
                 .navigationTitle("Add Address")
             }
             
-            NavigationLink(destination: Home() .navigationBarBackButtonHidden(true), isActive: $navigateToHome) {
+            NavigationLink(destination: Home(selectedLocationTitle: "") .navigationBarBackButtonHidden(true), isActive: $navigateToHome) {
                 EmptyView()
             }
             NavigationLink(destination: Flowers( selectedLocationTitle: "") .navigationBarBackButtonHidden(true), isActive: $navigateToProduct) {
