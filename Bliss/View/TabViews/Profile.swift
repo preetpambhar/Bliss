@@ -16,9 +16,10 @@ struct Profile: View {
     @State private var navigateToRemindMe = false
     @State private var navigateToOnlineSupport = false
     @State private var navigateToSettings = false
+    @State private var isLoading = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
                 
                 VStack(spacing: 10) {
@@ -136,7 +137,16 @@ struct Profile: View {
                 Spacer()
             }
             .padding(20)
-        .navigationBarTitle("Profile")
+            .navigationTitle("Profile")
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarLeading){
+                    Button("Sign out", role: .destructive) {
+                        Task {
+                            try? await supabaseClient.auth.signOut()
+                        }
+                    }
+                }
+            })
         }
     }
 }
