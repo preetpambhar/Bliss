@@ -15,6 +15,7 @@ struct LocationSearchActivation: View {
             Image(systemName: "magnifyingglass")
                 .frame(width: 8, height: 8)
                 .padding(.horizontal)
+                .foregroundColor(Color(.darkGray))
             Text("Search delivery address")
                 .foregroundColor(Color(.darkGray))
             
@@ -24,8 +25,7 @@ struct LocationSearchActivation: View {
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.white)
-                .shadow(color: .black, radius: 6)
-
+                .shadow(color: .black, radius: 5)
         )
     }
 }

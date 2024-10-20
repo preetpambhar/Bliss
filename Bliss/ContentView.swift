@@ -13,15 +13,17 @@ struct ContentView: View {
     
     @AppStorage("isFirstTime") private var isfirsttime : Bool = true
     @State private var activeTab: Tab = .home
+    @State private var isAddAddressActive = false
+    
     var body: some View {
         Group {
           if isAuthenticated {
               TabView(selection: $activeTab){
-                  Home()
+                  Home(selectedLocationTitle: "")
                       .tag(Tab.home)
                       .tabItem { Tab.home.tabContent }
                   
-                  Flowers()
+                  Flowers(selectedLocationTitle: "")
                       .tag(Tab.flowers)
                       .tabItem { Tab.flowers.tabContent }
                   

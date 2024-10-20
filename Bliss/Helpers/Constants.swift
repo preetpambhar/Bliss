@@ -8,3 +8,4 @@
 import SwiftUI
  
 let appTint: Color = .blue
+let themeColor: Color = .pink
