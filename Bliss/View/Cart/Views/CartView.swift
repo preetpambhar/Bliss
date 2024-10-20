@@ -12,15 +12,32 @@ struct CartView: View {
     let cartItems: [CartModel] = [CartModel.dummy, CartModel.dummy1]
     var body: some View {
         NavigationStack {
-            ScrollView{
-                //cart.isEmpty ? emptyView() : cartView()
-                if cart.price == 0 {
-                    emptyView()
-                } else  {
-                    cartView()
+            VStack {
+                ScrollView{
+                    //cart.isEmpty ? emptyView() : cartView()
+                    if cart.price == 0 {
+                        emptyView()
+                    } else  {
+                        cartView()
+                           // .padding(.bottom, 80)
+                        Spacer()
+                        HStack (alignment: .bottom){
+                            Button(action: {
+                                
+                            }) {
+                                Text("Continue Payment")
+                                    .fontWeight(.bold)
+                                    .frame(width: UIScreen.main.bounds.width - 50)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                        }
+                    }
                 }
+                .navigationTitle("Cart")
             }
-            .navigationTitle("Cart")
         }
     }
     
@@ -41,15 +58,15 @@ struct CartView: View {
                     AsyncImageView(imageURL: item.image)
 //                        .resizable()
                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 75, height: 75)
+                       .frame(width: 75, height: 75)
                         .cornerRadius(15)
                         .clipped()
                     
                     VStack(alignment: .leading) {
                         Text("Product \(item.title)")
-                            .font(.title)
-                        Text("price: \(item.price.currencyFormat())")
                             .font(.title2)
+                        Text("price: \(item.price.currencyFormat())")
+                            .font(.title3)
                 }
                     Spacer()
             }
