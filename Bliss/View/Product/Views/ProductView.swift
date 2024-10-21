@@ -17,7 +17,6 @@ struct ProductView: View {
                     //Destination, which can navigate
                     ProductDetailsView(product: product)
                 } label: {
-                    
                     //UI Tabel row
                     ProductRowView(product: product)
                 }
