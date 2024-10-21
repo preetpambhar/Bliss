@@ -34,6 +34,7 @@
 		19C714B82CB106BA004ED216 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B72CB106BA004ED216 /* SearchView.swift */; };
 		19C714BA2CB1E14C004ED216 /* AddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714B92CB1E14B004ED216 /* AddressViewModel.swift */; };
 		19C714BC2CB265E4004ED216 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714BB2CB265E4004ED216 /* UserLocation.swift */; };
+<<<<<<< HEAD
 		19C714BF2CB8E270004ED216 /* ProductRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714BE2CB8E270004ED216 /* ProductRowView.swift */; };
 		19C714C32CB8E39F004ED216 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714C22CB8E39F004ED216 /* Product.swift */; };
 		19C714C52CB8E3F6004ED216 /* Double+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714C42CB8E3F6004ED216 /* Double+Extention.swift */; };
@@ -46,6 +47,11 @@
 		19C714D62CB9B018004ED216 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714D52CB9B018004ED216 /* CartModel.swift */; };
 		19C714DC2CBCEE70004ED216 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714DB2CBCEE70004ED216 /* OrderView.swift */; };
 		19C714DE2CBF6B5B004ED216 /* ContactUs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C714DD2CBF6B5B004ED216 /* ContactUs.swift */; };
+=======
+		813D26572CB4D8CA0027CA3A /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 813D26562CB4D8CA0027CA3A /* Supabase */; };
+		813D265E2CB4DA580027CA3A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813D265D2CB4DA530027CA3A /* LoginView.swift */; };
+		813D26602CB4DAD60027CA3A /* SupabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813D265F2CB4DAD20027CA3A /* SupabaseClient.swift */; };
+>>>>>>> main
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +84,7 @@
 		19C714B72CB106BA004ED216 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		19C714B92CB1E14B004ED216 /* AddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressViewModel.swift; sourceTree = "<group>"; };
 		19C714BB2CB265E4004ED216 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		19C714BE2CB8E270004ED216 /* ProductRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRowView.swift; sourceTree = "<group>"; };
 		19C714C22CB8E39F004ED216 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		19C714C42CB8E3F6004ED216 /* Double+Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extention.swift"; sourceTree = "<group>"; };
@@ -90,13 +97,22 @@
 		19C714D52CB9B018004ED216 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
 		19C714DB2CBCEE70004ED216 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		19C714DD2CBF6B5B004ED216 /* ContactUs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUs.swift; sourceTree = "<group>"; };
+=======
+		813D265D2CB4DA530027CA3A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		813D265F2CB4DAD20027CA3A /* SupabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClient.swift; sourceTree = "<group>"; };
+>>>>>>> main
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		814F801C2CBE1562005B75E3 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		19C714622CA2693E004ED216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				813D26572CB4D8CA0027CA3A /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +138,8 @@
 		19C714672CA2693E004ED216 /* Bliss */ = {
 			isa = PBXGroup;
 			children = (
+				814F801C2CBE1562005B75E3 /* ViewModels */,
+				813D26582CB4D8E30027CA3A /* Services */,
 				19C714AA2CAE6C62004ED216 /* App */,
 				19C714872CA67919004ED216 /* Model */,
 				19C714812CA5120C004ED216 /* Helpers */,
@@ -148,9 +166,13 @@
 		19C7147B2CA2731B004ED216 /* View */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				19C714D72CBCEE18004ED216 /* Profile */,
 				19C714D02CB9AF69004ED216 /* Cart */,
 				19C714BD2CB8E24D004ED216 /* Product */,
+=======
+				813D265C2CB4DA480027CA3A /* AuthViews */,
+>>>>>>> main
 				19C714AD2CAE709A004ED216 /* AddLocation */,
 				19C7149D2CADE476004ED216 /* LocationSearch */,
 				19C714842CA6789F004ED216 /* TabViews */,
@@ -248,6 +270,7 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
 		19C714BD2CB8E24D004ED216 /* Product */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,6 +339,22 @@
 				19C714DD2CBF6B5B004ED216 /* ContactUs.swift */,
 			);
 			path = Views;
+=======
+		813D26582CB4D8E30027CA3A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				813D265F2CB4DAD20027CA3A /* SupabaseClient.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		813D265C2CB4DA480027CA3A /* AuthViews */ = {
+			isa = PBXGroup;
+			children = (
+				813D265D2CB4DA530027CA3A /* LoginView.swift */,
+			);
+			path = AuthViews;
+>>>>>>> main
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,6 +371,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				814F801C2CBE1562005B75E3 /* ViewModels */,
 			);
 			name = Bliss;
 			productName = Bliss;
@@ -362,6 +404,9 @@
 				Base,
 			);
 			mainGroup = 19C7145C2CA2693E004ED216;
+			packageReferences = (
+				813D26552CB4D8CA0027CA3A /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			productRefGroup = 19C714662CA2693E004ED216 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -417,13 +462,18 @@
 				19C714C32CB8E39F004ED216 /* Product.swift in Sources */,
 				19C714C92CB8E6EC004ED216 /* AsyncImageView.swift in Sources */,
 				19C714892CA67927004ED216 /* Tab.swift in Sources */,
+				813D265E2CB4DA580027CA3A /* LoginView.swift in Sources */,
 				19C714862CA678CD004ED216 /* Home.swift in Sources */,
 				19C714DE2CBF6B5B004ED216 /* ContactUs.swift in Sources */,
 				19C714B62CB0FACE004ED216 /* AddAddress.swift in Sources */,
 				19C7148D2CA67CE3004ED216 /* Cart.swift in Sources */,
 				19C7147D2CA27359004ED216 /* SplashScreen.swift in Sources */,
+<<<<<<< HEAD
 				19C714DC2CBCEE70004ED216 /* OrderView.swift in Sources */,
 				19C714CD2CB8EB5D004ED216 /* ProductViewModel.swift in Sources */,
+=======
+				813D26602CB4DAD60027CA3A /* SupabaseClient.swift in Sources */,
+>>>>>>> main
 				19C714A92CAE5110004ED216 /* LocationSearchViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -558,7 +608,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Bliss/Preview Content\"";
-				DEVELOPMENT_TEAM = PSWHLPCFB2;
+				DEVELOPMENT_TEAM = R6RNM6PUQ6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bliss/Info.plist;
@@ -588,7 +638,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Bliss/Preview Content\"";
-				DEVELOPMENT_TEAM = PSWHLPCFB2;
+				DEVELOPMENT_TEAM = R6RNM6PUQ6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bliss/Info.plist;
@@ -632,6 +682,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		813D26552CB4D8CA0027CA3A /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		813D26562CB4D8CA0027CA3A /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 813D26552CB4D8CA0027CA3A /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		19C714732CA26940004ED216 /* Bliss.xcdatamodeld */ = {
