@@ -10,33 +10,71 @@ import SwiftUI
 struct CartView: View {
     var cart: CartModel = CartModel.dummy
     let cartItems: [CartModel] = [CartModel.dummy, CartModel.dummy1]
+    @EnvironmentObject var cartManager: CartManager
+   // var product: Product
     var body: some View {
-        NavigationStack {
-            VStack {
-                ScrollView{
-                    //cart.isEmpty ? emptyView() : cartView()
-                    if cart.price == 0 {
-                        emptyView()
-                    } else  {
-                        cartView()
-                           // .padding(.bottom, 80)
-                        Spacer()
-                        HStack (alignment: .bottom){
-                            Button(action: {
-                                
-                            }) {
-                                Text("Continue Payment")
-                                    .fontWeight(.bold)
-                                    .frame(width: UIScreen.main.bounds.width - 50)
-                                    .padding()
-                                    .background(Color.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(10)
-                            }
-                        }
+//        NavigationStack {
+//            VStack {
+//                ScrollView{
+//                    //cart.isEmpty ? emptyView() : cartView()
+//                    if cart.price == 0 {
+//                        emptyView()
+//                    } else  {
+//                        cartView()
+////                        productRow()
+////                            .padding(.horizontal)
+////                            .frame(maxWidth: .infinity, alignment: .leading)
+//                           // .padding(.bottom, 80)
+//                        Spacer()
+//                        HStack (alignment: .bottom){
+//                            Button(action: {
+//                                
+//                            }) {
+//                                Text("Continue Payment")
+//                                    .fontWeight(.bold)
+//                                    .frame(width: UIScreen.main.bounds.width - 50)
+//                                    .padding()
+//                                    .background(Color.blue)
+//                                    .foregroundColor(.white)
+//                                    .cornerRadius(10)
+//                            }
+//                        }
+//                    }
+//                }
+//                .navigationTitle("Cart")
+//            }
+//        }
+        
+        ScrollView{
+            if cartManager.paymentSuccess{
+                Text("Thanks for your purchase! You will get super cool car toy soon! You'll also recive an email confirmation shortly.")
+                    .padding()
+            }else{
+                if cartManager.products.count > 0{
+                    ForEach(cartManager.products, id: \.id){product in
+                        CartRowView(product: product)
                     }
+                    
+                    HStack{
+                        Text("You cart total is")
+                        Spacer()
+                        Text("$\(cartManager.total).00")
+                            .bold()
+                    }
+                    .padding()
+                    PaymentButton(action: cartManager.pay)
+                        .padding()
+                    
+                }else{
+                    Text("Your cart is empty")
                 }
-                .navigationTitle("Cart")
+            }
+        }
+        .navigationTitle("My Cart")
+        .padding(.top)
+        .onDisappear{
+            if cartManager.paymentSuccess{
+                cartManager.paymentSuccess = false
             }
         }
     }
@@ -50,7 +88,35 @@ struct CartView: View {
             .foregroundColor(.gray)
     }
 
-    
+//    @ViewBuilder
+//    func productRow()-> some View{
+//        @EnvironmentObject var cartManager: CartManager
+//        var product: Product
+//        
+//            HStack(spacing: 20){
+//                Image(product.image)
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 50)
+//                    .cornerRadius(10)
+//                
+//                VStack(alignment: .leading, spacing:10){
+//                    Text(product.title)
+//                        .bold()
+//                    Text("\(product.price)$")
+//                        .font(.caption)
+//                }
+//                Spacer()
+//                
+//                Image(systemName: "trash")
+//                    .foregroundColor(.red)
+//                    .onTapGesture {
+//                        cartManager.removeFromCart(product: product)
+//                    }
+//            }
+//            .padding(.horizontal)
+//            .frame(maxWidth: .infinity, alignment: .leading)
+//      }
     @ViewBuilder
     func cartView() -> some View{
             ForEach(cartItems) { item in
@@ -77,4 +143,5 @@ struct CartView: View {
 
 #Preview {
     CartView()
+        .environmentObject(CartManager())
 }
