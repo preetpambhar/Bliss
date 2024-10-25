@@ -213,10 +213,10 @@ struct ProductDetailsView: View {
                                 .fill(
                                     LinearGradient(
                                         gradient: Gradient(stops: [
-                                            Gradient.Stop(color: .indigo, location: 0.30),
-                                            Gradient.Stop(color: .indigo, location: 0.1),
-                                            Gradient.Stop(color: Color(UIColor.darkGray), location: 0.1),
-                                            Gradient.Stop(color: Color(UIColor.darkGray), location: 0.5)
+                                            Gradient.Stop(color: .indigo, location: 0.0),
+                                            Gradient.Stop(color: .indigo, location: 0.3),
+                                            Gradient.Stop(color: Color(UIColor.darkGray), location: 0.3),
+                                            Gradient.Stop(color: Color(UIColor.darkGray), location: 1.0)
                                         ]),
                                         startPoint: .leading,
                                         endPoint: .trailing
