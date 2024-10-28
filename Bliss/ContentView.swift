@@ -31,7 +31,7 @@ struct ContentView: View {
                       .tag(Tab.cart)
                       .tabItem { Tab.cart.tabContent }
                   
-                  Profile()
+                  ProductView()
                       .tag(Tab.profile)
                       .tabItem { Tab.profile.tabContent }
               }
