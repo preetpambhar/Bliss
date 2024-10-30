@@ -30,7 +30,7 @@ struct Home: View {
                                     .frame(width: 8, height: 8)
                                     .foregroundColor(Color(.darkGray))
                                     .padding(.horizontal)
-                                Text("Add Location")
+                                Text("Add Delivery Location")
                                     .foregroundColor(Color(.darkGray))
                                     .onTapGesture {
                                         showAddAddress = true
@@ -74,6 +74,18 @@ struct Home: View {
                     }
             }
           .navigationTitle("Home")
+          .toolbar{
+              NavigationLink{
+                  AIChatBotView()
+              } label: {
+                  VStack {
+                      Image(systemName: "sparkles.tv")
+                          .foregroundStyle(.gray)
+                      Text("Bliss Bot")
+                          .foregroundStyle(.gray)
+                  }
+              }
+          }
           //.navigationBarBackButtonHidden(true)
         }
     }
