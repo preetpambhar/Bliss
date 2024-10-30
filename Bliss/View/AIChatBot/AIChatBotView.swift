@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-//import GoogleGenerativeAI
+import GoogleGenerativeAI
 
 struct AIChatBotView: View {
-//    let model = GenerativeModel(name: "gemini-pro", apiKey: APIKey.default)
+    let model = GenerativeModel(name: "gemini-pro", apiKey: APIKey.default)
     
     @State var userPrompt = ""
     @State var response: LocalizedStringKey = "How can i help you today?"
@@ -51,16 +51,16 @@ struct AIChatBotView: View {
         loding = true
         response = ""
         
-//        Task {
-//            do {
-//                let result = try await model.generateContent(userPrompt)
-//                loding = false
-//                response = LocalizedStringKey(result.text ?? "No Response Found")
-//                userPrompt = ""
-//            }catch {
-//                response = "Something Went Wrong\n\(error.localizedDescription)"
-//            }
-//        }
+        Task {
+            do {
+                let result = try await model.generateContent(userPrompt)
+                loding = false
+                response = LocalizedStringKey(result.text ?? "No Response Found")
+                userPrompt = ""
+            }catch {
+                response = "Something Went Wrong\n\(error.localizedDescription)"
+            }
+        }
     }
 }
 
