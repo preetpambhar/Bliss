@@ -90,25 +90,20 @@ struct Home: View {
                     bouquetViewModel.loadBouquets()
                 }
             }
-            .navigationTitle("Home")
-            .toolbar{
-                NavigationLink{
-                    AIChatBotView()
-                } label: {
-                    VStack {
-                        Image(systemName: "sparkles.tv")
-                            .foregroundStyle(.gray)
-                        Text("Bliss Bot")
-                            .foregroundStyle(.gray)
-                    }
-                }
-            }
-        }
-        .alert("Error", isPresented: Binding(
-            get: { bouquetViewModel.error != nil },
-            set: { if !$0 { bouquetViewModel.error = nil } }
-        )) {
-            Text(bouquetViewModel.error?.localizedDescription ?? "Unknown error")
+          .navigationTitle("Home")
+          .toolbar{
+              NavigationLink{
+                  AIChatBotView()
+              } label: {
+                  VStack {
+                      Image(systemName: "sparkles.tv")
+                          .foregroundStyle(.gray)
+                      Text("Bliss Bot")
+                          .foregroundStyle(.gray)
+                  }
+              }
+          }
+          //.navigationBarBackButtonHidden(true)
         }
     }
 }
