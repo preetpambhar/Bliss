@@ -24,30 +24,31 @@ struct Home: View {
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
                             .lineLimit(1)
-                    } else {
-                        NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home"), isActive: $showAddAddress) {
-                            HStack{
-                                Image(systemName: "plus")
-                                    .frame(width: 8, height: 8)
-                                    .foregroundColor(Color(.darkGray))
-                                    .padding(.horizontal)
-                                Text("Add Delivery Location")
-                                    .foregroundColor(Color(.darkGray))
-                                    .onTapGesture {
-                                        showAddAddress = true
-                                    }
-                                Spacer()
-                            }
-                            .frame(width: UIScreen.main.bounds.width - 20, height: 50)
+                    }else { NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home"), isActive: $showAddAddress) {
+                        //   LocationSearchActivation()
+                        HStack{
+                            Image(systemName: "plus")
+                            //.fill(Color.black)
+                                .frame(width: 8, height: 8)
+                                .foregroundColor(Color(.darkGray))
+                                .padding(.horizontal)
+                            Text("Add Delivery Location")
+                                .foregroundColor(Color(.darkGray))
+                                .onTapGesture {
+                                    showAddAddress = true
+                                }
+                            Spacer()
+                            
                         }
+                        .frame(width: UIScreen.main.bounds.width - 20, height: 50)
                     }
-                    
+                    }
                     HStack {
                         CustomCrousel(content: [
                             Image("flower6")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .cornerRadius(15),
+                                .cornerRadius(15) ,
                             Image("flower1")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
@@ -59,27 +60,11 @@ struct Home: View {
                         ])
                         .frame(height: 200)
                     }
-                    
-                    if bouquetViewModel.isLoading {
-                        ProgressView()
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                    } else {
-                        VStack(spacing: 10) {
-                            CategoryView(image: "bouquet1", text: "Seasonal Bouquets", destination: ProductView())
-                            
-                            ForEach(bouquetViewModel.bouquets.filter { $0.status == "active" }, id: \.id) { bouquet in
-                                CategoryView(
-                                    image: bouquet.imageUrl,
-                                    text: bouquet.name,
-                                    destination: BouquetDetailView(bouquet: bouquet)
-                                )
-                            }
-                            
-                            CategoryView(image: "bouquet2", text: "Birthday Bouquets", destination: BirthdayBouquetsView())
-                            CategoryView(image: "weddingflower1", text: "Romantic Bouquets", destination: RomanticBouquetsView())
-                            CategoryView(image: "weddingflower4", text: "Sympathy and Funeral Bouquets", destination: SympathyBouquetsView())
-                        }
+                    VStack(spacing: 10) {
+                        CategoryView(image: "bouquet1", text: "Seasonal Bouquets", destination: ProductView())
+                        CategoryView(image: "bouquet2", text: "Birthday Bouquets", destination: BirthdayBouquetsView())
+                        CategoryView(image: "weddingflower1", text: "Romantic Bouquets", destination: RomanticBouquetsView())
+                        CategoryView(image: "weddingflower4", text: "Sympathy and Funeral Bouquets", destination: SympathyBouquetsView())
                     }
                 }
                 .padding()
@@ -90,20 +75,20 @@ struct Home: View {
                     bouquetViewModel.loadBouquets()
                 }
             }
-          .navigationTitle("Home")
-          .toolbar{
-              NavigationLink{
-                  AIChatBotView()
-              } label: {
-                  VStack {
-                      Image(systemName: "sparkles.tv")
-                          .foregroundStyle(.gray)
-                      Text("Bliss Bot")
-                          .foregroundStyle(.gray)
-                  }
-              }
-          }
-          //.navigationBarBackButtonHidden(true)
+            .navigationTitle("Home")
+            .toolbar{
+                NavigationLink{
+                    AIChatBotView()
+                } label: {
+                    VStack {
+                        Image(systemName: "sparkles.tv")
+                            .foregroundStyle(.gray)
+                        Text("Bliss Bot")
+                            .foregroundStyle(.gray)
+                    }
+                }
+            }
+            //.navigationBarBackButtonHidden(true)
         }
     }
 }
