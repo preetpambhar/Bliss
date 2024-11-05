@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19F6A9AA2CD2BE9200276504 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 19F6A9A92CD2BE9200276504 /* GoogleGenerativeAI */; };
 		81A9911C2CC6DA0F0016D456 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 81A9911B2CC6DA0F0016D456 /* Supabase */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81A9911C2CC6DA0F0016D456 /* Supabase in Frameworks */,
+				19F6A9AA2CD2BE9200276504 /* GoogleGenerativeAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,7 @@
 			name = Bliss;
 			packageProductDependencies = (
 				81A9911B2CC6DA0F0016D456 /* Supabase */,
+				19F6A9A92CD2BE9200276504 /* GoogleGenerativeAI */,
 			);
 			productName = Bliss;
 			productReference = 81A990882CC6D8260016D456 /* Bliss.app */;
@@ -203,6 +206,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				81A9911A2CC6DA0F0016D456 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				19F6A92A2CD2BA8000276504 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 81A990892CC6D8260016D456 /* Products */;
@@ -569,6 +573,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		19F6A92A2CD2BA8000276504 /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-gemini/generative-ai-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
 		81A9911A2CC6DA0F0016D456 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift";
@@ -580,6 +592,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		19F6A9A92CD2BE9200276504 /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19F6A92A2CD2BA8000276504 /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
+		};
 		81A9911B2CC6DA0F0016D456 /* Supabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81A9911A2CC6DA0F0016D456 /* XCRemoteSwiftPackageReference "supabase-swift" */;
