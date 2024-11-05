@@ -12,6 +12,8 @@ struct Home: View {
     @State var selectedLocationTitle: String
     @State private var showAddAddress = false
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
+    @StateObject private var bouquetViewModel = BouquetViewModel(client: supabaseClient)
+    
     var body: some View {
         NavigationView{
             ScrollView(.vertical, showsIndicators: false){
@@ -22,31 +24,30 @@ struct Home: View {
                             .fontWeight(.bold)
                             .foregroundColor(.blue)
                             .lineLimit(1)
-                    }else { NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home"), isActive: $showAddAddress) {
-                        //   LocationSearchActivation()
-                        HStack{
-                            Image(systemName: "plus")
-                            //.fill(Color.black)
-                                .frame(width: 8, height: 8)
-                                .foregroundColor(Color(.darkGray))
-                                .padding(.horizontal)
-                            Text("Add Delivery Location")
-                                .foregroundColor(Color(.darkGray))
-                                .onTapGesture {
-                                    showAddAddress = true
-                                }
-                            Spacer()
-                            
+                    } else {
+                        NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home"), isActive: $showAddAddress) {
+                            HStack{
+                                Image(systemName: "plus")
+                                    .frame(width: 8, height: 8)
+                                    .foregroundColor(Color(.darkGray))
+                                    .padding(.horizontal)
+                                Text("Add Delivery Location")
+                                    .foregroundColor(Color(.darkGray))
+                                    .onTapGesture {
+                                        showAddAddress = true
+                                    }
+                                Spacer()
+                            }
+                            .frame(width: UIScreen.main.bounds.width - 20, height: 50)
                         }
-                        .frame(width: UIScreen.main.bounds.width - 20, height: 50)
                     }
-                    }
+                    
                     HStack {
                         CustomCrousel(content: [
                             Image("flower6")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .cornerRadius(15) ,
+                                .cornerRadius(15),
                             Image("flower1")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
@@ -58,11 +59,27 @@ struct Home: View {
                         ])
                         .frame(height: 200)
                     }
-                    VStack(spacing: 10) {
-                        CategoryView(image: "bouquet1", text: "Seasonal Bouquets", destination: ProductView())
-                        CategoryView(image: "bouquet2", text: "Birthday Bouquets", destination: BirthdayBouquetsView())
-                        CategoryView(image: "weddingflower1", text: "Romantic Bouquets", destination: RomanticBouquetsView())
-                        CategoryView(image: "weddingflower4", text: "Sympathy and Funeral Bouquets", destination: SympathyBouquetsView())
+                    
+                    if bouquetViewModel.isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                    } else {
+                        VStack(spacing: 10) {
+                            CategoryView(image: "bouquet1", text: "Seasonal Bouquets", destination: ProductView())
+                            
+                            ForEach(bouquetViewModel.bouquets.filter { $0.status == "active" }, id: \.id) { bouquet in
+                                CategoryView(
+                                    image: bouquet.imageUrl,
+                                    text: bouquet.name,
+                                    destination: BouquetDetailView(bouquet: bouquet)
+                                )
+                            }
+                            
+                            CategoryView(image: "bouquet2", text: "Birthday Bouquets", destination: BirthdayBouquetsView())
+                            CategoryView(image: "weddingflower1", text: "Romantic Bouquets", destination: RomanticBouquetsView())
+                            CategoryView(image: "weddingflower4", text: "Sympathy and Funeral Bouquets", destination: SympathyBouquetsView())
+                        }
                     }
                 }
                 .padding()
@@ -70,6 +87,7 @@ struct Home: View {
                     if let location = locationViewModel.selectedUserLocation {
                         selectedLocationTitle = location.title
                     }
+                    bouquetViewModel.loadBouquets()
                 }
             }
             .navigationTitle("Home")
@@ -85,7 +103,12 @@ struct Home: View {
                     }
                 }
             }
-            //.navigationBarBackButtonHidden(true)
+        }
+        .alert("Error", isPresented: Binding(
+            get: { bouquetViewModel.error != nil },
+            set: { if !$0 { bouquetViewModel.error = nil } }
+        )) {
+            Text(bouquetViewModel.error?.localizedDescription ?? "Unknown error")
         }
     }
 }
@@ -95,60 +118,74 @@ struct CategoryView<Destination: View>: View {
     var text: String
     var themeColor: Color = .blue
     var destination: Destination
-       
-       @State private var isImageLoaded = false
-       @State private var isButtonPressed = false
-       
-       var body: some View {
-           NavigationLink(destination: destination) {
-           VStack(alignment: .center, spacing: 15) {
-               Image(image)
-                   .resizable()
-                   .aspectRatio(contentMode: .fill)
-                   .frame(height: 300)
-                   .cornerRadius(15)
-                   .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
-                   .scaleEffect(isImageLoaded ? 1.0 : 0.8)
-                   .opacity(isImageLoaded ? 1.0 : 0.0)
-                   .animation(.easeOut(duration: 0.5), value: isImageLoaded)
-                   .onAppear {
-                       isImageLoaded = true
-                   }
-               
-               Text(text)
-                   .font(.title2)
-                   .fontWeight(.semibold)
-                   .foregroundColor(.primary)
-                   .padding(.top, 8)
-                   .background(Color(.systemBackground).opacity(0.9))
-               
-              
-                   Text("Explore \(text)")
-                       .fontWeight(.bold)
-                       .padding()
-                       .frame(maxWidth: .infinity)
-                       .background(themeColor)
-                       .foregroundColor(.white)
-                       .cornerRadius(10)
-                       .scaleEffect(isButtonPressed ? 0.95 : 1.0)
-                       .shadow(color: themeColor.opacity(0.3), radius: 5, x: 0, y: 4)
-                       .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isButtonPressed)
-                   
-                       .padding(.horizontal, 20)
-               }
-               .padding(10)
-               .background(Color(.systemBackground).opacity(0.95))
-               .cornerRadius(15)
-               .overlay(
+    
+    @State private var isImageLoaded = false
+    @State private var isButtonPressed = false
+    
+    var body: some View {
+        NavigationLink(destination: destination) {
+            VStack(alignment: .center, spacing: 15) {
+                if image.hasPrefix("http") {
+                    AsyncImage(url: URL(string: image)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(height: 300)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(height: 300)
+                                .cornerRadius(15)
+                                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+                        case .failure:
+                            Image(systemName: "photo")
+                                .imageScale(.large)
+                                .frame(height: 300)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                } else {
+                    Image(image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 300)
+                        .cornerRadius(15)
+                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
+                }
+                
+                Text(text)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                    .padding(.top, 8)
+                    .background(Color(.systemBackground).opacity(0.9))
+                
+                Text("Explore \(text)")
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(themeColor)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .scaleEffect(isButtonPressed ? 0.95 : 1.0)
+                    .shadow(color: themeColor.opacity(0.3), radius: 5, x: 0, y: 4)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.5), value: isButtonPressed)
+                    .padding(.horizontal, 20)
+            }
+            .padding(10)
+            .background(Color(.systemBackground).opacity(0.95))
+            .cornerRadius(15)
+            .overlay(
                 RoundedRectangle(cornerRadius: 15)
                     .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-               )
-               .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 8)
-           }
-           .buttonStyle(.plain)
-       }
+            )
+            .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 8)
+        }
+        .buttonStyle(.plain)
+    }
 }
-
 // Placeholder Views for each category
 struct SeasonalBouquetsView: View {
     var body: some View {
