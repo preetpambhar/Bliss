@@ -11,12 +11,14 @@ import SwiftUI
 struct BlissApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject var locationViewModel = LocationSearchViewModel()
+    @StateObject var cartManager = CartManager()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(locationViewModel)
+                .environmentObject(cartManager)
         }
     }
 }

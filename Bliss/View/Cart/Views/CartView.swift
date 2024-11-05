@@ -11,6 +11,7 @@ struct CartView: View {
     var cart: CartModel = CartModel.dummy
     let cartItems: [CartModel] = [CartModel.dummy, CartModel.dummy1]
     @EnvironmentObject var cartManager: CartManager
+    @State private var animateTruck = false
    // var product: Product
     var body: some View {
 //        NavigationStack {
@@ -47,8 +48,28 @@ struct CartView: View {
         
         ScrollView{
             if cartManager.paymentSuccess{
-                Text("Thanks for your purchase! You will get super cool car toy soon! You'll also recive an email confirmation shortly.")
-                    .padding()
+                VStack{
+                    Image(systemName: "truck.box.badge.clock")
+                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 150, height: 150)
+                                        .foregroundColor(.blue)
+                                        .rotationEffect(.degrees(animateTruck ? 10 : -10), anchor: .center)
+                                        .offset(x: animateTruck ? 15 : -15)
+                                        .animation(
+                                            .easeInOut(duration: 0.5).repeatForever(autoreverses: true),
+                                            value: animateTruck
+                                        )
+                                        .onAppear {
+                                            animateTruck.toggle()
+                                        }
+                        
+                    
+                    Text("Thanks for your purchase! You will get super cool car toy soon! You'll also recive an email confirmation shortly.")
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .font(.headline)
+                }
             }else{
                 if cartManager.products.count > 0{
                     ForEach(cartManager.products, id: \.id){product in
@@ -67,6 +88,9 @@ struct CartView: View {
                     
                 }else{
                     Text("Your cart is empty")
+                        .font(.title)
+                        .padding()
+                        .foregroundColor(.gray)
                 }
             }
         }
