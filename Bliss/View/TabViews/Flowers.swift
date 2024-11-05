@@ -11,9 +11,17 @@ struct Flowers: View {
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @EnvironmentObject var viewModel : LocationSearchViewModel
     @State var selectedLocationTitle: String
-    @State private var showAddAddress = false 
+    @State private var showAddAddress = false
+    let viewmodel = ProductViewModel()
+    @State private var selectedProduct: Product? = nil // State to hold the selected product
+    @State private var navigate = false // State for manual navigation
+    
+    @State private var selectedCategory: String? = nil
+    @State private var showProductView = false
+    let categories = ["Roses", "Tulips", "Orchids", "Lilies", "Sunflowers"]
+    
     var body: some View {
-        NavigationView{
+        NavigationStack{
             ScrollView(.vertical, showsIndicators: false){
                 VStack(alignment: .leading, spacing: 20) {
                     if !selectedLocationTitle.isEmpty{
@@ -33,10 +41,66 @@ struct Flowers: View {
                                                }
                     }
                     //Text("Your Picked Address")
-           //         ProductView()
-                    ForEach(0..<4){_ in
-                        products()
+                    //ProductView()
+                    
+                    // Category sections
+                    ForEach(categories, id: \.self) { category in
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Text(category)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                Spacer()
+                                Button("View More") {
+                                    selectedCategory = category
+                                    showProductView = true
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                            }
+                            
+//                            ScrollView(.horizontal, showsIndicators: false) {
+//                                HStack(spacing: 15) {
+//                                    ForEach(viewmodel.product) { product in                                        ProductRowView(product: product)
+//                                            .frame(width: 150)
+//                                            .onTapGesture {
+//                                                selectedProduct = product
+//                                                navigate = true
+//                                            }
+//                                    }
+//                                }
+//                            }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                                           HStack(spacing: 15) {
+                                                               ForEach(0..<4) { _ in
+                                                                   VStack(alignment: .leading) {
+                                                                       Image("flower1") // Replace with actual product images
+                                                                           .resizable()
+                                                                           .aspectRatio(contentMode: .fill)
+                                                                           .frame(width: 142, height: 110)
+                                                                           .cornerRadius(15)
+                                                                           .clipped()
+                                                                       
+                                                                       Text("Flowers Flowers")
+                                                                           .font(.headline)
+                                                                       
+                                                                       Text("$22")
+                                                                           .font(.body)
+                                                                   }
+                                                                   .frame(width: 142) // Fix the width of each product card
+                                                                   .onTapGesture {
+                                                                       // Handle product selection here
+                                                                       // selectedProduct = product // Uncomment when you have product data
+                                                                       // navigate = true // Uncomment when you want to navigate
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                        }
+                        .padding(.vertical)
                     }
+                    
+                    
                 }
                 .onAppear {
                     if let location = locationViewModel.selectedUserLocation {
@@ -48,51 +112,11 @@ struct Flowers: View {
         }
         .navigationTitle("Flowers")
         .navigationBarTitleDisplayMode(.large)
-    }
-    
-    @ViewBuilder
-    func products() -> some View {
-       HStack(){
-           HStack (spacing: 20){
-               VStack(alignment:.leading) {
-                   Image("flower1")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 142, height: 110)
-                            .cornerRadius(15)
-                        .clipped()
-                        //.animation(.snappy)
-               }
-               VStack(alignment: .leading) {
-                   Text("Flowers Flowers ")
-                       .font(.headline)
-                   
-                   Text("Flowers")
-                       .font(.body)
-                   
-                   Text("Flowers")
-                       .font(.callout)
-                   HStack {
-                       ForEach(0..<4) {_ in
-                           Image(systemName: "star")
-                       }
-                       Text("4.5")
-                           .font(.title3)
-                   }
-                   HStack {
-                       Image(systemName: "info")
-                           .foregroundColor(.black)
-                           .background(.blue)
-                           
-                       
-                       Text("40 - 45 Min")
-                           .font(.callout)
-                   }
-               }
-           }
-           .frame(maxWidth: .infinity, alignment: .leading)
-        }
-       .padding(.top, 5)
+        .navigationDestination(isPresented: $navigate) {
+                        if let selectedProduct = selectedProduct {
+                            ProductDetailsView(product: selectedProduct) // Navigate to ProductDetailsView
+                        }
+                    }
     }
 }
 
