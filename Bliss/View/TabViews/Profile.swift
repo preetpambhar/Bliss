@@ -83,17 +83,19 @@ struct Profile: View {
                     }
                 }
                 
-
-                VStack(alignment: .leading, spacing: 20) {
-                    Button(action: {
-                        navigateToSavedBouquet = true
-                        print("Address view")
-                    }) {
-                        HStack {
-                            Image(systemName: "heart")
-                                .font(.system(size: 20))
-                                .foregroundColor(.blue)
-                            Text("Saved Bouquet")
+                
+                    VStack(alignment: .leading, spacing: 20) {
+                    NavigationLink(destination: SavedProduct(), isActive: $navigateToSavedBouquet) {
+                        Button(action: {
+                            navigateToSavedBouquet = true
+                            print("Address view")
+                        }) {
+                            HStack {
+                                Image(systemName: "heart")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.blue)
+                                Text("Saved Bouquet")
+                            }
                         }
                     }
                     
