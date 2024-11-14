@@ -99,16 +99,18 @@ struct Profile: View {
                         }
                     }
                     
-                    Button(action: {
-                        navigateToRemindMe = true
-                    }) {
-                        HStack {
-                            Image(systemName: "bell")
-                                .font(.system(size: 20))
-                                .foregroundColor(.purple)
-                            Text("Remind me")
+                        NavigationLink(destination: ReminderHomeView(), isActive: $navigateToRemindMe) {
+                            Button(action: {
+                                navigateToRemindMe = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "bell")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.purple)
+                                    Text("Remind me")
+                                }
+                            }
                         }
-                    }
                     
                     NavigationLink(destination: ContactUs(), isActive: $navigateToOnlineSupport) {
                         Button(action: {
