@@ -10,10 +10,10 @@ import SwiftUI
 struct AddLocation: View {
     var body: some View {
         VStack (){
-            MapViewRepresentable()
-                //.ignoresSafeArea()
-                .frame(width: UIScreen.main.bounds.width , height: 300)
-            Spacer()
+//            MapViewRepresentable()
+//                //.ignoresSafeArea()
+//                .frame(width: UIScreen.main.bounds.width , height: 300)
+//            Spacer()
         }
         .padding(.top, 10)
         .frame(alignment: .top)

@@ -8,159 +8,199 @@
 import SwiftUI
 
 struct CartView: View {
-    var cart: CartModel = CartModel.dummy
-    let cartItems: [CartModel] = [CartModel.dummy, CartModel.dummy1]
     @EnvironmentObject var cartManager: CartManager
     @State private var animateTruck = false
-   // var product: Product
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-//        NavigationStack {
-//            VStack {
-//                ScrollView{
-//                    //cart.isEmpty ? emptyView() : cartView()
-//                    if cart.price == 0 {
-//                        emptyView()
-//                    } else  {
-//                        cartView()
-////                        productRow()
-////                            .padding(.horizontal)
-////                            .frame(maxWidth: .infinity, alignment: .leading)
-//                           // .padding(.bottom, 80)
-//                        Spacer()
-//                        HStack (alignment: .bottom){
-//                            Button(action: {
-//                                
-//                            }) {
-//                                Text("Continue Payment")
-//                                    .fontWeight(.bold)
-//                                    .frame(width: UIScreen.main.bounds.width - 50)
-//                                    .padding()
-//                                    .background(Color.blue)
-//                                    .foregroundColor(.white)
-//                                    .cornerRadius(10)
-//                            }
-//                        }
-//                    }
-//                }
-//                .navigationTitle("Cart")
-//            }
-//        }
-        
-        ScrollView{
-            if cartManager.paymentSuccess{
-                VStack{
-                    Image(systemName: "truck.box.badge.clock")
-                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 150, height: 150)
-                                        .foregroundColor(.blue)
-                                        .rotationEffect(.degrees(animateTruck ? 10 : -10), anchor: .center)
-                                        .offset(x: animateTruck ? 15 : -15)
-                                        .animation(
-                                            .easeInOut(duration: 0.5).repeatForever(autoreverses: true),
-                                            value: animateTruck
-                                        )
-                                        .onAppear {
-                                            animateTruck.toggle()
-                                        }
-                        
-                    
-                    Text("Thanks for your purchase! You will get super cool car toy soon! You'll also recive an email confirmation shortly.")
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .font(.headline)
-                }
-            }else{
-                if cartManager.products.count > 0{
-                    ForEach(cartManager.products, id: \.id){product in
-                        CartRowView(product: product)
+        NavigationStack {
+            ZStack {
+                if cartManager.isLoading {
+                    LoadingView()
+                } else if cartManager.paymentSuccess {
+                    OrderSuccessView(animateTruck: $animateTruck)
+                } else if cartManager.cartItems.isEmpty {
+                    EmptyCartView()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // Cart Items
+                            VStack(spacing: 12) {
+                                ForEach(cartManager.cartItems) { item in
+                                    CartRowView(item: item)
+                                }
+                            }
+                            .padding(.horizontal)
+                            
+                            // Order Summary
+                            OrderSummaryCard(total: cartManager.total)
+                                .padding(.horizontal)
+                            
+                            // Checkout Button
+                            CheckoutButton(action: cartManager.pay)
+                                .padding(.horizontal)
+                                .padding(.top, 10)
+                        }
+                        .padding(.vertical)
                     }
-                    
-                    HStack{
-                        Text("You cart total is")
-                        Spacer()
-                        Text("$\(cartManager.total).00")
-                            .bold()
-                    }
-                    .padding()
-                    PaymentButton(action: cartManager.pay)
-                        .padding()
-                    
-                }else{
-                    Text("Your cart is empty")
-                        .font(.title)
-                        .padding()
-                        .foregroundColor(.gray)
                 }
             }
-        }
-        .navigationTitle("My Cart")
-        .padding(.top)
-        .onDisappear{
-            if cartManager.paymentSuccess{
-                cartManager.paymentSuccess = false
+            .navigationTitle("Cart")
+            .navigationBarTitleDisplayMode(.inline)
+            .alert("Error", isPresented: .constant(cartManager.error != nil)) {
+                Button("OK") { cartManager.error = nil }
+            } message: {
+                Text(cartManager.error?.localizedDescription ?? "")
             }
         }
     }
-    
-    
-    @ViewBuilder
-    func emptyView() -> some View{
-        Text("Your Cart Is Empty")
-            .font(.title)
-            .padding()
-            .foregroundColor(.gray)
-    }
+}
 
-//    @ViewBuilder
-//    func productRow()-> some View{
-//        @EnvironmentObject var cartManager: CartManager
-//        var product: Product
-//        
-//            HStack(spacing: 20){
-//                Image(product.image)
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 50)
-//                    .cornerRadius(10)
-//                
-//                VStack(alignment: .leading, spacing:10){
-//                    Text(product.title)
-//                        .bold()
-//                    Text("\(product.price)$")
-//                        .font(.caption)
-//                }
-//                Spacer()
-//                
-//                Image(systemName: "trash")
-//                    .foregroundColor(.red)
-//                    .onTapGesture {
-//                        cartManager.removeFromCart(product: product)
-//                    }
-//            }
-//            .padding(.horizontal)
-//            .frame(maxWidth: .infinity, alignment: .leading)
-//      }
-    @ViewBuilder
-    func cartView() -> some View{
-            ForEach(cartItems) { item in
-                HStack() {
-                    AsyncImageView(imageURL: item.image)
-//                        .resizable()
-                       .aspectRatio(contentMode: .fill)
-                       .frame(width: 75, height: 75)
-                        .cornerRadius(15)
-                        .clipped()
-                    
-                    VStack(alignment: .leading) {
-                        Text("Product \(item.title)")
-                            .font(.title2)
-                        Text("price: \(item.price.currencyFormat())")
-                            .font(.title3)
-                }
-                    Spacer()
+struct LoadingView: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            ProgressView()
+            Text("Loading your cart...")
+                .foregroundColor(.secondary)
+        }
+    }
+}
+
+struct EmptyCartView: View {
+    var body: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "cart")
+                .font(.system(size: 64))
+                .foregroundColor(.gray.opacity(0.7))
+            
+            Text("Your cart is empty")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            Text("Add some beautiful flowers or bouquets to get started")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+            
+            NavigationLink(destination: Home(selectedLocationTitle: "")) {
+                Text("Browse Bouquets")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .frame(height: 50)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .cornerRadius(12)
+                    .padding(.horizontal, 40)
             }
-             .padding()
+        }
+        .padding()
+    }
+}
+
+struct OrderSuccessView: View {
+    @Binding var animateTruck: Bool
+    
+    var body: some View {
+        VStack(spacing: 32) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 80))
+                .foregroundColor(.green)
+            
+            VStack(spacing: 16) {
+                Text("Thank you for your order!")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                
+                Text("Your beautiful flowers will be delivered soon")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
+            
+            DeliveryTruckAnimation(animate: $animateTruck)
+                .padding(.top, 20)
+        }
+        .padding()
+    }
+}
+
+struct DeliveryTruckAnimation: View {
+    @Binding var animate: Bool
+    
+    var body: some View {
+        Image(systemName: "box.truck.fill")
+            .font(.system(size: 48))
+            .foregroundColor(.blue)
+            .rotationEffect(.degrees(animate ? 5 : -5))
+            .offset(x: animate ? 10 : -10)
+            .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: animate)
+            .onAppear { animate = true }
+    }
+}
+
+struct OrderSummaryCard: View {
+    let total: Double
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("Order Summary")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Divider()
+            
+            HStack {
+                Text("Subtotal")
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("$\(total, specifier: "%.2f")")
+                    .fontWeight(.medium)
+            }
+            
+            HStack {
+                Text("Delivery")
+                    .foregroundColor(.secondary)
+                Spacer()
+                Text("Free")
+                    .fontWeight(.medium)
+                    .foregroundColor(.green)
+            }
+            
+            Divider()
+            
+            HStack {
+                Text("Total")
+                    .font(.headline)
+                Spacer()
+                Text("$\(total, specifier: "%.2f")")
+                    .font(.headline)
+                    .foregroundColor(.blue)
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+    }
+}
+
+struct CheckoutButton: View {
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Text("Proceed to Checkout")
+                    .font(.headline)
+                Image(systemName: "arrow.right")
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .foregroundColor(.white)
+            .background(Color.blue)
+            .cornerRadius(16)
         }
     }
 }

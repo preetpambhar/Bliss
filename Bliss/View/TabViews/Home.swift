@@ -8,16 +8,25 @@
 import SwiftUI
 
 struct Home: View {
+    @State private var searchText = ""
     @State private var showLocationSearchView = false
     @State var selectedLocationTitle: String
     @State private var showAddAddress = false
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @StateObject private var bouquetViewModel = BouquetViewModel(client: supabaseClient)
     
+    var filteredBouquets: [Bouquet] {
+        guard !searchText.isEmpty else { return bouquetViewModel.bouquets }
+        return bouquetViewModel.bouquets.filter { bouquet in
+            bouquet.name.localizedCaseInsensitiveContains(searchText) ||
+            bouquet.description?.localizedCaseInsensitiveContains(searchText) ?? false
+        }
+    }
+    
     var body: some View {
-        NavigationView{
-            ScrollView(.vertical, showsIndicators: false){
-                VStack(alignment: .leading, spacing: 20) {
+        NavigationView {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 24) {
                     if !selectedLocationTitle.isEmpty{
                         Text("Delivery Address: " + selectedLocationTitle)
                             .font(.title3)
@@ -43,31 +52,31 @@ struct Home: View {
                         .frame(width: UIScreen.main.bounds.width - 20, height: 50)
                     }
                     }
-                    HStack {
-                        CustomCrousel(content: [
-                            Image("flower6")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .cornerRadius(15) ,
-                            Image("flower1")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .cornerRadius(15),
-                            Image("flower3")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .cornerRadius(15)
-                        ])
-                        .frame(height: 200)
-                    }
-                    VStack(spacing: 10) {
-                        CategoryView(image: "bouquet1", text: "Seasonal Bouquets", destination: ProductView())
-                        CategoryView(image: "bouquet2", text: "Birthday Bouquets", destination: BirthdayBouquetsView())
-                        CategoryView(image: "weddingflower1", text: "Romantic Bouquets", destination: RomanticBouquetsView())
-                        CategoryView(image: "weddingflower4", text: "Sympathy and Funeral Bouquets", destination: SympathyBouquetsView())
+                    // CustomCrousel(content: [
+                    //     Image("flower6")
+                    //         .resizable()
+                    //         .aspectRatio(contentMode: .fill)
+                    //         .cornerRadius(15) ,
+                    //     Image("flower1")
+                    //         .resizable()
+                    //         .aspectRatio(contentMode: .fill)
+                    //         .cornerRadius(15),
+                    //     Image("flower3")
+                    //         .resizable()
+                    //         .aspectRatio(contentMode: .fill)
+                    //         .cornerRadius(15)
+                    // ])
+                    // .frame(height: 200)
+                    
+                    LazyVStack(spacing: 16) {
+                        ForEach(filteredBouquets, id: \.id) { bouquet in
+                            NavigationLink(destination: ProductDetailsView(bouquet: bouquet)) {
+                                BouquetCard(bouquet: bouquet)
+                            }
+                        }
                     }
                 }
-                .padding()
+                .padding(.horizontal)
                 .onAppear {
                     if let location = locationViewModel.selectedUserLocation {
                         selectedLocationTitle = location.title
@@ -75,20 +84,16 @@ struct Home: View {
                     bouquetViewModel.loadBouquets()
                 }
             }
-            .navigationTitle("Home")
-            .toolbar{
-                NavigationLink{
-                    AIChatBotView()
-                } label: {
-                    VStack {
-                        Image(systemName: "sparkles.tv")
-                            .foregroundStyle(.gray)
-                        Text("Bliss Bot")
-                            .foregroundStyle(.gray)
+            .navigationTitle("Bliss")
+            .searchable(text: $searchText, prompt: "Search bouquets...")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: AIChatBotView()) {
+                        Label("Bliss Assistant", systemImage: "wand.and.stars")
+                            .symbolRenderingMode(.multicolor)
                     }
                 }
             }
-            //.navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -196,6 +201,53 @@ struct SympathyBouquetsView: View {
         Text("Sympathy and Funeral Bouquets Page")
             .font(.largeTitle)
             .padding()
+    }
+}
+
+// New BouquetCard component
+struct BouquetCard: View {
+    let bouquet: Bouquet
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 200)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 200)
+                        .clipped()
+                case .failure:
+                    Image(systemName: "photo")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 200)
+                @unknown default:
+                    EmptyView()
+                }
+            }
+            .cornerRadius(8)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                Text(bouquet.name)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                
+                Text("$\(String(format: "%.2f", bouquet.price))")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding(.horizontal, 4)
+            .padding(.vertical, 8)
+        }
+        .background(Color(.systemBackground))
+        .cornerRadius(8)
+        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
     }
 }
 

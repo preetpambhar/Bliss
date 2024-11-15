@@ -10,12 +10,12 @@ struct ProductDetailsView: View {
     @State private var addOnQuantities: [UUID: Int] = [:] // Store quantity for each add-on
     @EnvironmentObject var cartManager: CartManager
     @State private var totalPrice: Double
-    let product: Product
+    let bouquet: Bouquet
     let gridItems = [GridItem(.flexible()), GridItem(.flexible())]
     
-    init(product: Product) {
-           self.product = product
-           self._totalPrice = State(initialValue: product.price) // Initialize total price with product price
+    init(bouquet: Bouquet) {
+           self.bouquet = bouquet
+           self._totalPrice = State(initialValue: bouquet.price) // Initialize total price with bouquet price
      }
     
     var body: some View {
@@ -23,23 +23,39 @@ struct ProductDetailsView: View {
             VStack {
                 ScrollView {
                     VStack(spacing: 16) {
-                        AsyncImageView(imageURL: product.image)
-                            .scaledToFit()
-                            .frame(height: 300)
+                        AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                                    .frame(height: 300)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 300)
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .frame(height: 300)
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
                         
-                        Text(product.title)
+                        Text(bouquet.name)
                             .font(.headline)
                         
-                        Text(product.description)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                        if let description = bouquet.description {
+                            Text(description)
+                                .font(.footnote)
+                                .foregroundStyle(.secondary)
+                        }
                         
                         // Rating section
                         HStack {
                             HStack {
                                 Image(systemName: "star.fill")
                                     .foregroundColor(.yellow)
-                                Text("\(product.rating.rate.toString()) Rating")
+                                Text("4.5 Rating") // Placeholder rating
                             }
                             .font(.callout)
                             
@@ -109,68 +125,67 @@ struct ProductDetailsView: View {
 //                                }
 //                            }
 //                        }
-                        if let addOnOptions = product.addOnOptions, !addOnOptions.isEmpty {
-                                                 Text("Add-On Options")
-                                                     .font(.headline)
-                                                     .padding(.bottom)
+                //         if let addOnOptions = product.addOnOptions, !addOnOptions.isEmpty {
+                //                                  Text("Add-On Options")
+                //                                      .font(.headline)
+                //                                      .padding(.bottom)
                                                  
-                                                 LazyVGrid(columns: gridItems, spacing: 20) {
-                                                     ForEach(addOnOptions) { addOn in
-                                                         VStack(alignment: .center) {
-                                                             AsyncImage(url: URL(string: addOn.imageURL)) { image in
-                                                                 image
-                                                                     .resizable()
-                                                                     .scaledToFit()
-                                                                     .frame(width: 100, height: 75) // Adjust size
-                                                             } placeholder: {
-                                                                 //ProgressView() // Placeholder while loading
-                                                                 Image("flower1")
-                                                                  .resizable()
-                                                                  .scaledToFit()
-                                                                  .frame(width: 100, height: 75)
-                                                             }
+                //                                  LazyVGrid(columns: gridItems, spacing: 20) {
+                //                                      ForEach(addOnOptions) { addOn in
+                //                                          VStack(alignment: .center) {
+                //                                              AsyncImage(url: URL(string: addOn.imageURL)) { image in
+                //                                                  image
+                //                                                      .resizable()
+                //                                                      .scaledToFit()
+                //                                                      .frame(width: 100, height: 75) // Adjust size
+                //                                              } placeholder: {
+                //                                                  //ProgressView() // Placeholder while loading
+                //                                                  Image("flower1")
+                //                                                   .resizable()
+                //                                                   .scaledToFit()
+                //                                                   .frame(width: 100, height: 75)
+                //                                              }
 
-                                                             HStack {
-                                                                 Image(systemName: "plus.circle")
-                                                                     .foregroundColor(.green)
-                                                                     .onTapGesture {
-                                                                         increaseAddOnQuantity(addOn.id)
-                                                                     }
+                //                                              HStack {
+                //                                                  Image(systemName: "plus.circle")
+                //                                                      .foregroundColor(.green)
+                //                                                      .onTapGesture {
+                //                                                          increaseAddOnQuantity(addOn.id)
+                //                                                      }
                                                                  
-                                                                 Spacer()
+                //                                                  Spacer()
                                                                  
-                                                                 Text("\(addOnQuantities[addOn.id] ?? 0)")
-                                                                     .font(.headline)
+                //                                                  Text("\(addOnQuantities[addOn.id] ?? 0)")
+                //                                                      .font(.headline)
                                                                  
-                                                                 Spacer()
+                //                                                  Spacer()
                                                                  
-                                                                 Image(systemName: "minus.circle")
-                                                                     .foregroundColor(.red)
-                                                                     .onTapGesture {
-                                                                         decreaseAddOnQuantity(addOn.id)
-                                                                     }
-                                                             }
-                                                             .padding(.bottom, 5)
+                //                                                  Image(systemName: "minus.circle")
+                //                                                      .foregroundColor(.red)
+                //                                                      .onTapGesture {
+                //                                                          decreaseAddOnQuantity(addOn.id)
+                //                                                      }
+                //                                              }
+                //                                              .padding(.bottom, 5)
                                                              
-                                                             Text(addOn.name) // Display the flower name
-                                                                 .font(.subheadline)
-                                                                 .foregroundColor(.primary)
-                                                                 .lineLimit(1)
-                                                                 .truncationMode(.tail)
-                                                                 .frame(maxWidth: .infinity, alignment: .center)
+                //                                              Text(addOn.name) // Display the flower name
+                //                                                  .font(.subheadline)
+                //                                                  .foregroundColor(.primary)
+                //                                                  .lineLimit(1)
+                //                                                  .truncationMode(.tail)
+                //                                                  .frame(maxWidth: .infinity, alignment: .center)
                                                              
-                                                             Text("$\(addOn.price, specifier: "%.2f")") // Display the price
-                                                                 .font(.footnote)
-                                                                 .foregroundColor(.secondary)
-                                                         }
-                                                         .padding()
-                                                         .background(RoundedRectangle(cornerRadius: 10)
-                                                             .fill(Color.white)
-                                                             .shadow(radius: 2))
-                                                     }
-                                                 }
-                                             }
-                                         
+                //                                              Text("$\(addOn.price, specifier: "%.2f")") // Display the price
+                //                                                  .font(.footnote)
+                //                                                  .foregroundColor(.secondary)
+                //                                          }
+                //                                          .padding()
+                //                                          .background(RoundedRectangle(cornerRadius: 10)
+                //                                              .fill(Color.white)
+                //                                              .shadow(radius: 2))
+                //                                      }
+                //                                  }
+                //                              }
                     }
                     .padding()
                 }
@@ -192,7 +207,7 @@ struct ProductDetailsView: View {
                 
                         HStack {
                           Button {
-                              cartManager.addToCart(product: product)
+                              addToCart()
                        } label: {
                            Image(systemName: "cart.fill.badge.plus")
                                .resizable()
@@ -232,29 +247,38 @@ struct ProductDetailsView: View {
                     .padding()
                 }
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom) // In case of keyboard interaction
+            .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 
     // Increase the quantity for a specific add-on
     private func increaseAddOnQuantity(_ addOn: UUID) {
         addOnQuantities[addOn, default: 0] += 1
-        updateTotalPrice(for: addOn, increase: true)
+        // @TODO - uncomment once we implement that logic
+//        updateTotalPrice(for: addOn, increase: true)
     }
 
     // Decrease the quantity for a specific add-on
     private func decreaseAddOnQuantity(_ addOn: UUID) {
         if let currentQuantity = addOnQuantities[addOn], currentQuantity > 0 {
             addOnQuantities[addOn] = currentQuantity - 1
-            updateTotalPrice(for: addOn, increase: false)
+            // @TODO - uncomment once we implement that logic
+//            updateTotalPrice(for: addOn, increase: false)
         }
     }
     
-    private func updateTotalPrice(for addOn: UUID, increase: Bool) {
-           if let addOnOption = product.addOnOptions?.first(where: { $0.id == addOn }) {
-               let priceChange = addOnOption.price
-               totalPrice += increase ? priceChange : -priceChange
-           }
-     }
+    // @TODO - uncomment once we implement custom logic
+//    private func updateTotalPrice(for addOn: UUID, increase: Bool) {
+//           if let addOnOption = product.addOnOptions?.first(where: { $0.id == addOn }) {
+//               let priceChange = addOnOption.price
+//               totalPrice += increase ? priceChange : -priceChange
+//           }
+//     }
+    
+    private func addToCart() {
+        Task {
+            await cartManager.addToCart(bouquet: bouquet)
+        }
+    }
 
     var circalImage: some View {
         Image(systemName: "circle.fill")
@@ -264,6 +288,15 @@ struct ProductDetailsView: View {
 }
 
 #Preview {
-    ProductDetailsView(product: Product.dummy)
-        .environmentObject(CartManager())
+    ProductDetailsView(bouquet: Bouquet(
+        id: "1",
+        name: "Sample Bouquet",
+        description: "A beautiful bouquet",
+        imageUrl: "",
+        price: 29.99,
+        status: "active",
+        isCustom: false,
+        createdAt: ""
+    ))
+    .environmentObject(CartManager())
 }
