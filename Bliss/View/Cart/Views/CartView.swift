@@ -47,6 +47,10 @@ struct CartView: View {
             }
             .navigationTitle("Cart")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $cartManager.shouldNavigateToOrders) {
+                OrdersView()
+                    .navigationBarBackButtonHidden(true)
+            }
             .alert("Error", isPresented: .constant(cartManager.error != nil)) {
                 Button("OK") { cartManager.error = nil }
             } message: {

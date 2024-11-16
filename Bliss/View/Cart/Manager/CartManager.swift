@@ -13,6 +13,7 @@ class CartManager: ObservableObject {
     @Published var isLoading = false
     @Published var error: Error?
     @Published var paymentSuccess = false
+    @Published var shouldNavigateToOrders = false
     
     private let supabase = supabaseClient
     private let paymentHandler = PaymentHandler()
@@ -167,6 +168,10 @@ class CartManager: ObservableObject {
             if success {
                 Task {
                     await self.convertCartToOrder()
+                    await MainActor.run {
+                        self.shouldNavigateToOrders = true
+                        self.paymentSuccess = false
+                    }
                 }
             }
         }
