@@ -19,15 +19,15 @@ struct OrderRowView: View {
                 .padding(.trailing, 10) // Spacing between image and text
             
             VStack(alignment: .leading, spacing: 6) {
-                Text(order.productname)
-                    .fontWeight(.semibold)
-                    .font(.headline)
-                Text("\(order.price.currencyFormat())")
+//                Text(order.productname)
+//                    .fontWeight(.semibold)
+//                    .font(.headline)
+                Text("\(order.totalPrice.currencyFormat())")
                     .fontWeight(.light)
                     .font(.subheadline)
                 
-                Text("Delivery Date: \(order.date)")
-                    .font(.callout)
+//                Text("Delivery Date: \(order.date)")
+//                    .font(.callout)
                 Text("Status: \(order.status)")
                     .font(.headline)
                     .fontWeight(.semibold)
@@ -43,5 +43,5 @@ struct OrderRowView: View {
 }
 
 #Preview {
-    OrderRowView(order: Order.dummyOrder)
+//    OrderRowView(order: Order.dummyOrder)
 }

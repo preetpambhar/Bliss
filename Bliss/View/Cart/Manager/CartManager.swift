@@ -6,6 +6,7 @@
 //
 import Foundation
 
+@MainActor
 class CartManager: ObservableObject {
     @Published private(set) var cartItems: [CartItem] = []
     @Published private(set) var total: Double = 0
@@ -165,84 +166,106 @@ class CartManager: ObservableObject {
             self.paymentSuccess = success
             if success {
                 Task {
-//                    await self.convertCartToOrder()
+                    await self.convertCartToOrder()
                 }
             }
         }
     }
     
-//    private func convertCartToOrder() async {
-//        guard let cartId = cartId else { return }
-//        
-//        do {
-//            struct OrderInsert: Codable {
-//                let totalPrice: Double
-//                let status: String
-//                let userId: String
-//                
-//                enum CodingKeys: String, CodingKey {
-//                    case totalPrice = "total_price"
-//                    case status
-//                    case userId = "user_id"
-//                }
-//            }
-//            
-//            guard let userId = await supabase.auth.session.user.id else {
-//                throw NSError(domain: "CartManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "User not logged in"])
-//            }
-//            
-//            let orderQuery = try supabase
-//                .from("orders")
-//                .insert(OrderInsert(
-//                    totalPrice: total,
-//                    status: "pending",
-//                    userId: userId.uuidString
-//                ))
-//            
-//            let newOrder: Order = try await orderQuery.execute().value[0]
-//            
-//            // Copy cart items to order items
-//            struct OrderItemInsert: Codable {
-//                let orderId: String
-//                let bouquetId: String?
-//                let flowerId: String?
-//                let quantity: Int
-//                let price: Double
-//                
-//                enum CodingKeys: String, CodingKey {
-//                    case orderId = "order_id"
-//                    case bouquetId = "bouquet_id"
-//                    case flowerId = "flower_id"
-//                    case quantity, price
-//                }
-//            }
-//            
-//            for item in cartItems {
-//                let orderItemQuery = try supabase
-//                    .from("order_items")
-//                    .insert(OrderItemInsert(
-//                        orderId: newOrder.id.uuidString,
-//                        bouquetId: item.bouquetId,
-//                        flowerId: item.flowerId,
-//                        quantity: item.quantity,
-//                        price: item.itemPrice
-//                    ))
-//                
-//                try await orderItemQuery.execute()
-//            }
-//            
-//            // Clear cart items
-//            let deleteQuery = supabase
-//                .from("cart_items")
-//                .delete()
-//                .eq("cart_id", value: cartId)
-//            
-//            try await deleteQuery.execute()
-//            
-//            await loadCart()
-//            
-//        } catch {
-//            self.error = error
-//        }
-//    }
+    @MainActor
+    private func convertCartToOrder() async {
+        guard let cartId = cartId else { return }
+        
+        do {
+            struct OrderInsert: Codable {
+                let user_id: String
+                let status: String
+                let subtotal: Double
+                let tax: Double
+                let shipping_fee: Double
+                let total_price: Double
+                
+                enum CodingKeys: String, CodingKey {
+                    case user_id
+                    case status
+                    case subtotal
+                    case tax
+                    case shipping_fee
+                    case total_price
+                }
+            }
+            
+            guard let userId = try? await supabase.auth.session.user.id.uuidString else {
+                throw NSError(domain: "CartManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "User not logged in"])
+            }
+            
+            // Calculate order totals
+            let subtotal = total
+            let tax = subtotal * 0.13 // 13% tax
+            let shippingFee = 10.0 // Fixed $10 shipping
+            let totalPrice = subtotal + tax + shippingFee
+            
+            let orderPayload = OrderInsert(
+                user_id: userId,
+                status: "pending",
+                subtotal: subtotal,
+                tax: tax,
+                shipping_fee: shippingFee,
+                total_price: totalPrice
+            )
+            
+            print("Debug - Creating order with payload:", orderPayload)
+            
+            let newOrder: Order = try await supabase
+                .from("orders")
+                .insert(orderPayload)
+                .select()
+                .single()
+                .execute()
+                .value
+            
+            print("Debug - Created order:", newOrder)
+            
+            // Copy cart items to order items
+            struct OrderItemInsert: Codable {
+                let order_id: String
+                let bouquet_id: String?
+                let flower_id: String?
+                let quantity: Int
+                let unit_price: Double
+                let total_price: Double
+            }
+            
+            // Insert order items
+            for item in cartItems {
+                let itemPrice = item.itemPrice
+                let orderItemPayload = OrderItemInsert(
+                    order_id: newOrder.id,
+                    bouquet_id: item.bouquetId,
+                    flower_id: item.flowerId,
+                    quantity: item.quantity,
+                    unit_price: itemPrice,
+                    total_price: itemPrice * Double(item.quantity)
+                )
+                
+                try await supabase
+                    .from("order_items")
+                    .insert(orderItemPayload)
+                    .execute()
+            }
+            
+            // Clear cart items
+            try await supabase
+                .from("cart_items")
+                .delete()
+                .eq("cart_id", value: cartId)
+                .execute()
+            
+            await loadCart()
+            
+        } catch {
+            self.error = error
+            print("Debug - Error converting cart to order: \(error)")
+        }
+    }
 }

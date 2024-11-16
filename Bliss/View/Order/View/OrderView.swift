@@ -10,12 +10,12 @@ import SwiftUI
 struct OrderView: View {
     var body: some View {
         ScrollView{
-            OrderRowView(order: .dummyOrder).onTapGesture {
-                OrderDetailsView(order: Order.dummyOrder)
-            }
-            OrderRowView(order: .dummyOrder)
-            OrderRowView(order: .dummyOrder)
-            OrderRowView(order: .dummyOrder)
+//            OrderRowView(order: .dummyOrder).onTapGesture {
+//                OrderDetailsView(order: Order.dummyOrder)
+//            }
+//            OrderRowView(order: .dummyOrder)
+//            OrderRowView(order: .dummyOrder)
+//            OrderRowView(order: .dummyOrder)
         }
     }
 }

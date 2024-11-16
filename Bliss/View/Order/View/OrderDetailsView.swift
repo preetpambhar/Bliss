@@ -13,28 +13,28 @@ struct OrderDetailsView: View {
         ZStack{  VStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    AsyncImageView(imageURL: order.productImage)
-                        .scaledToFit()
-                        .frame(height: 300)
-                        .cornerRadius(8)
-                        .background(Color(.systemGray6))
+//                    AsyncImageView(imageURL: order.)
+//                        .scaledToFit()
+//                        .frame(height: 300)
+//                        .cornerRadius(8)
+//                        .background(Color(.systemGray6))
                     
                     
-                    Text(order.productname)
+                    Text(order.status)
                         .font(.headline)
                     
-                    Text(order.productname)
+                    Text(order.status)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                     
                     // Rating section
                     HStack {
-                        HStack {
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
-                            Text("\(order.rating.rate.toString()) Rating")
-                        }
-                        .font(.callout)
+//                        HStack {
+//                            Image(systemName: "star.fill")
+//                                .foregroundColor(.yellow)
+//                            Text("\(order.rating.rate.toString()) Rating")
+//                        }
+//                        .font(.callout)
                         
                         Spacer()
                         
@@ -50,11 +50,11 @@ struct OrderDetailsView: View {
                     .font(.callout)
                     
                     VStack(alignment: .leading, spacing: 5){
-                        HStack{
-                            Text("Delivery Date")
-                                
-                            Text(order.date)
-                        }.font(.headline)
+//                        HStack{
+//                            Text("Delivery Date")
+//                                
+//                            Text(order.date)
+//                        }.font(.headline)
                         
                         Divider()
                         Text("Delivery Details")
@@ -77,7 +77,7 @@ struct OrderDetailsView: View {
                     Text("Total Price")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Text(order.price.currencyFormat())
+                    Text(order.totalPrice.currencyFormat())
                         .font(.title3)
                         .fontWeight(.bold)
                         .foregroundStyle(.indigo)
@@ -142,5 +142,5 @@ var circalImage: some View {
 
 
 #Preview {
-    OrderDetailsView(order: .dummyOrder)
+//    OrderDetailsView(order: .dummyOrder)
 }
