@@ -8,139 +8,103 @@
 import SwiftUI
 
 struct OrderDetailsView: View {
-    let order : Order
+    let order: Order
+    @StateObject private var orderManager = OrderManager()
+    
     var body: some View {
-        ZStack{  VStack {
-            ScrollView {
-                VStack(spacing: 16) {
-//                    AsyncImageView(imageURL: order.)
-//                        .scaledToFit()
-//                        .frame(height: 300)
-//                        .cornerRadius(8)
-//                        .background(Color(.systemGray6))
+        ScrollView {
+            VStack(spacing: 16) {
+                // Order Summary
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Order Summary")
+                        .font(.title2)
+                        .fontWeight(.bold)
                     
-                    
-                    Text(order.status)
-                        .font(.headline)
-                    
-                    Text(order.status)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                    
-                    // Rating section
                     HStack {
-//                        HStack {
-//                            Image(systemName: "star.fill")
-//                                .foregroundColor(.yellow)
-//                            Text("\(order.rating.rate.toString()) Rating")
-//                        }
-//                        .font(.callout)
-                        
-                        Spacer()
-                        
-                        circalImage
-                        Text("4.6K Reviews")
-                        
-                        Spacer()
-                        
-                        circalImage
-                        Text("4K Sold")
+                        Text("Order ID:")
+                        Text(order.id)
+                            .foregroundColor(.secondary)
                     }
-                    .foregroundColor(.secondary)
-                    .font(.callout)
                     
-                    VStack(alignment: .leading, spacing: 5){
-//                        HStack{
-//                            Text("Delivery Date")
-//                                
-//                            Text(order.date)
-//                        }.font(.headline)
-                        
-                        Divider()
-                        Text("Delivery Details")
-                            .font(.title2)
-                        VStack(alignment: .leading){
-                            Text("Cotact Person")
-                            Text("Delivery Address Delivery Address Delivery Address Delivery Address Delivery Address Delivery Address Delivery Address Delivery Address")
-                        }.font(.callout)
+                    HStack {
+                        Text("Status:")
+                        Text(order.status.capitalized)
+                            .foregroundColor(statusColor)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    Spacer()
+                    HStack {
+                        Text("Date:")
+                        Text(order.createdAt)
+                            .foregroundColor(.secondary)
+                    }
                 }
                 .padding()
-            }
-            
-            // Fixed Bottom Price Section
-            HStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Total Price")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    Text(order.totalPrice.currencyFormat())
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.indigo)
-                }
-                .padding(.leading)
+                .background(Color(.systemBackground))
+                .cornerRadius(12)
+                .shadow(radius: 2)
                 
-                Spacer()
-                
-                HStack {
-                    Button {
-                        //cartManager.addToCart(product: product)
-                    } label: {
-                        Image(systemName: "xmark.bin.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(Color.red)
-                            .frame(width: 30, height: 30)
-                        
-                        Text("Cancel Order")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .frame(height: 100)
+                // Order Items
+                if let items = orderManager.orderItems[order.id] {
+                    ForEach(items) { item in
+                        OrderItemRow(item: item)
                     }
                 }
-                .foregroundColor(.white)
-                .frame(height: 50)
-                .padding(.horizontal)
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(stops: [
-                                    Gradient.Stop(color: .black.opacity(1), location: 0.0),
-                                    Gradient.Stop(color: .black.opacity(0.9), location: 0.25),
-                                    Gradient.Stop(color: Color(UIColor.black), location: 0.3),
-                                    Gradient.Stop(color: Color(UIColor.black), location: 1.0)
-                                ]),
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                )
-                .padding(.trailing)
+                
+                // Order Totals
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Order Total")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                    
+                    HStack {
+                        Text("Subtotal:")
+                        Spacer()
+                        Text(order.subtotal.currencyFormat())
+                    }
+                    
+                    HStack {
+                        Text("Tax:")
+                        Spacer()
+                        Text(order.tax.currencyFormat())
+                    }
+                    
+                    HStack {
+                        Text("Shipping:")
+                        Spacer()
+                        Text(order.shippingFee.currencyFormat())
+                    }
+                    
+                    Divider()
+                    
+                    HStack {
+                        Text("Total:")
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text(order.totalPrice.currencyFormat())
+                            .fontWeight(.bold)
+                    }
+                }
+                .padding()
+                .background(Color(.systemBackground))
+                .cornerRadius(12)
+                .shadow(radius: 2)
             }
-            .frame(height: 100)
-            .frame(maxWidth: .infinity)
-            .background(Color.gray.opacity(0.2))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding()
-             }
-           }
-        .ignoresSafeArea(.keyboard, edges: .bottom) // In case of keyboard interaction
         }
-     }
-
+        .navigationTitle("Order Details")
+        .task {
+            await orderManager.loadOrderItems(for: order.id)
+        }
+    }
     
-var circalImage: some View {
-    Image(systemName: "circle.fill")
-        .resizable()
-        .frame(width: 8, height: 8)
- }
-
-
-#Preview {
-//    OrderDetailsView(order: .dummyOrder)
+    var statusColor: Color {
+        switch order.status.lowercased() {
+        case "pending": return .orange
+        case "processing": return .blue
+        case "shipped": return .purple
+        case "delivered": return .green
+        case "cancelled": return .red
+        default: return .gray
+        }
+    }
 }
