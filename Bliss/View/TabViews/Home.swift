@@ -207,38 +207,63 @@ struct SympathyBouquetsView: View {
 // New BouquetCard component
 struct BouquetCard: View {
     let bouquet: Bouquet
+    @StateObject private var savedManager = SavedBouquetsManager()
+    @State private var isSaved = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 200)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 200)
-                        .clipped()
-                case .failure:
-                    Image(systemName: "photo")
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 200)
-                @unknown default:
-                    EmptyView()
+            ZStack(alignment: .topTrailing) {
+                AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                            .clipped()
+                    case .failure:
+                        Image(systemName: "photo")
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 200)
+                    @unknown default:
+                        EmptyView()
+                    }
                 }
+                .cornerRadius(8)
+                
+                // Save Button
+                Button {
+                    Task {
+                        if isSaved {
+                            await savedManager.removeSavedBouquet(bouquet)
+                        } else {
+                            await savedManager.saveBouquet(bouquet)
+                        }
+                        isSaved.toggle()
+                    }
+                } label: {
+                    Image(systemName: isSaved ? "heart.fill" : "heart")
+                        .font(.title3)
+                        .foregroundColor(isSaved ? .red : .white)
+                        .padding(8)
+                        .background(.ultraThinMaterial)
+                        .clipShape(Circle())
+                        .symbolEffect(.bounce, value: isSaved)
+                }
+                .padding(8)
             }
-            .cornerRadius(8)
             
             VStack(alignment: .leading, spacing: 6) {
                 Text(bouquet.name)
                     .font(.headline)
                     .foregroundColor(.primary)
                 
-                Text("$\(String(format: "%.2f", bouquet.price))")
+                Text(bouquet.price.currencyFormat())
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -248,6 +273,9 @@ struct BouquetCard: View {
         .background(Color(.systemBackground))
         .cornerRadius(8)
         .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+        .task {
+            isSaved = await savedManager.isBouquetSaved(bouquet)
+        }
     }
 }
 
