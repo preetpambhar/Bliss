@@ -9,42 +9,37 @@ import SwiftUI
 
 struct SavedProduct: View {
     @StateObject private var savedManager = SavedBouquetsManager()
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
-            Group {
-                if savedManager.isLoading {
-                    ProgressView()
-                } else if savedManager.savedBouquets.isEmpty {
-                    EmptyStateView()
-                } else {
-                    ScrollView {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 16),
-                            GridItem(.flexible(), spacing: 16)
-                        ], spacing: 16) {
-                            ForEach(savedManager.savedBouquets, id: \.id) { bouquet in
-                                NavigationLink(destination: ProductDetailsView(bouquet: bouquet)) {
-                                    SavedBouquetCard(bouquet: bouquet, savedManager: savedManager)
-                                }
+        Group {
+            if savedManager.isLoading {
+                ProgressView()
+            } else if savedManager.savedBouquets.isEmpty {
+                EmptyStateView()
+            } else {
+                ScrollView {
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: 16),
+                        GridItem(.flexible(), spacing: 16)
+                    ], spacing: 16) {
+                        ForEach(savedManager.savedBouquets, id: \.id) { bouquet in
+                            NavigationLink(destination: ProductDetailsView(bouquet: bouquet)) {
+                                SavedBouquetCard(bouquet: bouquet, savedManager: savedManager)
                             }
                         }
-                        .padding()
                     }
+                    .padding()
                 }
             }
-            .navigationTitle("Saved Bouquets")
-            .alert("Error", isPresented: .constant(savedManager.error != nil)) {
-                Button("OK") { savedManager.error = nil }
-            } message: {
-                Text(savedManager.error?.localizedDescription ?? "")
-            }
         }
-        .onAppear {
-            Task {
-                await savedManager.loadSavedBouquets()
-            }
+        .navigationTitle("Saved Bouquets")
+        .alert("Error", isPresented: .constant(savedManager.error != nil)) {
+            Button("OK") { savedManager.error = nil }
+        } message: {
+            Text(savedManager.error?.localizedDescription ?? "")
+        }
+        .task {
+            await savedManager.loadSavedBouquets()
         }
     }
 }

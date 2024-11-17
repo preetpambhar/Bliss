@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Bouquet: Codable {
+struct Bouquet: Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let description: String?
@@ -17,10 +17,21 @@ struct Bouquet: Codable {
     let isCustom: Bool
     let createdAt: String
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: Bouquet, rhs: Bouquet) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     enum CodingKeys: String, CodingKey {
-        case id, name, description
+        case id
+        case name
+        case description
         case imageUrl = "image_url"
-        case price, status
+        case price
+        case status
         case isCustom = "is_custom"
         case createdAt = "created_at"
     }
