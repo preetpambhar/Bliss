@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReminderView: View {
-    @Binding var reminders: [Reminder]         // Binding to the reminders array in ReminderHomeView
+    @ObservedObject var reminderManager: ReminderManager
     @Binding var isPresented: Bool
     
     @State private var name: String = ""
@@ -21,7 +21,6 @@ struct ReminderView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
-            // Input fields
             TextField("Person's Name", text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
@@ -30,16 +29,14 @@ struct ReminderView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
 
-            // Date picker for birth date
             DatePicker("Select Birth Date", selection: $birthDate, displayedComponents: .date)
                 .padding(.horizontal)
 
-            // Set Reminder button
             Button(action: {
-                // Logic to save the reminder
-                let newReminder = Reminder(name: name, subtitle: subtitle, birthDate: birthDate)
-                reminders.append(newReminder)   // Add the new reminder to the list
-                isPresented = false
+                Task {
+                    await reminderManager.addReminder(name, subtitle: subtitle, birthDate: birthDate)
+                    isPresented = false
+                }
             }) {
                 Text("Set Reminder")
                     .fontWeight(.bold)
@@ -60,5 +57,5 @@ struct ReminderView: View {
 }
 
 #Preview {
-    ReminderView(reminders: .constant([]), isPresented: .constant(true))
+    ReminderView(reminderManager: ReminderManager(), isPresented: .constant(true))
 }
