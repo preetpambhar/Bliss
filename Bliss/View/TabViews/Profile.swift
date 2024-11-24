@@ -15,8 +15,12 @@ struct Profile: View {
     @State private var navigateToSavedBouquet = false
     @State private var navigateToRemindMe = false
     @State private var navigateToOnlineSupport = false
-    @State private var navigateToSettings = false
+    @State private var navigateToPrivacyPolicy = false
+    @State private var navigateToAboutUs = false
     @State private var isLoading = false
+    
+    var appVersion: String = "1.0.0"
+    var buildNumber: String = "1"
     
     var body: some View {
         NavigationStack {
@@ -124,21 +128,41 @@ struct Profile: View {
                             }
                         }
                     }
-                    
-                    Button(action: {
-                        navigateToSettings = true
-                    }) {
-                        HStack {
-                            Image(systemName: "gear")
-                                .font(.system(size: 20))
-                                .foregroundColor(.gray)
-                            Text("Setting")
+                        
+                        NavigationLink(destination: PrivacyPolicyView(), isActive: $navigateToPrivacyPolicy) {
+                        Button(action: {
+                            navigateToPrivacyPolicy = true
+                        }) {
+                           HStack {
+                                Image(systemName: "lock.shield")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.gray)
+                                Text("Privacy Policy")
+                            }
                         }
                     }
+                        
+                    NavigationLink(destination: AboutUs(), isActive: $navigateToAboutUs) {
+                        Button(action: {
+                            navigateToAboutUs = true
+                            }) {
+                               HStack {
+                                    Image(systemName: "person.2")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.green)
+                                    Text("About Us")
+                                }
+                            }
+                        }
                 }
                 .padding(.top, 30)
-                
                 Spacer()
+                HStack(alignment: .center) {
+                     Text("Version")
+                     Text("\(appVersion) (\(buildNumber))")
+                        .foregroundColor(.gray)
+                        .font(.callout)
+                }
             }
             .padding(20)
             .navigationTitle("Profile")
