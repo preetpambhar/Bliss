@@ -14,6 +14,7 @@ struct ProductDetailsView: View {
     @State private var isSaved = false
     let bouquet: Bouquet
     let gridItems = [GridItem(.flexible()), GridItem(.flexible())]
+    @State private var showingCustomizeSheet = false
     
     init(bouquet: Bouquet) {
         self.bouquet = bouquet
@@ -51,6 +52,23 @@ struct ProductDetailsView: View {
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                         }
+                        
+                        Button {
+                            showingCustomizeSheet = true
+                        } label: {
+                            HStack {
+                                Image(systemName: "wand.and.stars")
+                                Text("Customize This Bouquet")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                            .padding()
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .shadow(radius: 1)
+                        }
+                        .foregroundColor(.primary)
+                        .padding(.horizontal)
                         
                         // Rating section
                         HStack {
@@ -207,33 +225,49 @@ struct ProductDetailsView: View {
                     
                     Spacer()
                     
-                    HStack {
+                    HStack(spacing: 12) {
+                        // Customize button
+                        Button {
+                            showingCustomizeSheet = true
+                        } label: {
+                            Image(systemName: "wand.and.stars")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25, height: 25)
+                                .padding(10)
+                                .background(Color.white)
+                                .clipShape(Circle())
+                                .foregroundColor(.indigo)
+                        }
+                        
+                        // Existing Add to Cart button
                         Button {
                             addToCart()
                         } label: {
-                            Image(systemName: "cart.fill.badge.plus")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            
-                            Text("Add To Cart")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                                .frame(height: 100)
+                            HStack {
+                                Image(systemName: "cart.fill.badge.plus")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 25, height: 25)
+                                
+                                Text("Add To Cart")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                            }
+                            .padding(.horizontal)
                         }
                     }
                     .foregroundColor(.white)
                     .frame(height: 50)
-                    .padding(.horizontal)
                     .background(
                         RoundedRectangle(cornerRadius: 15)
                             .fill(
                                 LinearGradient(
                                     gradient: Gradient(stops: [
-                                        Gradient.Stop(color: .indigo, location: 0.0),
-                                        Gradient.Stop(color: .indigo, location: 0.3),
-                                        Gradient.Stop(color: Color(UIColor.darkGray), location: 0.3),
-                                        Gradient.Stop(color: Color(UIColor.darkGray), location: 1.0)
+                                        .init(color: .indigo, location: 0.0),
+                                        .init(color: .indigo, location: 0.3),
+                                        .init(color: Color(UIColor.darkGray), location: 0.3),
+                                        .init(color: Color(UIColor.darkGray), location: 1.0)
                                     ]),
                                     startPoint: .leading,
                                     endPoint: .trailing
@@ -272,6 +306,9 @@ struct ProductDetailsView: View {
         }
         .task {
             isSaved = await savedManager.isBouquetSaved(bouquet)
+        }
+        .sheet(isPresented: $showingCustomizeSheet) {
+            CustomBouquetView(existingBouquet: bouquet)
         }
     }
     

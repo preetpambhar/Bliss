@@ -14,12 +14,17 @@ struct Home: View {
     @State private var showAddAddress = false
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @StateObject private var bouquetViewModel = BouquetViewModel(client: supabaseClient)
+    @State private var showCustomBouquetView = false
     
     var filteredBouquets: [Bouquet] {
-        guard !searchText.isEmpty else { return bouquetViewModel.bouquets }
+        guard !searchText.isEmpty else { 
+            return bouquetViewModel.bouquets.filter { !$0.isCustom }
+        }
         return bouquetViewModel.bouquets.filter { bouquet in
-            bouquet.name.localizedCaseInsensitiveContains(searchText) ||
-            bouquet.description?.localizedCaseInsensitiveContains(searchText) ?? false
+            !bouquet.isCustom && (
+                bouquet.name.localizedCaseInsensitiveContains(searchText) ||
+                bouquet.description?.localizedCaseInsensitiveContains(searchText) ?? false
+            )
         }
     }
     
@@ -93,6 +98,9 @@ struct Home: View {
                             .symbolRenderingMode(.multicolor)
                     }
                 }
+            }
+            .sheet(isPresented: $showCustomBouquetView) {
+                CustomBouquetView(existingBouquet: nil)
             }
         }
     }

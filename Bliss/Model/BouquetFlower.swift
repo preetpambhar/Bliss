@@ -6,14 +6,16 @@
 //
 import Foundation
 
-struct BouquetFlower: Codable {
-    let flowerName: String
+struct BouquetFlower: Codable, Identifiable {
+    let bouquetId: String
+    let flowerId: String
     let quantity: Int
-    let flowerPrice: Double
+    
+    var id: String { flowerId }
     
     enum CodingKeys: String, CodingKey {
-        case flowerName = "flower_name"
+        case bouquetId = "bouquet_id"
+        case flowerId = "flower_id"
         case quantity
-        case flowerPrice = "flower_price"
     }
 }
