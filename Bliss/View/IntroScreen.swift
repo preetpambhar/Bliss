@@ -50,7 +50,7 @@ struct IntroScreen: View {
     @ViewBuilder
     func PointView(symbol: String, title: String, subtitle: String) -> some View {
         HStack(spacing: 20) {
-            Image(systemName: symbol)
+            SwiftUI.Image(systemName: symbol)
                 .font(.largeTitle)
                 .foregroundStyle(appTint.gradient)
                 .frame(width: 45)

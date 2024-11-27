@@ -47,7 +47,7 @@ struct CartRowView: View {
                                 updateQuantity()
                             }
                         } label: {
-                            Image(systemName: "minus.circle")
+                            SwiftUI.Image(systemName: "minus.circle")
                                 .foregroundColor(.blue)
                         }
                         
@@ -58,7 +58,7 @@ struct CartRowView: View {
                             quantity += 1
                             updateQuantity()
                         } label: {
-                            Image(systemName: "plus.circle")
+                            SwiftUI.Image(systemName: "plus.circle")
                                 .foregroundColor(.blue)
                         }
                     }
@@ -73,7 +73,7 @@ struct CartRowView: View {
                     await cartManager.removeFromCart(item: item)
                 }
             } label: {
-                Image(systemName: "trash")
+                SwiftUI.Image(systemName: "trash")
                     .foregroundColor(.red)
             }
         }
@@ -101,11 +101,16 @@ struct CartRowView: View {
             id: "123",
             name: "Sample Bouquet",
             description: "A beautiful bouquet",
-            imageUrl: "https://example.com/image.jpg",
+            images: [BouquetImage(
+                id: UUID().uuidString,
+                imageUrl: "https://example.com/image.jpg",
+                isPrimary: true,
+                createdAt: Date().ISO8601Format()
+            )],
             price: 29.99,
-            status: Date().ISO8601Format(),
+            status: "active",
             isCustom: false,
-            createdAt: "Pending"
+            createdAt: Date().ISO8601Format()
         )
     ))
     .environmentObject(CartManager())

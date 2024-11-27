@@ -12,7 +12,7 @@ struct LocationSearchActivation: View {
         HStack{
 //            Rectangle()
 //                .fill(Color.black)
-            Image(systemName: "magnifyingglass")
+            SwiftUI.Image(systemName: "magnifyingglass")
                 .frame(width: 8, height: 8)
                 .padding(.horizontal)
                 .foregroundColor(Color(.darkGray))

@@ -26,7 +26,7 @@ struct ProductDetailsView: View {
             VStack {
                 ScrollView {
                     VStack(spacing: 16) {
-                        AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
+                        AsyncImage(url: URL(string: bouquet.primaryImage)) { phase in
                             switch phase {
                             case .empty:
                                 ProgressView()
@@ -37,7 +37,7 @@ struct ProductDetailsView: View {
                                     .scaledToFit()
                                     .frame(height: 300)
                             case .failure:
-                                Image(systemName: "photo")
+                                SwiftUI.Image(systemName: "photo")
                                     .frame(height: 300)
                             @unknown default:
                                 EmptyView()
@@ -57,10 +57,10 @@ struct ProductDetailsView: View {
                             showingCustomizeSheet = true
                         } label: {
                             HStack {
-                                Image(systemName: "wand.and.stars")
+                                SwiftUI.Image(systemName: "wand.and.stars")
                                 Text("Customize This Bouquet")
                                 Spacer()
-                                Image(systemName: "chevron.right")
+                                SwiftUI.Image(systemName: "chevron.right")
                             }
                             .padding()
                             .background(Color(.systemBackground))
@@ -73,7 +73,7 @@ struct ProductDetailsView: View {
                         // Rating section
                         HStack {
                             HStack {
-                                Image(systemName: "star.fill")
+                                SwiftUI.Image(systemName: "star.fill")
                                     .foregroundColor(.yellow)
                                 Text("4.5 Rating") // Placeholder rating
                             }
@@ -230,7 +230,7 @@ struct ProductDetailsView: View {
                         Button {
                             showingCustomizeSheet = true
                         } label: {
-                            Image(systemName: "wand.and.stars")
+                            SwiftUI.Image(systemName: "wand.and.stars")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
@@ -245,7 +245,7 @@ struct ProductDetailsView: View {
                             addToCart()
                         } label: {
                             HStack {
-                                Image(systemName: "cart.fill.badge.plus")
+                                SwiftUI.Image(systemName: "cart.fill.badge.plus")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 25, height: 25)
@@ -297,7 +297,7 @@ struct ProductDetailsView: View {
                         isSaved.toggle()
                     }
                 } label: {
-                    Image(systemName: isSaved ? "heart.fill" : "heart")
+                    SwiftUI.Image(systemName: isSaved ? "heart.fill" : "heart")
                         .font(.title2)
                         .foregroundColor(isSaved ? .red : .gray)
                         .symbolEffect(.bounce, value: isSaved)
@@ -343,7 +343,7 @@ struct ProductDetailsView: View {
     }
 
     var circalImage: some View {
-        Image(systemName: "circle.fill")
+        SwiftUI.Image(systemName: "circle.fill")
             .resizable()
             .frame(width: 8, height: 8)
     }
@@ -354,11 +354,16 @@ struct ProductDetailsView: View {
         id: "1",
         name: "Sample Bouquet",
         description: "A beautiful bouquet",
-        imageUrl: "",
+        images: [BouquetImage(
+            id: UUID().uuidString,
+            imageUrl: "",
+            isPrimary: true,
+            createdAt: Date().ISO8601Format()
+        )],
         price: 29.99,
         status: "active",
         isCustom: false,
-        createdAt: ""
+        createdAt: Date().ISO8601Format()
     ))
     .environmentObject(CartManager())
 }

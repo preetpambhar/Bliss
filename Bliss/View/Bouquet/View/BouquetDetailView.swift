@@ -11,27 +11,34 @@ struct BouquetDetailView: View {
     let bouquet: Bouquet
     @StateObject private var savedManager = SavedBouquetsManager()
     @State private var isSaved = false
+    @State private var currentImageIndex = 0
     
     var body: some View {
-        ZStack {
-            VStack {
-                AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                    case .failure:
-                        Image(systemName: "photo")
-                            .imageScale(.large)
-                    @unknown default:
-                        EmptyView()
+        ScrollView {
+            VStack(spacing: 16) {
+                // Image Carousel
+                TabView(selection: $currentImageIndex) {
+                    ForEach(bouquet.images.indices, id: \.self) { index in
+                        AsyncImage(url: URL(string: bouquet.images[index].imageUrl)) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                            case .failure:
+                                SwiftUI.Image(systemName: "photo")
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
+                        .tag(index)
                     }
                 }
-                .frame(maxWidth: .infinity)
                 .frame(height: 300)
+                .tabViewStyle(PageTabViewStyle())
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
@@ -51,7 +58,7 @@ struct BouquetDetailView: View {
                                 isSaved.toggle()
                             }
                         } label: {
-                            Image(systemName: isSaved ? "heart.fill" : "heart")
+                            SwiftUI.Image(systemName: isSaved ? "heart.fill" : "heart")
                                 .font(.title2)
                                 .foregroundColor(isSaved ? .red : .gray)
                                 .symbolEffect(.bounce, value: isSaved)
@@ -64,15 +71,16 @@ struct BouquetDetailView: View {
                             .foregroundColor(.secondary)
                     }
                     
-                    Text("$\(bouquet.price.formatted())")
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.blue)
+                    Text(bouquet.price.currencyFormat())
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.blue)
                 }
                 .padding()
+                
+                // ... rest of the view ...
             }
         }
-        .ignoresSafeArea(.keyboard, edges: .bottom)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -86,7 +94,7 @@ struct BouquetDetailView: View {
                         isSaved.toggle()
                     }
                 } label: {
-                    Image(systemName: isSaved ? "heart.fill" : "heart")
+                    SwiftUI.Image(systemName: isSaved ? "heart.fill" : "heart")
                         .font(.title2)
                         .foregroundColor(isSaved ? .red : .gray)
                         .symbolEffect(.bounce, value: isSaved)

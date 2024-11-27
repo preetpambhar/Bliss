@@ -13,33 +13,20 @@ struct ReminderHomeView: View {
     
     var body: some View {
         NavigationStack {
-            Group {
+            ZStack {
                 if reminderManager.isLoading {
                     ProgressView()
                 } else {
                     VStack {
-                        List {
-                            ForEach(reminderManager.reminders) { reminder in
+                        if reminderManager.reminders.isEmpty {
+                            EmptyReminderView()
+                        } else {
+                            List(reminderManager.reminders) { reminder in
                                 ReminderRow(reminder: reminder, reminderManager: reminderManager)
                             }
                         }
                         
-                        Button(action: {
-                            isAddingReminder = true
-                        }) {
-                            HStack {
-                                Image(systemName: "plus.circle.fill")
-                                    .font(.title)
-                                Text("Add Reminder")
-                                    .fontWeight(.bold)
-                            }
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(10)
-                            .padding()
-                        }
+                        AddReminderButton(isAddingReminder: $isAddingReminder)
                     }
                 }
             }
@@ -55,6 +42,50 @@ struct ReminderHomeView: View {
             .task {
                 await reminderManager.loadReminders()
             }
+        }
+    }
+}
+
+// Empty state view
+struct EmptyReminderView: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            SwiftUI.Image(systemName: "bell.badge")
+                .font(.system(size: 60))
+                .foregroundColor(.gray)
+            
+            Text("No Reminders")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            Text("Add reminders for important dates")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+    }
+}
+
+// Add reminder button
+struct AddReminderButton: View {
+    @Binding var isAddingReminder: Bool
+    
+    var body: some View {
+        Button(action: {
+            isAddingReminder = true
+        }) {
+            HStack {
+                SwiftUI.Image(systemName: "plus.circle.fill")
+                    .font(.title)
+                Text("Add Reminder")
+                    .fontWeight(.bold)
+            }
+            .foregroundColor(.white)
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color.blue)
+            .cornerRadius(10)
+            .padding()
         }
     }
 }
@@ -82,7 +113,7 @@ struct ReminderRow: View {
             Button {
                 showingDeleteAlert = true
             } label: {
-                Image(systemName: "trash")
+                SwiftUI.Image(systemName: "trash")
                     .foregroundColor(.red)
             }
         }

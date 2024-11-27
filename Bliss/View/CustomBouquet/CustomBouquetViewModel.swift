@@ -21,7 +21,7 @@ class CustomBouquetViewModel: ObservableObject {
         do {
             let response: [Flower] = try await supabase
                 .from("flowers")
-                .select("*")
+                .select("*, flower_images(id, image_url, is_primary, created_at)")
                 .eq("status", value: "active")
                 .gt("stock", value: 0)
                 .order("name")
@@ -42,7 +42,16 @@ class CustomBouquetViewModel: ObservableObject {
         do {
             // Correct join query syntax for Supabase
             let query = """
-            *, flowers(*)
+            *, flowers(
+                            id,
+                           name,
+                           description,
+                           flower_images(id, image_url, is_primary, created_at),
+                           price,
+                           stock,
+                           status,
+                           created_at 
+            )
             """
             
             let response: [BouquetFlowerWithDetails] = try await supabase
@@ -80,22 +89,29 @@ class CustomBouquetViewModel: ObservableObject {
         let totalPrice = calculateTotalPrice(flowers)
         let bouquetId = UUID().uuidString
         
-        let defaultImageUrl = "https://images.unsplash.com/photo-1487530811176-3780de880c2d?q=80&w=2993&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Update this with your actual default image URL
+        let defaultImageUrl = "https://images.unsplash.com/photo-1487530811176-3780de880c2d?q=80&w=2993&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         
-        let bouquetRequest = CreateBouquetRequest(
-            id: bouquetId,
-            name: name,
-            description: description,
-            // imageUrl: defaultImageUrl,
-            price: totalPrice,
-            status: "active",
-            isCustom: true
-        )
-        
-        // Create new bouquet
+        // Create bouquet
         try await supabase
             .from("bouquets")
-            .insert(bouquetRequest)
+            .insert(CreateBouquetRequest(
+                id: bouquetId,
+                name: name,
+                description: description,
+                price: totalPrice,
+                status: "active",
+                isCustom: true
+            ))
+            .execute()
+        
+        // Add default image
+        try await supabase
+            .from("bouquet_images")
+            .insert([
+                "bouquet_id": bouquetId,
+                "image_url": defaultImageUrl,
+                "is_primary": "true"
+            ])
             .execute()
         
         // Create bouquet flowers requests
@@ -113,12 +129,12 @@ class CustomBouquetViewModel: ObservableObject {
             .insert(bouquetFlowersRequests)
             .execute()
         
-        // Return the bouquet with the default image URL
+        // Return the bouquet with the default image
         return Bouquet(
             id: bouquetId,
             name: name,
             description: description,
-            imageUrl: defaultImageUrl,
+            images: [BouquetImage(id: UUID().uuidString, imageUrl: defaultImageUrl, isPrimary: true, createdAt: ISO8601DateFormatter().string(from: Date()))],
             price: totalPrice,
             status: "active",
             isCustom: true,

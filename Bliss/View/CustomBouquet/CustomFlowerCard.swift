@@ -14,7 +14,7 @@ struct CustomFlowerCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack {
-                AsyncImage(url: URL(string: flower.imageUrl)) { image in
+                AsyncImage(url: URL(string: flower.primaryImage)) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)

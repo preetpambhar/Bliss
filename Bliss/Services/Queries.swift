@@ -17,7 +17,10 @@ class Queries {
     func fetchAvailableFlowers() async throws -> [Flower] {
         return try await client
             .from("flowers")
-            .select()
+            .select("""
+                *,
+                flower_images(*)
+            """)
             .eq("status", value: "active")
             .gt("stock", value: 0)
             .order("name")
@@ -39,7 +42,10 @@ class Queries {
     func fetchBouquets() async throws -> [Bouquet] {
         return try await client
             .from("bouquets")
-            .select()
+            .select("""
+                *,
+                bouquet_images(*)
+            """)
             .eq("status", value: "active")
             .eq("is_custom", value: false)
             .order("name")

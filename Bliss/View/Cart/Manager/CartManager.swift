@@ -32,14 +32,32 @@ class CartManager: ObservableObject {
             let cartId = try await getOrCreateCart()
             self.cartId = cartId
             
-            let query = supabase
-                .from("cart_items")
-                .select("""
-                    *, 
-                    bouquet:bouquets(*), 
-                    flower:flowers(*)
-                    """)
-                .eq("cart_id", value: cartId)
+   let query = supabase
+       .from("cart_items")
+       .select("""
+           *,
+           bouquet:bouquets(
+               id,
+               name,
+               description,
+               bouquet_images(id, image_url, is_primary, created_at),
+               price,
+               status,
+               is_custom,
+               created_at
+           ),
+           flower:flowers(
+               id,
+               name,
+               description,
+               flower_images(id, image_url, is_primary, created_at),
+               price,
+               stock,
+               status,
+               created_at
+           )
+       """)
+       .eq("cart_id", value: cartId)
             
             let items: [CartItem] = try await query.execute().value
             self.cartItems = items

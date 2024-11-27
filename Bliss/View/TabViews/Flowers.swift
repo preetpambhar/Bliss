@@ -56,6 +56,19 @@ struct Flowers: View {
                             .frame(maxWidth: .infinity, minHeight: 200)
                     } else if filteredFlowers.isEmpty && !searchText.isEmpty {
                         NoResultsView(searchText: searchText)
+                    } else if filteredFlowers.isEmpty {
+                        VStack(spacing: 12) {
+                            SwiftUI.Image(systemName: "leaf")
+                                .font(.system(size: 64))
+                                .foregroundColor(.gray)
+                            Text("No Flowers Available")
+                                .font(.headline)
+                            Text("Check back later for new flowers")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 300)
+                        .padding()
                     } else {
                         LazyVGrid(columns: columns, spacing: 16) {
                             ForEach(filteredFlowers, id: \.id) { flower in
@@ -71,6 +84,7 @@ struct Flowers: View {
             .navigationTitle("Flowers")
             .searchable(text: $searchText, prompt: "Search flowers...")
             .task {
+                print("Loading flowers...")
                 await loadFlowers()
             }
         }
@@ -80,13 +94,37 @@ struct Flowers: View {
         do {
             let query = supabaseClient
                 .from("flowers")
-                .select()
+                .select("""
+                    id,
+                    name,
+                    description,
+                    price,
+                    stock,
+                    status,
+                    created_at,
+                    flower_images (
+                        id,
+                        image_url,
+                        is_primary,
+                        created_at
+                    )
+                """)
+                .eq("status", value: "active") // Only get active flowers
+                .gt("stock", value: 0)         // Only get flowers in stock
+                .order("name")                 // Order by name
+            
             let response: [Flower] = try await query.execute().value
-            flowers = response
-            isLoading = false
+            print("Loaded \(response.count) flowers") // Debug print
+            
+            await MainActor.run {
+                self.flowers = response
+                self.isLoading = false
+            }
         } catch {
             print("Error loading flowers: \(error)")
-            isLoading = false
+            await MainActor.run {
+                self.isLoading = false
+            }
         }
     }
 }
@@ -96,7 +134,7 @@ struct FlowerCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: flower.imageUrl)) { phase in
+            AsyncImage(url: URL(string: flower.primaryImage)) { phase in
                 switch phase {
                 case .empty:
                     Rectangle()
@@ -112,7 +150,7 @@ struct FlowerCard: View {
                         .fill(Color.gray.opacity(0.1))
                         .aspectRatio(1, contentMode: .fit)
                         .overlay(
-                            Image(systemName: "photo")
+                            SwiftUI.Image(systemName: "photo")
                                 .foregroundColor(.gray)
                         )
                 @unknown default:
@@ -143,7 +181,7 @@ struct FlowerDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                AsyncImage(url: URL(string: flower.imageUrl)) { phase in
+                AsyncImage(url: URL(string: flower.primaryImage)) { phase in
                     switch phase {
                     case .empty:
                         Rectangle()
@@ -161,7 +199,7 @@ struct FlowerDetailView: View {
                             .fill(Color.gray.opacity(0.1))
                             .frame(height: 300)
                             .overlay(
-                                Image(systemName: "photo")
+                                SwiftUI.Image(systemName: "photo")
                                     .foregroundColor(.gray)
                             )
                     @unknown default:
@@ -217,7 +255,7 @@ struct NoResultsView: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            Image(systemName: "magnifyingglass")
+            SwiftUI.Image(systemName: "magnifyingglass")
                 .font(.system(size: 64))
                 .foregroundColor(.gray)
                 .padding(.bottom, 8)

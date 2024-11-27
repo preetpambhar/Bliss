@@ -67,7 +67,7 @@ struct SplashScreen: View {
                                 .offset(y: 10)
                             
                             HStack(spacing: -20){
-                                Image("blissbanner")
+                                SwiftUI.Image("blissbanner")
                                    // .renderingMode(.template)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)

@@ -14,7 +14,7 @@ struct CustomSelectedFlowerRow: View {
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: flower.imageUrl)) { image in
+            AsyncImage(url: URL(string: flower.primaryImage)) { image in
                 image.resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
@@ -35,14 +35,14 @@ struct CustomSelectedFlowerRow: View {
             
             HStack {
                 Button(action: onDecrease) {
-                    Image(systemName: "minus.circle.fill")
+                    SwiftUI.Image(systemName: "minus.circle.fill")
                 }
                 
                 Text("\(quantity)")
                     .frame(width: 30)
                 
                 Button(action: onIncrease) {
-                    Image(systemName: "plus.circle.fill")
+                    SwiftUI.Image(systemName: "plus.circle.fill")
                 }
             }
         }

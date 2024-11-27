@@ -23,7 +23,7 @@ struct Profile: View {
             VStack(alignment: .leading, spacing: 20) {
                 
                 VStack(spacing: 10) {
-                    Image("bouquet1")
+                    SwiftUI.Image("bouquet1")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 120, height: 120)
@@ -52,7 +52,7 @@ struct Profile: View {
                             navigateToOrders = true
                         }) {
                             VStack {
-                                Image(systemName: "cart")
+                                SwiftUI.Image(systemName: "cart")
                                     .font(.system(size: 30))
                                 Text("Orders")
                             }
@@ -69,7 +69,7 @@ struct Profile: View {
                             navigateToAddresses = true
                         }) {
                             VStack {
-                                Image(systemName: "location")
+                                SwiftUI.Image(systemName: "location")
                                     .font(.system(size: 30))
                                 Text("Addresses")
                                
@@ -91,7 +91,7 @@ struct Profile: View {
                             print("Address view")
                         }) {
                             HStack {
-                                Image(systemName: "heart")
+                                SwiftUI.Image(systemName: "heart")
                                     .font(.system(size: 20))
                                     .foregroundColor(.blue)
                                 Text("Saved Bouquet")
@@ -104,7 +104,7 @@ struct Profile: View {
                                 navigateToRemindMe = true
                             }) {
                                 HStack {
-                                    Image(systemName: "bell")
+                                    SwiftUI.Image(systemName: "bell")
                                         .font(.system(size: 20))
                                         .foregroundColor(.purple)
                                     Text("Remind me")
@@ -117,7 +117,7 @@ struct Profile: View {
                             navigateToOnlineSupport = true
                         }) {
                             HStack {
-                                Image(systemName: "person.crop.circle")
+                                SwiftUI.Image(systemName: "person.crop.circle")
                                     .font(.system(size: 20))
                                     .foregroundColor(.orange)
                                 Text("Online Support")
@@ -129,7 +129,7 @@ struct Profile: View {
                         navigateToSettings = true
                     }) {
                         HStack {
-                            Image(systemName: "gear")
+                            SwiftUI.Image(systemName: "gear")
                                 .font(.system(size: 20))
                                 .foregroundColor(.gray)
                             Text("Setting")

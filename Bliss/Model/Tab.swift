@@ -17,16 +17,16 @@ enum Tab: String{
     var tabContent: some View{
         switch self {
         case .home:
-            Image(systemName: "house")
+            SwiftUI.Image(systemName: "house")
             Text(self.rawValue)
         case .flowers:
-            Image(systemName: "leaf")
+            SwiftUI.Image(systemName: "leaf")
             Text(self.rawValue)
         case .cart:
-            Image(systemName: "cart")
+            SwiftUI.Image(systemName: "cart")
             Text(self.rawValue)
         case .profile:
-            Image(systemName: "person")
+            SwiftUI.Image(systemName: "person")
             Text(self.rawValue)
         }
     }

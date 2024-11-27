@@ -12,7 +12,7 @@ struct LocationSearchResultCell: View {
     let subtitle: String
     var body: some View {
         HStack{
-            Image(systemName: "mappin.circle.fill")
+            SwiftUI.Image(systemName: "mappin.circle.fill")
                 .resizable()
                 .foregroundColor(.black)
                 .accentColor(.white)

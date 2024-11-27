@@ -65,7 +65,7 @@ struct ContactUs: View {
                       
                       // Helpline Number
                       HStack {
-                          Image(systemName: "phone.fill")
+                          SwiftUI.Image(systemName: "phone.fill")
                           Text("Helpline: ")
                           Link(helplineNumber, destination: URL(string: "tel://\(helplineNumber)")!)
                       }
@@ -74,7 +74,7 @@ struct ContactUs: View {
                       
                       // Email Address
                       HStack {
-                          Image(systemName: "envelope.fill")
+                          SwiftUI.Image(systemName: "envelope.fill")
                           Text("Email: ")
                           Link(contactEmail, destination: URL(string: "mailto:\(contactEmail)")!)
                       }
@@ -94,11 +94,11 @@ struct ContactUs: View {
                               .padding(.bottom, 5)
                           
                           HStack(spacing: 20) {
-                              Image(systemName: "phone.fill")
+                              SwiftUI.Image(systemName: "phone.fill")
                                   .foregroundColor(.green)
-                              Image(systemName: "envelope.fill")
+                              SwiftUI.Image(systemName: "envelope.fill")
                                   .foregroundColor(.orange)
-                              Image(systemName: "globe")
+                              SwiftUI.Image(systemName: "globe")
                                   .foregroundColor(.gray)
                           }
                           .font(.largeTitle)

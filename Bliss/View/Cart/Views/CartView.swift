@@ -73,7 +73,7 @@ struct LoadingView: View {
 struct EmptyCartView: View {
     var body: some View {
         VStack(spacing: 24) {
-            Image(systemName: "cart")
+            SwiftUI.Image(systemName: "cart")
                 .font(.system(size: 64))
                 .foregroundColor(.gray.opacity(0.7))
             
@@ -107,7 +107,7 @@ struct OrderSuccessView: View {
     
     var body: some View {
         VStack(spacing: 32) {
-            Image(systemName: "checkmark.circle.fill")
+            SwiftUI.Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 80))
                 .foregroundColor(.green)
             
@@ -134,7 +134,7 @@ struct DeliveryTruckAnimation: View {
     @Binding var animate: Bool
     
     var body: some View {
-        Image(systemName: "box.truck.fill")
+        SwiftUI.Image(systemName: "box.truck.fill")
             .font(.system(size: 48))
             .foregroundColor(.blue)
             .rotationEffect(.degrees(animate ? 5 : -5))
@@ -198,7 +198,7 @@ struct CheckoutButton: View {
             HStack {
                 Text("Proceed to Checkout")
                     .font(.headline)
-                Image(systemName: "arrow.right")
+                SwiftUI.Image(systemName: "arrow.right")
             }
             .frame(maxWidth: .infinity)
             .frame(height: 56)

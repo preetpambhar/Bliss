@@ -53,7 +53,7 @@ struct OrderRowView: View {
                 
                 Spacer()
                 
-                Image(systemName: "chevron.right")
+                SwiftUI.Image(systemName: "chevron.right")
                     .foregroundColor(.secondary)
             }
         }

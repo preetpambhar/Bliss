@@ -26,8 +26,17 @@ class SavedBouquetsManager: ObservableObject {
                 .from("saved_bouquets")
                 .select("""
                     bouquet_id,
-                    bouquet:bouquets(*)
-                    """)
+           bouquet:bouquets(
+               id,
+               name,
+               description,
+               bouquet_images(id, image_url, is_primary, created_at),
+               price,
+               status,
+               is_custom,
+               created_at
+           )
+""")
                 .eq("user_id", value: userId)
                 .execute()
                 .value

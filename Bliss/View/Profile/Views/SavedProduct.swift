@@ -47,7 +47,7 @@ struct SavedProduct: View {
 struct EmptyStateView: View {
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: "heart.slash")
+            SwiftUI.Image(systemName: "heart.slash")
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
             
@@ -65,12 +65,12 @@ struct EmptyStateView: View {
 
 struct SavedBouquetCard: View {
     let bouquet: Bouquet
-    let savedManager: SavedBouquetsManager
+    @ObservedObject var savedManager: SavedBouquetsManager
     @State private var showingUnsaveAlert = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
+            AsyncImage(url: URL(string: bouquet.primaryImage)) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -84,7 +84,7 @@ struct SavedBouquetCard: View {
                         .frame(height: 150)
                         .clipped()
                 case .failure:
-                    Image(systemName: "photo")
+                    SwiftUI.Image(systemName: "photo")
                         .frame(maxWidth: .infinity)
                         .frame(height: 150)
                 @unknown default:

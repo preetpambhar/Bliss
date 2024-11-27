@@ -41,7 +41,7 @@ struct Home: View {
                     }else { NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "home"), isActive: $showAddAddress) {
                         //   LocationSearchActivation()
                         HStack{
-                            Image(systemName: "plus")
+                            SwiftUI.Image(systemName: "plus")
                             //.fill(Color.black)
                                 .frame(width: 8, height: 8)
                                 .foregroundColor(Color(.darkGray))
@@ -132,7 +132,7 @@ struct CategoryView<Destination: View>: View {
                                 .cornerRadius(15)
                                 .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
                         case .failure:
-                            Image(systemName: "photo")
+                            SwiftUI.Image(systemName: "photo")
                                 .imageScale(.large)
                                 .frame(height: 300)
                         @unknown default:
@@ -140,7 +140,7 @@ struct CategoryView<Destination: View>: View {
                         }
                     }
                 } else {
-                    Image(image)
+                    SwiftUI.Image(image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 300)
@@ -221,7 +221,7 @@ struct BouquetCard: View {
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .topTrailing) {
-                AsyncImage(url: URL(string: bouquet.imageUrl)) { phase in
+                AsyncImage(url: URL(string: bouquet.primaryImage)) { phase in
                     switch phase {
                     case .empty:
                         ProgressView()
@@ -235,7 +235,7 @@ struct BouquetCard: View {
                             .frame(height: 200)
                             .clipped()
                     case .failure:
-                        Image(systemName: "photo")
+                        SwiftUI.Image(systemName: "photo")
                             .frame(maxWidth: .infinity)
                             .frame(height: 200)
                     @unknown default:
@@ -255,7 +255,7 @@ struct BouquetCard: View {
                         isSaved.toggle()
                     }
                 } label: {
-                    Image(systemName: isSaved ? "heart.fill" : "heart")
+                    SwiftUI.Image(systemName: isSaved ? "heart.fill" : "heart")
                         .font(.title3)
                         .foregroundColor(isSaved ? .red : .white)
                         .padding(8)

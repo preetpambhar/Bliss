@@ -48,9 +48,9 @@ struct CartItem: Codable, Identifiable {
     
     var imageUrl: String {
         if let bouquet = bouquet {
-            return bouquet.imageUrl
+            return bouquet.primaryImage
         } else if let flower = flower {
-            return flower.imageUrl
+            return flower.primaryImage
         }
         return ""
     }

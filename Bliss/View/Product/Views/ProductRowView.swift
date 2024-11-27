@@ -15,7 +15,7 @@ struct ProductRowView: View {
             productImage
                 .frame(width: 120, height: 120)
                 .cornerRadius(15)
-                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 4) // Add a subtle shadow
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 4)
             
             VStack(alignment: .leading, spacing: 8) {
                 Text(product.title)
@@ -29,7 +29,7 @@ struct ProductRowView: View {
                 
                 HStack(spacing: 4) {
                     ForEach(1...5, id: \.self) { index in
-                        Image(systemName: index <= Int(product.rating.rate) ? "star.fill" : "star")
+                        SwiftUI.Image(systemName: index <= Int(product.rating.rate) ? "star.fill" : "star")
                             .foregroundColor(.yellow)
                     }
                     Text(String(format: "%.1f", product.rating.rate))
@@ -53,23 +53,34 @@ struct ProductRowView: View {
         .padding(.horizontal)
         .background(Color.white)
         .cornerRadius(15)
-        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2) // Add a lighter shadow to the entire row
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
     
     var productImage: some View {
         Group {
             if let url = URL(string: product.image) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .cornerRadius(15)
-                        .clipped()
-                } placeholder: {
-                    ProgressView()
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .cornerRadius(15)
+                            .clipped()
+                    case .failure:
+                        SwiftUI.Image(systemName: "photo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .cornerRadius(15)
+                            .foregroundColor(.gray)
+                    @unknown default:
+                        EmptyView()
+                    }
                 }
             } else {
-                Image(systemName: "photo")
+                SwiftUI.Image(systemName: "photo")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .cornerRadius(15)
@@ -88,7 +99,7 @@ struct ProductRowView: View {
                 .padding(.vertical, 8)
                 .background(Color.indigo)
                 .clipShape(Capsule())
-                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2) // Add a shadow to the button
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
         }
     }
 }

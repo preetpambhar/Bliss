@@ -29,7 +29,7 @@ struct LocationSearchView: View {
                         showLoactionSearchView.toggle()
                     }
                 } label: {
-                    Image(systemName: "xmark.circle.fill")
+                    SwiftUI.Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.gray)
                         .font(.system(size: 20))
                 }
