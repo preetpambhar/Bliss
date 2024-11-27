@@ -25,10 +25,10 @@ struct SearchView: View {
                             }
                     }
             
-                MapViewRepresentable()
-                    //.ignoresSafeArea()
-                    .frame(width: UIScreen.main.bounds.width)
-                    .padding(.top, 5)
+//                MapViewRepresentable()
+//                    //.ignoresSafeArea()
+//                    .frame(width: UIScreen.main.bounds.width)
+//                    .padding(.top, 5)
                 //Spacer()
             Button(action: {
                 navigateToAddAddress = true

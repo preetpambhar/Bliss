@@ -7,26 +7,35 @@
 
 import SwiftUI
 
-struct OrderView: View {
-    @State private var selectedProduct: Product? = nil
-    @State private var navigate = false
+struct OrdersView: View {
+    @StateObject private var orderManager = OrderManager()
+    
     var body: some View {
-        NavigationStack{
-        ScrollView{
-            OrderRowView(order: .dummyOrder).onTapGesture {
-                OrderDetailsView(order: .dummyOrder)
+        NavigationView {
+            Group {
+                if orderManager.isLoading {
+                    ProgressView()
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(orderManager.orders, id: \.id) { order in
+                                NavigationLink(destination: OrderDetailsView(order: order)) {
+                                    OrderRowView(order: order)
+                                }
+                            }
+                        }
+                        .padding()
+                    }
+                }
             }
-            OrderRowView(order: .dummyOrder)
-            OrderRowView(order: .dummyOrder)
-            OrderRowView(order: .dummyOrder)
-            NavigationLink(destination: OrderDetailsView(order: .dummyOrder)) {
-                OrderRowView(order: .dummyOrder)
-              }
-           }
+            .navigationTitle("Orders")
+        }
+        .task {
+            await orderManager.loadOrders()
         }
     }
 }
 
 #Preview {
-    OrderView()
+    OrdersView()
 }

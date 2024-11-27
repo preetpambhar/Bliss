@@ -36,12 +36,12 @@ struct AddAddress: View {
                 .padding()
                 //.isDetailLink(false)
               
-                VStack (){
-                    MapViewRepresentable()
-                        //.ignoresSafeArea()
-                        .frame(width: UIScreen.main.bounds.width - 15 , height: 300)
-                }
-                .frame(alignment: .top)
+//                VStack (){
+//                    MapViewRepresentable()
+//                        //.ignoresSafeArea()
+//                        .frame(width: UIScreen.main.bounds.width - 15 , height: 300)
+//                }
+//                .frame(alignment: .top)
                 
                 VStack(spacing: 20){
                   HStack{

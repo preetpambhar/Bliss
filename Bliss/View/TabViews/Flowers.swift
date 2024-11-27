@@ -9,114 +9,230 @@ import SwiftUI
 
 struct Flowers: View {
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
-    @EnvironmentObject var viewModel : LocationSearchViewModel
     @State var selectedLocationTitle: String
     @State private var showAddAddress = false
-    let viewmodel = ProductViewModel()
-    @State private var selectedProduct: Product? = nil // State to hold the selected product
-    @State private var navigate = false // State for manual navigation
+    @State private var searchText = ""
+    @State private var flowers: [Flower] = []
+    @State private var isLoading = true
     
-    @State private var selectedCategory: String? = nil
-    @State private var showProductView = false
-    let categories = ["Roses", "Tulips", "Orchids", "Lilies", "Sunflowers"]
+    var filteredFlowers: [Flower] {
+        guard !searchText.isEmpty else { return flowers }
+        return flowers.filter { flower in
+            flower.name.localizedCaseInsensitiveContains(searchText) ||
+            flower.description?.localizedCaseInsensitiveContains(searchText) ?? false
+        }
+    }
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
     
     var body: some View {
-        NavigationStack{
-            ScrollView(.vertical, showsIndicators: false){
-                VStack(alignment: .leading, spacing: 20) {
-                    if !selectedLocationTitle.isEmpty{
-                        Text("Delivery Address: " + selectedLocationTitle)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.blue)
-                    }else {
-                        NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "product"), isActive: $showAddAddress) {
-                                                   Text("Please Select Your Address")
-                                                       .font(.title)
-                                                       .fontWeight(.bold)
-                                                       .foregroundColor(.gray)
-                                                       .onTapGesture {
-                                                           showAddAddress = true // Set state to true to navigate
-                                                       }
-                                               }
-                    }
-                    //Text("Your Picked Address")
-                    //ProductView()
-                    
-                    // Category sections
-                    ForEach(categories, id: \.self) { category in
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(category)
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                Spacer()
-                                Button("View More") {
-                                    selectedCategory = category
-                                    showProductView = true
-                                }
+        NavigationStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Address Section
+                    Group {
+                        if !selectedLocationTitle.isEmpty {
+                            Text("Delivery to: " + selectedLocationTitle)
                                 .font(.subheadline)
-                                .foregroundColor(.blue)
+                                .foregroundColor(.secondary)
+                        } else {
+                            NavigationLink(destination: AddAddress(showBackButton: true, requestedpage: "product"), isActive: $showAddAddress) {
+                                Text("Select delivery address")
+                                    .font(.subheadline)
+                                    .foregroundColor(.blue)
+                                    .onTapGesture {
+                                        showAddAddress = true
+                                    }
                             }
-                            
-//                            ScrollView(.horizontal, showsIndicators: false) {
-//                                HStack(spacing: 15) {
-//                                    ForEach(viewmodel.product) { product in                                        ProductRowView(product: product)
-//                                            .frame(width: 150)
-//                                            .onTapGesture {
-//                                                selectedProduct = product
-//                                                navigate = true
-//                                            }
-//                                    }
-//                                }
-//                            }
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                                           HStack(spacing: 15) {
-                                                               ForEach(0..<4) { _ in
-                                                                   VStack(alignment: .leading) {
-                                                                       Image("flower1") // Replace with actual product images
-                                                                           .resizable()
-                                                                           .aspectRatio(contentMode: .fill)
-                                                                           .frame(width: 142, height: 110)
-                                                                           .cornerRadius(15)
-                                                                           .clipped()
-                                                                       
-                                                                       Text("Flowers Flowers")
-                                                                           .font(.headline)
-                                                                       
-                                                                       Text("$22")
-                                                                           .font(.body)
-                                                                   }
-                                                                   .frame(width: 142) // Fix the width of each product card
-                                                                   .onTapGesture {
-                                                                       // Handle product selection here
-                                                                       // selectedProduct = product // Uncomment when you have product data
-                                                                       // navigate = true // Uncomment when you want to navigate
-                                                                   }
-                                                               }
-                                                           }
-                                                       }
                         }
-                        .padding(.vertical)
                     }
+                    .padding(.horizontal)
                     
-                    
+                    if isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity, minHeight: 200)
+                    } else if filteredFlowers.isEmpty && !searchText.isEmpty {
+                        NoResultsView(searchText: searchText)
+                    } else {
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            ForEach(filteredFlowers, id: \.id) { flower in
+                                NavigationLink(destination: FlowerDetailView(flower: flower)) {
+                                    FlowerCard(flower: flower)
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
                 }
-                .onAppear {
-                    if let location = locationViewModel.selectedUserLocation {
-                        selectedLocationTitle = location.title
+            }
+            .navigationTitle("Flowers")
+            .searchable(text: $searchText, prompt: "Search flowers...")
+            .task {
+                await loadFlowers()
+            }
+        }
+    }
+    
+    func loadFlowers() async {
+        do {
+            let query = supabaseClient
+                .from("flowers")
+                .select()
+            let response: [Flower] = try await query.execute().value
+            flowers = response
+            isLoading = false
+        } catch {
+            print("Error loading flowers: \(error)")
+            isLoading = false
+        }
+    }
+}
+
+struct FlowerCard: View {
+    let flower: Flower
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            AsyncImage(url: URL(string: flower.imageUrl)) { phase in
+                switch phase {
+                case .empty:
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .aspectRatio(1, contentMode: .fit)
+                        .overlay(ProgressView())
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fill)
+                case .failure:
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .aspectRatio(1, contentMode: .fit)
+                        .overlay(
+                            Image(systemName: "photo")
+                                .foregroundColor(.gray)
+                        )
+                @unknown default:
+                    EmptyView()
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(flower.name)
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.primary)
+                    .lineLimit(1)
+                
+                Text("$\(String(format: "%.2f", flower.price))")
+                    .font(.system(.subheadline, weight: .regular))
+                    .foregroundColor(.secondary)
+            }
+            .padding(.horizontal, 4)
+        }
+        .background(Color(.systemBackground))
+    }
+}
+
+struct FlowerDetailView: View {
+    let flower: Flower
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                AsyncImage(url: URL(string: flower.imageUrl)) { phase in
+                    switch phase {
+                    case .empty:
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.1))
+                            .frame(height: 300)
+                            .overlay(ProgressView())
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 300)
+                            .clipped()
+                    case .failure:
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.1))
+                            .frame(height: 300)
+                            .overlay(
+                                Image(systemName: "photo")
+                                    .foregroundColor(.gray)
+                            )
+                    @unknown default:
+                        EmptyView()
                     }
+                }
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(flower.name)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    if let description = flower.description {
+                        Text(description)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Text("$\(String(format: "%.2f", flower.price))")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                        
+                        Spacer()
+                        
+                        Text("\(flower.stock) in stock")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    Button(action: {
+                        // Add to cart functionality
+                    }) {
+                        Text("Add to Cart")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(12)
+                    }
+                    .padding(.top, 8)
                 }
                 .padding()
             }
         }
-        .navigationTitle("Flowers")
-        .navigationBarTitleDisplayMode(.large)
-        .navigationDestination(isPresented: $navigate) {
-                        if let selectedProduct = selectedProduct {
-                            ProductDetailsView(product: selectedProduct) // Navigate to ProductDetailsView
-                        }
-                    }
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+struct NoResultsView: View {
+    let searchText: String
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: 64))
+                .foregroundColor(.gray)
+                .padding(.bottom, 8)
+            
+            Text("No flowers found")
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            Text("We couldn't find any flowers matching\n\(searchText)")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, minHeight: 300)
+        .padding()
     }
 }
 

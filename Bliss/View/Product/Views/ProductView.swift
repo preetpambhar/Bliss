@@ -35,7 +35,7 @@ struct ProductView: View {
             .navigationTitle("Products")
             .navigationDestination(isPresented: $navigate) {
                             if let selectedProduct = selectedProduct {
-                                ProductDetailsView(product: selectedProduct) // Navigate to ProductDetailsView
+                                // ProductDetailsView(product: selectedProduct) // Navigate to ProductDetailsView
                             }
                         }
         }

@@ -155,13 +155,6 @@ struct Profile: View {
     }
 }
 
-struct OrdersView: View {
-    var body: some View {
-        OrderView()
-            .navigationBarTitle("Orders")
-    }
-}
-
 struct AddressesView: View {
     var body: some View {
         Text("Addresses View")
