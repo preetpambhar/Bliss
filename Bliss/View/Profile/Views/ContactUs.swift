@@ -83,31 +83,6 @@ struct ContactUs: View {
                   }
                   .padding(.horizontal)
                   .padding(.top, 10)
-                  
-                  
-                  // Social Media Links
-                  HStack {
-                      Spacer()
-                      VStack {
-                          Text("Follow Us:")
-                              .font(.headline)
-                              .padding(.bottom, 5)
-                          
-                          HStack(spacing: 20) {
-                              Image(systemName: "phone.fill")
-                                  .foregroundColor(.green)
-                              Image(systemName: "envelope.fill")
-                                  .foregroundColor(.orange)
-                              Image(systemName: "globe")
-                                  .foregroundColor(.gray)
-                          }
-                          .font(.largeTitle)
-                          .foregroundColor(.blue)
-                      }
-                      Spacer()
-                  }
-                  .padding(.top, 10)
-                  
               }
              // .padding()
               .navigationBarTitle("Contact Us")
