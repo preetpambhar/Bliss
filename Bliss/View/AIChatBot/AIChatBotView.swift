@@ -16,7 +16,7 @@ struct AIChatBotView: View {
     @State var loding = false
     var body: some View {
         VStack {
-          Text("Welcome To Genimi AI")
+            Text("Welcome To Bliss AI Bot")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundStyle(.indigo)
@@ -34,17 +34,32 @@ struct AIChatBotView: View {
                     
                 }
             }
-            TextField("Ask anything...", text: $userPrompt, axis: .vertical)
-                .lineLimit(5)
-                .font(.title)
-                .padding()
-                .background(Color.indigo.opacity(0.2), in: Capsule())
-                .disableAutocorrection(true)
-                .onSubmit {
+            HStack {
+                TextField("Ask anything...", text: $userPrompt, axis: .vertical)
+                    .lineLimit(5)
+                    .font(.title)
+                    .padding()
+                    .background(Color.indigo.opacity(0.2), in: Capsule())
+                    .disableAutocorrection(true)
+                    .onSubmit {
+                        generateResponse()
+                    }
+                
+                
+                Button(action: {
                     generateResponse()
+                }) {
+                    Image(systemName: "paperplane.fill")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.indigo, in: Circle())
                 }
+                .padding(.trailing, 5)
+                .disabled(userPrompt.isEmpty)
+            }
+            
         }
-        
         .padding()
     }
     func generateResponse(){
