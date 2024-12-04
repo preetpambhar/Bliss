@@ -32,112 +32,113 @@ struct Profile: View {
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 20) {
-                
-                VStack(spacing: 10) {
-                    if let avatar = avatar {
-                        SwiftUI.Image(uiImage: avatar)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 120, height: 120)
-                                                .clipShape(Circle())
-                                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                                                .shadow(radius: 5)
-                                        } else {
-                                            SwiftUI.Image("bouquet1")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 120, height: 120)
-                                                .clipShape(Circle())
-                                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                                                .shadow(radius: 5)
-                                        }
-
-                    if let username = username {
-                        Text(username)
-                            .font(.headline)
-                            .foregroundColor(.black)
-                    }else{
-                        Text("Cameron Williamson")
-                            .font(.headline)
-                            .foregroundColor(.black)
-                    }
-
-                    if let contact = contact {
-                        Text("\(contact)")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                    else {
-                        Text("(307) 555-0133")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                    Button("Edit Profile") {
-                         isEditingProfile = true
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    VStack(spacing: 10) {
+                        if let avatar = avatar {
+                            SwiftUI.Image(uiImage: avatar)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                .shadow(radius: 5)
+                        } else {
+                            SwiftUI.Image("bouquet1")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                .shadow(radius: 5)
+                        }
+                        
+                        if let username = username {
+                            Text(username)
+                                .font(.headline)
+                                .foregroundColor(.black)
+                        }else{
+                            Text("Cameron Williamson")
+                                .font(.headline)
+                                .foregroundColor(.black)
+                        }
+                        
+                        if let contact = contact {
+                            Text("\(contact)")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        else {
+                            Text("(307) 555-0133")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        Button("Edit Profile") {
+                            isEditingProfile = true
                         }
                         .padding(.top, 10)
                         .foregroundColor(.blue)                }
-                .padding(20)
-                .frame(width: UIScreen.main.bounds.width - 30, height: 240)
-                .background(Color.white)
-                .cornerRadius(20)
-                .shadow(radius: 10)
-                
-                // HStack for Orders and Addresses Buttons
-                HStack(spacing: 30) {
-                    NavigationLink(destination: OrdersView(), isActive: $navigateToOrders) {
-                        Button(action: {
-                            navigateToOrders = true
-                        }) {
-                            VStack {
-                                SwiftUI.Image(systemName: "cart")
-                                    .font(.system(size: 30))
-                                Text("Orders")
+                    .padding(20)
+                    .frame(width: UIScreen.main.bounds.width - 30, height: 240)
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .shadow(radius: 10)
+                    
+                    // HStack for Orders and Addresses Buttons
+                    HStack(spacing: 30) {
+                        NavigationLink(destination: OrdersView(), isActive: $navigateToOrders) {
+                            Button(action: {
+                                navigateToOrders = true
+                            }) {
+                                VStack {
+                                    SwiftUI.Image(systemName: "cart")
+                                        .font(.system(size: 30))
+                                    Text("Orders")
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                             }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                        }
+                        
+                        NavigationLink(destination: AddressesView(), isActive: $navigateToAddresses) {
+                            Button(action: {
+                                navigateToAddresses = true
+                            }) {
+                                VStack {
+                                    SwiftUI.Image(systemName: "location")
+                                        .font(.system(size: 30))
+                                    Text("Addresses")
+                                    
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                            }
                         }
                     }
                     
-                    NavigationLink(destination: AddressesView(), isActive: $navigateToAddresses) {
-                        Button(action: {
-                            navigateToAddresses = true
-                        }) {
-                            VStack {
-                                SwiftUI.Image(systemName: "location")
-                                    .font(.system(size: 30))
-                                Text("Addresses")
-                               
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                        }
-                    }
-                }
-                
-                
+                    
                     VStack(alignment: .leading, spacing: 20) {
-                    NavigationLink(destination: SavedProduct(), isActive: $navigateToSavedBouquet) {
-                        Button(action: {
-                            navigateToSavedBouquet = true
-                            print("Address view")
-                        }) {
-                            HStack {
-                                SwiftUI.Image(systemName: "heart")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.blue)
-                                Text("Saved Bouquet")
+                        NavigationLink(destination: SavedProduct(), isActive: $navigateToSavedBouquet) {
+                            Button(action: {
+                                navigateToSavedBouquet = true
+                                print("Address view")
+                            }) {
+                                HStack {
+                                    SwiftUI.Image(systemName: "heart")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.blue)
+                                    Text("Saved Bouquet")
+                                }
                             }
                         }
-                    }
-                    
+                        
                         NavigationLink(destination: ReminderHomeView(), isActive: $navigateToRemindMe) {
                             Button(action: {
                                 navigateToRemindMe = true
@@ -150,69 +151,70 @@ struct Profile: View {
                                 }
                             }
                         }
-                    
-                    NavigationLink(destination: ContactUs(), isActive: $navigateToOnlineSupport) {
+                        
+                        NavigationLink(destination: ContactUs(), isActive: $navigateToOnlineSupport) {
+                            Button(action: {
+                                navigateToOnlineSupport = true
+                            }) {
+                                HStack {
+                                    SwiftUI.Image(systemName: "person.crop.circle")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.orange)
+                                    Text("Online Support")
+                                }
+                            }
+                        }
+                        
+                        NavigationLink(destination: PrivacyPolicyView(), isActive: $navigateToPrivacyPolicy) {
+                            Button(action: {
+                                navigateToPrivacyPolicy = true
+                            }) {
+                                HStack {
+                                    SwiftUI.Image(systemName: "lock.shield")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.gray)
+                                    Text("Privacy Policy")
+                                }                        }
+                        }
+                    }
+                    NavigationLink(destination: AboutUs(), isActive: $navigateToAboutUs) {
                         Button(action: {
-                            navigateToOnlineSupport = true
+                            navigateToAboutUs = true
                         }) {
                             HStack {
-                                SwiftUI.Image(systemName: "person.crop.circle")
+                                SwiftUI.Image(systemName: "person.2")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.orange)
-                                Text("Online Support")
+                                    .foregroundColor(.green)
+                                Text("About Us")
                             }
                         }
                     }
+                    .padding(.top, 30)
                     
-                        NavigationLink(destination: PrivacyPolicyView(), isActive: $navigateToPrivacyPolicy) {
-                        Button(action: {
-                            navigateToPrivacyPolicy = true
-                        }) {
-                           HStack {
-                               SwiftUI.Image(systemName: "lock.shield")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.gray)
-                                Text("Privacy Policy")
-                            }                        }
+                    Spacer()
+                    HStack(alignment: .center) {
+                        Text("Version")
+                        Text("\(appVersion) (\(buildNumber))")
+                            .foregroundColor(.gray)
+                            .font(.callout)
                     }
+                    Spacer()
+                    Spacer()
                 }
-                NavigationLink(destination: AboutUs(), isActive: $navigateToAboutUs) {
-                                        Button(action: {
-                                            navigateToAboutUs = true
-                                            }) {
-                                               HStack {
-                                                   SwiftUI.Image(systemName: "person.2")
-                                                        .font(.system(size: 20))
-                                                        .foregroundColor(.green)
-                                                    Text("About Us")
-                                                }
-                                            }
-                                        }
-                .padding(.top, 30)
-
-                Spacer()
-                HStack(alignment: .center) {
-                                     Text("Version")
-                                     Text("\(appVersion) (\(buildNumber))")
-                                        .foregroundColor(.gray)
-                                        .font(.callout)
-                                }
-                Spacer()
-                Spacer()
-            }
-            .padding(20)
-            .navigationTitle("Profile")
-            .toolbar(content: {
-                ToolbarItem(placement: .topBarLeading){
-                    Button("Sign out", role: .destructive) {
-                        Task {
-                            try? await supabaseClient.auth.signOut()
+                .padding(20)
+                .navigationTitle("Profile")
+                .toolbar(content: {
+                    ToolbarItem(placement: .topBarLeading){
+                        Button("Sign out", role: .destructive) {
+                            Task {
+                                try? await supabaseClient.auth.signOut()
+                            }
                         }
                     }
+                })
+                .sheet(isPresented: $isEditingProfile) {
+                    EditProfileView(username: $username, contact: $contact, avatar: $avatar)
                 }
-            })
-            .sheet(isPresented: $isEditingProfile) {
-                           EditProfileView(username: $username, contact: $contact, avatar: $avatar)
             }
         }
     }
