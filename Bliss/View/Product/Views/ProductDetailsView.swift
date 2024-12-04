@@ -227,18 +227,18 @@ struct ProductDetailsView: View {
                     
                     HStack(spacing: 12) {
                         // Customize button
-                        Button {
-                            showingCustomizeSheet = true
-                        } label: {
-                            SwiftUI.Image(systemName: "wand.and.stars")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .padding(10)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                                .foregroundColor(.indigo)
-                        }
+//                        Button {
+//                            showingCustomizeSheet = true
+//                        } label: {
+//                            SwiftUI.Image(systemName: "wand.and.stars")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 25, height: 25)
+//                                .padding(10)
+//                                .background(Color.white)
+//                                .clipShape(Circle())
+//                                .foregroundColor(.indigo)
+//                        }
                         
                         // Existing Add to Cart button
                         Button {

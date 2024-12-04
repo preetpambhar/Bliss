@@ -15,6 +15,7 @@ struct Home: View {
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @StateObject private var bouquetViewModel = BouquetViewModel(client: supabaseClient)
     @State private var showCustomBouquetView = false
+    @State private var showImageSearch = false
     
     var filteredBouquets: [Bouquet] {
         guard !searchText.isEmpty else { 
@@ -90,14 +91,35 @@ struct Home: View {
                 }
             }
             .navigationTitle("Bliss")
-            .searchable(text: $searchText, prompt: "Search bouquets...")
+            .searchable(text: $searchText, prompt: "Search bouquets...") {
+                Button {
+                    showImageSearch = true
+                } label: {
+                    Label("Search with Image", systemImage: "camera.viewfinder")
+                        .foregroundColor(.blue)
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AIChatBotView()) {
-                        Label("Bliss Assistant", systemImage: "wand.and.stars")
-                            .symbolRenderingMode(.multicolor)
+                    HStack(spacing: 16) {
+                        // Image Search Button
+                        Button {
+                            showImageSearch = true
+                        } label: {
+                            Label("Visual Search", systemImage: "camera.viewfinder")
+                                .symbolRenderingMode(.multicolor)
+                        }
+                        
+                        // Existing AI Assistant Button
+                        NavigationLink(destination: AIChatBotView()) {
+                            Label("Bliss Assistant", systemImage: "wand.and.stars")
+                                .symbolRenderingMode(.multicolor)
+                        }
                     }
                 }
+            }
+            .sheet(isPresented: $showImageSearch) {
+                ImageSearchView()
             }
             .sheet(isPresented: $showCustomBouquetView) {
                 CustomBouquetView(existingBouquet: nil)
