@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import _PhotosUI_SwiftUI
 
 
 struct Profile: View {
@@ -15,30 +16,68 @@ struct Profile: View {
     @State private var navigateToSavedBouquet = false
     @State private var navigateToRemindMe = false
     @State private var navigateToOnlineSupport = false
+    @State private var navigateToPrivacyPolicy = false
+    @State private var navigateToAboutUs = false
     @State private var navigateToSettings = false
     @State private var isLoading = false
+    @State private var isEditingProfile = false
+    
+    // Profile data
+    @State private var username:String? = "Cameron Williamson"
+    @State private var contact:String? = "307-555-0133"
+    @State private var avatar: UIImage? = UIImage(named: "bouquet1")
+    
+    var appVersion: String = "1.0.0"
+    var buildNumber: String = "1"
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
                 
                 VStack(spacing: 10) {
-                    SwiftUI.Image("bouquet1")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                        .shadow(radius: 5)
-                    
-                    Text("Cameron Williamson")
-                        .font(.headline)
-                        .foregroundColor(.black)
-                    
-                    Text("(307) 555-0133")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
+                    if let avatar = avatar {
+                        SwiftUI.Image(uiImage: avatar)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 120, height: 120)
+                                                .clipShape(Circle())
+                                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                                .shadow(radius: 5)
+                                        } else {
+                                            SwiftUI.Image("bouquet1")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 120, height: 120)
+                                                .clipShape(Circle())
+                                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                                .shadow(radius: 5)
+                                        }
+
+                    if let username = username {
+                        Text(username)
+                            .font(.headline)
+                            .foregroundColor(.black)
+                    }else{
+                        Text("Cameron Williamson")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                    }
+
+                    if let contact = contact {
+                        Text("\(contact)")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    else {
+                        Text("(307) 555-0133")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    Button("Edit Profile") {
+                         isEditingProfile = true
+                        }
+                        .padding(.top, 10)
+                        .foregroundColor(.blue)                }
                 .padding(20)
                 .frame(width: UIScreen.main.bounds.width - 30, height: 240)
                 .background(Color.white)
@@ -125,19 +164,40 @@ struct Profile: View {
                         }
                     }
                     
-                    Button(action: {
-                        navigateToSettings = true
-                    }) {
-                        HStack {
-                            SwiftUI.Image(systemName: "gear")
-                                .font(.system(size: 20))
-                                .foregroundColor(.gray)
-                            Text("Setting")
-                        }
+                        NavigationLink(destination: PrivacyPolicyView(), isActive: $navigateToPrivacyPolicy) {
+                        Button(action: {
+                            navigateToPrivacyPolicy = true
+                        }) {
+                           HStack {
+                               SwiftUI.Image(systemName: "lock.shield")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.gray)
+                                Text("Privacy Policy")
+                            }                        }
                     }
                 }
+                NavigationLink(destination: AboutUs(), isActive: $navigateToAboutUs) {
+                                        Button(action: {
+                                            navigateToAboutUs = true
+                                            }) {
+                                               HStack {
+                                                   SwiftUI.Image(systemName: "person.2")
+                                                        .font(.system(size: 20))
+                                                        .foregroundColor(.green)
+                                                    Text("About Us")
+                                                }
+                                            }
+                                        }
                 .padding(.top, 30)
-                
+
+                Spacer()
+                HStack(alignment: .center) {
+                                     Text("Version")
+                                     Text("\(appVersion) (\(buildNumber))")
+                                        .foregroundColor(.gray)
+                                        .font(.callout)
+                                }
+                Spacer()
                 Spacer()
             }
             .padding(20)
@@ -151,6 +211,9 @@ struct Profile: View {
                     }
                 }
             })
+            .sheet(isPresented: $isEditingProfile) {
+                           EditProfileView(username: $username, contact: $contact, avatar: $avatar)
+            }
         }
     }
 }
@@ -159,6 +222,80 @@ struct AddressesView: View {
     var body: some View {
         Text("Addresses View")
             .navigationBarTitle("Addresses")
+    }
+}
+
+struct EditProfileView: View {
+    @Binding var username: String?
+    @Binding var contact: String?
+    @Binding var avatar: UIImage?
+    
+    @State private var tempUsername: String
+    @State private var tempContact: String
+    @State private var selectedImage: PhotosPickerItem? = nil
+    @State private var inputImage: UIImage? = nil
+    
+    @Environment(\.dismiss) var dismiss
+    
+    init(username: Binding<String?>, contact: Binding<String?>, avatar: Binding<UIImage?>) {
+           _username = username
+           _contact = contact
+           _avatar = avatar
+           _tempUsername = State(initialValue: username.wrappedValue ?? "")
+           _tempContact = State(initialValue: contact.wrappedValue ?? "")
+       }
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section(header: Text("Profile Picture")) {
+                    VStack {
+                        if let avatar = avatar {
+                            SwiftUI.Image(uiImage: avatar)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .clipShape(Circle())
+                                .shadow(radius: 5)
+                        }
+                        
+                        PhotosPicker(selection: $selectedImage, matching: .images, photoLibrary: .shared()) {
+                            Text("Select New Image")
+                                .foregroundColor(.blue)
+                        }
+                        .onChange(of: selectedImage) { newItem in
+                            Task {
+                                if let data = try? await newItem?.loadTransferable(type: Data.self),
+                                   let uiImage = UIImage(data: data) {
+                                    avatar = uiImage
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                Section(header: Text("Details")) {
+                    TextField("Name", text: $tempUsername)
+                    TextField("Contact", text: $tempContact)
+                        .keyboardType(.phonePad)
+                }
+            }
+            .navigationTitle("Edit Profile")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()  // Dismiss edit view
+                    }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        username = tempUsername  // Save updated username
+                        contact = tempContact    // Save updated contact
+                        dismiss() // Save changes and dismiss
+                    }
+                }
+            }
+        }
     }
 }
 
